@@ -6,24 +6,23 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import todolistserver.model.DatabaseConnection;
 
 /**
  * @author Ibrahim
  */
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController {
     
-    @FXML
-    private Label label;
+    public Label label;
+
+    public FXMLDocumentController() {
+      
+
+    }
     
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
+    public void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
     }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+       
 }

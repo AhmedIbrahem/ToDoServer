@@ -8,11 +8,14 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="ToDoListServer.jar" size="11831" download="eager" />
+    <jar href="ToDoListServer.jar" size="11084" download="eager" />
+    <jar href="lib\gson-2.8.2.jar" size="232932" download="eager" />
+    <jar href="lib\jfoenix-8.0.8.jar" size="2708772" download="eager" />
+    <jar href="lib\mssql-jdbc-7.4.1.jre8.jar" size="1209659" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="ToDoListServer" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="todolistserver.ToDoListServer"  name="ToDoListServer" />
+  <jfx:javafx-desc  width="800" height="600" main-class="todolistserver.view.ToDoListServer"  name="ToDoListServer" />
   <update check="always"/>
 </jnlp>
