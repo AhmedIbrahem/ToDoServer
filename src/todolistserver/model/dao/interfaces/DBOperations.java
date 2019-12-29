@@ -11,5 +11,5 @@ package todolistserver.model.dao.interfaces;
  */
 public interface DBOperations{
           
-    void doOperation(String flag);
+    void doOperation(String flag,DBOperations obj);
 }
