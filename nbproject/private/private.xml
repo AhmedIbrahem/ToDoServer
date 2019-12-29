@@ -4,8 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/DatabaseConnection.java</file>
-            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/view/FXMLDocumentController.java</file>
-            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/view/TodoServer.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/ItemDBOperations.java</file>
             <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/Constants.java</file>
         </group>
     </open-files>
