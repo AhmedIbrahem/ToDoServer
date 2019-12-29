@@ -26,6 +26,7 @@
             <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/interfaces/NotificationDaoInterface.java</file>
             <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/UserDBOperations.java</file>
             <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/TodoListDBOperations.java</file>
+
         </group>
     </open-files>
 </project-private>

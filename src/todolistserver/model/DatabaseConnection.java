@@ -1,23 +1,48 @@
 package todolistserver.model;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static todolistserver.model.Constants.*;
+
 /**
  * @author Ibrahim
  */
 public class DatabaseConnection {
-    private static DatabaseConnection newInstance;
+    
+    private static DatabaseConnection instance;
+    private Connection connection;
     
     private DatabaseConnection(){
-        //connect to database
+        try {    
+            String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=ToDoListProject;user="+DATABASE_USERNAME+";password="+DATABASE_PASSWORD;
+            connection = DriverManager.getConnection(connectionUrl);
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static DatabaseConnection getInstance(){
-        if(newInstance == null){
+        if(instance == null){
             synchronized(DatabaseConnection.class){
-                if(newInstance == null){
-                    newInstance = new DatabaseConnection();
+                if(instance == null){
+                    instance = new DatabaseConnection();
                 }
             }
         }
-        return newInstance;     
+        return instance;     
+    }
+    public Connection getConnection() {
+        return connection;
+    }
+    
+    public void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

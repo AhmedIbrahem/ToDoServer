@@ -5,6 +5,7 @@
  */
 package todolistserver.view;
 
+import java.sql.Connection;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
