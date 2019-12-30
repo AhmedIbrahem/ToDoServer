@@ -3,30 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/TodoDaoImpl.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/entities/TodoEntity.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/UserDaoImpl.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/NotificationDBOperations.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/interfaces/TodoDaoInterface.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/NotificationDaoImp.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/view/FXMLDocumentController.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/interfaces/DBOperations.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/Package_info.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/entities/ItemEntity.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/entities/UserEntity.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/ItemDBOperations.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/controller/Package_info.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/DatabaseConnection.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/ItemDaoImpl.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/interfaces/ItemDaoInterface.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/view/FXMLDocument.fxml</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/DBStatementsExecuter.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/interfaces/UserDaoInteface.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/entities/NotificationEntity.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/interfaces/NotificationDaoInterface.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/UserDBOperations.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/TodoListDBOperations.java</file>
-
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/DatabaseConnection.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/ItemDBOperations.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/Constants.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/DBStatementsExecuter.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/view/ToDoListServer.java</file>
         </group>
     </open-files>
 </project-private>
