@@ -33,6 +33,7 @@ public class SocketConnection extends Thread {
             if (!isServerRunning) {
                 isServerRunning = true;
             }            
+            
             th = new Thread(this);
             th.start();
         } catch (IOException ex) {
@@ -58,10 +59,14 @@ public class SocketConnection extends Thread {
     public void run() {
         try {
             while (isServerRunning) {
+                
                 Socket socket = null;
                 System.out.println("opened");
+                if(streamListner!=null)
+                    streamListner.sendMessageToAll("opened");
                 socket = serverSocket.accept();
                 streamListner = new StreamingListner(socket);
+                
             }
         } catch (IOException ex) {
             ex.printStackTrace();
