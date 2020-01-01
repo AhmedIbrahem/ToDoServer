@@ -15,9 +15,8 @@ import todolistserver.model.SocketConnection;
  *
  * @author dell
  */
-public class ToDoListServer extends Application{ // implements Runnable{
+public class ToDoListServer extends Application  implements Runnable{
 
-    //public static Thread th;
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
@@ -27,11 +26,14 @@ public class ToDoListServer extends Application{ // implements Runnable{
         stage.setScene(scene);
         stage.show();
 
-        //th = new Thread(new ToDoListServer());
-        //th.start();
-        stage.setOnCloseRequest((WindowEvent event) -> {
-            Platform.exit();
-            System.exit(0);
+      /*  Thread th = new Thread(new ToDoListServer());
+        th.run();*/
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                Platform.exit();
+                System.exit(0);
+            }
         });
     }
 
@@ -42,8 +44,8 @@ public class ToDoListServer extends Application{ // implements Runnable{
         launch(args);
     }
 
-//    @Override
-//    public void run() {
-//       new SocketConnection(); 
-//    }
+    @Override
+    public void run() {
+       new SocketConnection(); 
+    }
 }
