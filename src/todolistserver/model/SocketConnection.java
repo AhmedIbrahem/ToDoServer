@@ -15,42 +15,56 @@ import java.util.logging.Logger;
  *
  * @author dell
  */
-public class SocketConnection {
+public class SocketConnection extends Thread {
 
+    Thread th;
     static ServerSocket serverSocket;
     final static int SOCKET_PORT = 5005;
     public static boolean isServerRunning = false;
+    public static boolean checkFirstTime = false;
 
     public SocketConnection() {
-        isServerRunning = true;
         openSocketConnection();
     }
 
-    public static void openSocketConnection() {
+    public void openSocketConnection() {
         try {
             serverSocket = new ServerSocket(SOCKET_PORT);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        while (isServerRunning) {
-            Socket socket = null;
-            try {
-                socket = serverSocket.accept();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            if (!isServerRunning) {
+                isServerRunning = true;
             }
-            new StreamingListner(socket);
+            checkFirstTime = true;
+            th = new Thread(this);
+            th.start();
+        } catch (IOException ex) {
+            Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public static void closeSocketConnection() {
-        if (!serverSocket.isClosed()) {
-            isServerRunning = false;
-            try {
+    public void closeSocketConnection() {
+        try {
+            if (!serverSocket.isClosed()) {
+                isServerRunning = false;
+                th.stop();
+                System.out.println("closed");
                 serverSocket.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
             }
+        } catch (IOException ex) {
+            Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (isServerRunning) {
+                Socket socket = null;
+                System.out.println("opened");
+                socket = serverSocket.accept();
+                new StreamingListner(socket);
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 }

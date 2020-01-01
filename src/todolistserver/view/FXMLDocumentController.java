@@ -2,27 +2,27 @@ package todolistserver.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import todolistserver.model.DatabaseConnection;
+import todolistserver.model.SocketConnection;
 
 /**
  * @author Ibrahim
  */
-public class FXMLDocumentController {
-    
-    public Label label;
-
-    public FXMLDocumentController() {
-      
-
+public class FXMLDocumentController implements Initializable{
+    SocketConnection socketConnection=new SocketConnection();
+    public void handleStopServer() {
+        socketConnection.closeSocketConnection();
+        //ToDoListServer.th.suspend();;
     }
-    
-    public void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+
+    public void handleStartServer() {
+        socketConnection.openSocketConnection();
+        //ToDoListServer.th.resume();;
     }
-       
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+       // socketConnection = new SocketConnection();
+    }
+
 }
