@@ -9,7 +9,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import todolistserver.model.ReflectionClass;
 import todolistserver.model.SocketConnection;
+import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -29,6 +31,10 @@ public class ToDoListServer extends Application{ // implements Runnable{
 
         //th = new Thread(new ToDoListServer());
         //th.start();
+        UserEntity test = new UserEntity();
+        test.setId(1);
+        
+        ReflectionClass.getObject("UserDBOperations","login",test);
         stage.setOnCloseRequest((WindowEvent event) -> {
             Platform.exit();
             System.exit(0);

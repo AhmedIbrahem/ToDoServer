@@ -45,11 +45,13 @@ public class StreamingListner extends Thread {
             try {
 
                 str = dataInputStream.readLine();
+                
                 //sendMessageToAll(str);
                 System.out.println(SocketConnection.isServerRunning);
                 //if(SocketConnection.isServerRunning){
                 if (str != null) {
-                    System.out.println("Str = " + str);
+                    //System.out.println("Str = " + str);
+                    
                 }
                 //}
             } catch (SocketException ex) {

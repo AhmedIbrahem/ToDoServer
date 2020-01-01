@@ -21,17 +21,18 @@ public class UserDBOperations implements DBOperations {
     public void doOperation(String flag, DBOperations obj) {
         switch (flag) {
             case "login":
-                login((UserEntity) obj);
+                //login((UserEntity) obj);
                 break;
             case "register":
                 register((UserEntity) obj);
         }
     }
 
-    public void login(UserEntity user) {
-
-        queryValues = new ArrayList<Object>();
-        queryValues.add(user.getId());
+    public void login(Object test) {
+        UserEntity test2 = (UserEntity) test;
+        System.out.println("login function "+test2.getId() );
+        /*queryValues = new ArrayList<Object>();
+        queryValues.add(user.getId());*/
     }
 
     public void register(UserEntity user) {
