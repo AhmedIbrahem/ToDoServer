@@ -20,8 +20,8 @@ public class SocketConnection extends Thread {
     Thread th;
     static ServerSocket serverSocket;
     final static int SOCKET_PORT = 5005;
-    public static boolean isServerRunning = false;
-    public static boolean checkFirstTime = false;
+    public static boolean isServerRunning = false;  
+    StreamingListner streamListner=null;
 
     public SocketConnection() {
         openSocketConnection();
@@ -32,8 +32,7 @@ public class SocketConnection extends Thread {
             serverSocket = new ServerSocket(SOCKET_PORT);
             if (!isServerRunning) {
                 isServerRunning = true;
-            }
-            checkFirstTime = true;
+            }            
             th = new Thread(this);
             th.start();
         } catch (IOException ex) {
@@ -44,10 +43,11 @@ public class SocketConnection extends Thread {
     public void closeSocketConnection() {
         try {
             if (!serverSocket.isClosed()) {
-                isServerRunning = false;
-                th.stop();
+                isServerRunning = false;                
                 System.out.println("closed");
+                streamListner.sendMessage("closed");
                 serverSocket.close();
+                th.stop();
             }
         } catch (IOException ex) {
             Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,7 +61,7 @@ public class SocketConnection extends Thread {
                 Socket socket = null;
                 System.out.println("opened");
                 socket = serverSocket.accept();
-                new StreamingListner(socket);
+                streamListner = new StreamingListner(socket);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
