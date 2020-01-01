@@ -23,12 +23,13 @@ public class StreamingListner extends Thread {
     Boolean running = false;
     DataInputStream dataInputStream;
     PrintStream printStream;
-
+    static ArrayList<StreamingListner> clientsVector = new ArrayList<StreamingListner>();
     public StreamingListner(Socket socketPort) {
         try {
             dataInputStream = new DataInputStream(socketPort.getInputStream());
             printStream = new PrintStream(socketPort.getOutputStream());
             running = true;
+            clientsVector.add(this);
             th = new Thread(this);
             th.start();
         } catch (IOException ex) {
@@ -44,6 +45,7 @@ public class StreamingListner extends Thread {
                 
                 
                 str = dataInputStream.readLine();
+                //sendMessageToAll(str);
                 System.out.println(SocketConnection.isServerRunning);
                 //if(SocketConnection.isServerRunning){
                     if (str != null) {
@@ -61,7 +63,13 @@ public class StreamingListner extends Thread {
         th.stop();
     }
     public void sendMessage(String message){
-        printStream.print("closed");
+        printStream.print("message");
+    }
+    
+     void sendMessageToAll(String msg) {
+        for (StreamingListner ch : clientsVector) {
+            ch.printStream.println(msg);
+        }
     }
 
 }
