@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package todolistserver.model;
 
-import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -14,7 +8,6 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 /**
- *
  * @author dell
  */
 public class StreamingListner extends Thread {
@@ -41,25 +34,16 @@ public class StreamingListner extends Thread {
     public void run() {
         String str = "";
         while (SocketConnection.isServerRunning) {
-
             try {
-
                 str = dataInputStream.readLine();
-                
-                //sendMessageToAll(str);
                 System.out.println(SocketConnection.isServerRunning);
-                //if(SocketConnection.isServerRunning){
-                if (str != null) {
-                    //System.out.println("Str = " + str);
-                    
+                if (str != null) {                    
                 }
-                //}
             } catch (SocketException ex) {
                 SocketConnection.isServerRunning = false;
             } catch (IOException ex) {
                 SocketConnection.isServerRunning = false;
             }
-
         }
         th.stop();
     }
@@ -75,5 +59,4 @@ public class StreamingListner extends Thread {
             }
         }
     }
-
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package todolistserver.model;
 
 import java.io.IOException;
@@ -12,7 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author dell
  */
 public class SocketConnection extends Thread {
@@ -65,8 +59,7 @@ public class SocketConnection extends Thread {
                 if(streamListner!=null)
                     streamListner.sendMessageToAll("opened");
                 socket = serverSocket.accept();
-                streamListner = new StreamingListner(socket);
-                
+                streamListner = new StreamingListner(socket); 
             }
         } catch (IOException ex) {
             ex.printStackTrace();

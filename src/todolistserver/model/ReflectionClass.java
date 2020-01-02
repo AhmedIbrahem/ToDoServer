@@ -5,10 +5,7 @@
  */
 package todolistserver.model;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import todolistserver.model.entities.UserEntity;
 
 
@@ -27,11 +24,9 @@ public class ReflectionClass {
             objectClass = Class.forName(objectClassName); // convert string classname to class
             Object object = objectClass.newInstance(); // invoke empty constructor
             
-         Class<?>[] paramTypes = {Object.class};
-        Method printDogMethod = object.getClass().getMethod(methodName, paramTypes);
-            printDogMethod.invoke(object, obj);
-    
-
+            Class<?>[] paramTypes = {Object.class}; //params types 
+            Method printObjectMethod = object.getClass().getMethod(methodName, paramTypes);
+            printObjectMethod.invoke(object, obj); // invoke the method.
         } catch (Throwable ex) {
             ex.printStackTrace();
         }
