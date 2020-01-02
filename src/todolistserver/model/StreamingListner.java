@@ -37,7 +37,8 @@ public class StreamingListner extends Thread {
             try {
                 str = dataInputStream.readLine();
                 System.out.println(SocketConnection.isServerRunning);
-                if (str != null) {                    
+                if (str != null) {           
+                    
                 }
             } catch (SocketException ex) {
                 SocketConnection.isServerRunning = false;
