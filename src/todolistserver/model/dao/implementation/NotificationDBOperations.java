@@ -5,7 +5,6 @@
  */
 package todolistserver.model.dao.implementation;
 
-import todolistserver.model.dao.interfaces.DBOperations;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.NotificationEntity;
 
@@ -13,18 +12,9 @@ import todolistserver.model.entities.NotificationEntity;
  *
  * @author dell
  */
-public class NotificationDBOperations implements DBOperations {
+public class NotificationDBOperations  {
 
-    @Override
-    public void doOperation(String flag, DBOperations obj) {
-        switch (flag) {
-            case "sendNotification":
-                sendNotification((NotificationEntity) obj);
-                break;
-            case "receiveNotifications":
-                receiveNotifications();
-        }
-    }
+ 
 
     private void sendNotification(NotificationEntity notification) {
 

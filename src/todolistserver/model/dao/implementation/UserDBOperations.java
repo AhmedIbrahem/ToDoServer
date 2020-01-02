@@ -6,36 +6,28 @@
 package todolistserver.model.dao.implementation;
 
 import java.util.ArrayList;
-import todolistserver.model.dao.interfaces.DBOperations;
 import todolistserver.model.entities.UserEntity;
 
 /**
  *
  * @author dell
  */
-public class UserDBOperations implements DBOperations {
+public class UserDBOperations {
 
     ArrayList<Object> queryValues;
-
-    @Override
-    public void doOperation(String flag, DBOperations obj) {
-        switch (flag) {
-            case "login":
-                //login((UserEntity) obj);
-                break;
-            case "register":
-                register((UserEntity) obj);
-        }
+  
+    
+    public UserEntity login(Object user) {
+       
+        UserEntity test = new UserEntity();
+        test.setUsername("test");
+        test.setPassword("test2");
+        return test;
     }
 
-    public void login(Object test) {
-        UserEntity test2 = (UserEntity) test;
-        System.out.println("login function "+test2.getId() );
-        /*queryValues = new ArrayList<Object>();
-        queryValues.add(user.getId());*/
-    }
+    
+    public int register(Object user) {
 
-    public void register(UserEntity user) {
-
+        return -1;
     }
 }

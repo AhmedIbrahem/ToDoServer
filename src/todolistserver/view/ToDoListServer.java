@@ -25,11 +25,7 @@ public class ToDoListServer extends Application{
 
         stage.setScene(scene);
         stage.show();
-
-        UserEntity test = new UserEntity();
-        test.setId(1);
-        
-        ReflectionClass.getObject("UserDBOperations","login",test);
+      
 
         stage.setOnCloseRequest((WindowEvent event) -> {
             Platform.exit();
