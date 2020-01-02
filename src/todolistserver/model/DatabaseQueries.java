@@ -24,8 +24,8 @@ public interface DatabaseQueries {
     String RETRIEVE_ALL_ITEMS_QUERY = "SELECT * FROM ITEM WHERE TODOID = ?"; 
     
     //collaborator 
-    //String ASSIGN_FRIEND_TO_iTEM = "";
-    //String ASSIGN_FRIEND_TO_iTEM = "";
-    //String ASSIGN_FRIEND_TO_iTEM = "";
-    //String ASSIGN_FRIEND_TO_iTEM = "";
+    String ASSIGN_FRIEND_TO_iTEM = "INSERT INTO ITEMASSIGNEDUSERS VALUES(?, ?)";
+    String RERIEVE_ALL_FRIENDS_ASSIGNED_TO_iTEM = "SELECT U.* FROM USERS AS U, TODOList AS T, TODOLISTUSERS AS TU, ITEM AS I, ITEMASSIGNEDUSERS AS IAU WHERE  IAU.userID = U.USERID and TU.userID = U.userID and Tu.todoID = T.todoID and I.todoID = T.todoID  and  IAU.itemID = I.itemID  and T.todoID=? and I.itemID =?";
+    String ASSIGN_FRIEND_TO_TODOLIST = "INSERT INTO TODOLISTUSERS VALUES(?, ?)";
+    String RETRIEVE_ALL_FRIEND_ASSIGNED_TO_TODOLIST = "SELECT u.* FROM USERS AS U, TODOList AS T, TODOLISTUSERS AS TU WHERE  TU.userID = U.userID and Tu.todoID = T.todoID  and  T.todoID=?";
 }
