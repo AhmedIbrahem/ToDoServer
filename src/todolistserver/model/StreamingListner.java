@@ -8,6 +8,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 
 /**
+ *
  * @author dell
  */
 public class StreamingListner extends Thread {
@@ -37,7 +38,7 @@ public class StreamingListner extends Thread {
             try {
                 str = dataInputStream.readLine();
                 System.out.println(SocketConnection.isServerRunning);
-                if (str != null) {           
+                if (str != null) {   
                     
                 }
             } catch (SocketException ex) {
