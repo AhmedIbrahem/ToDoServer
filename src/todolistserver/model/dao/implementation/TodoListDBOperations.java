@@ -5,7 +5,6 @@
  */
 package todolistserver.model.dao.implementation;
 
-import todolistserver.model.dao.interfaces.DBOperations;
 
 import todolistserver.model.entities.TodoEntity;
 
@@ -13,19 +12,9 @@ import todolistserver.model.entities.TodoEntity;
  *
  * @author dell
  */
-public class TodoListDBOperations implements DBOperations {
+public class TodoListDBOperations  {
 
-    @Override
-    public void doOperation(String flag, DBOperations obj) {
-        switch (flag) {
-            case "addTodo":
-                addTodo((TodoEntity) obj);
-                break;
-            case "updateTodo":
-                updateTodo((TodoEntity) obj);
-        }
-    }
-
+    
     private void addTodo(TodoEntity todo) {
 
     }

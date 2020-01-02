@@ -6,6 +6,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import todolistserver.controller.Controller;
 
 /**
  *
@@ -16,7 +17,7 @@ public class StreamingListner extends Thread {
     Thread th;
     Boolean running = false;
     DataInputStream dataInputStream;
-    PrintStream printStream;
+    static PrintStream printStream;
     static ArrayList<StreamingListner> clientsVector = new ArrayList<StreamingListner>();
 
     public StreamingListner(Socket socketPort) {
@@ -38,8 +39,8 @@ public class StreamingListner extends Thread {
             try {
                 str = dataInputStream.readLine();
                 System.out.println(SocketConnection.isServerRunning);
-                if (str != null) {   
-                    
+                if (str != null) {           
+                    Controller.handle(str);
                 }
             } catch (SocketException ex) {
                 SocketConnection.isServerRunning = false;
@@ -60,5 +61,9 @@ public class StreamingListner extends Thread {
                 ch.printStream.println(msg);
             }
         }
+    }
+    
+    public static PrintStream getPrintStreamInstance(){
+        return printStream;
     }
 }

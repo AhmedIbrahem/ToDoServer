@@ -5,14 +5,14 @@ package todolistserver.model.entities;
  */
 public class RequestEntity {
 
-    private String operation;
     private String className;
+    private String operation;    
     private Object entity;
 
     public RequestEntity() {
     }
 
-    public RequestEntity(String operation, String className, Object entity) {
+    public RequestEntity(String className,String operation, Object entity) {
         this.operation = operation;
         this.className = className;
         this.entity = entity;

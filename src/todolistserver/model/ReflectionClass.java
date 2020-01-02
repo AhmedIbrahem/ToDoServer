@@ -17,7 +17,8 @@ public class ReflectionClass {
 
     private static String packageName = "todolistserver.model.dao.implementation";
 
-    public static void getObject(String className, String methodName, UserEntity obj) {
+    public static Object getObject(String className, String methodName, Object obj) {
+        Object returnValue =null;
         String objectClassName = packageName + "." + className;
         Class<?> objectClass;
         try {
@@ -26,11 +27,13 @@ public class ReflectionClass {
             
             Class<?>[] paramTypes = {Object.class}; //params types 
             Method printObjectMethod = object.getClass().getMethod(methodName, paramTypes);
-            printObjectMethod.invoke(object, obj); // invoke the method.
+            returnValue = printObjectMethod.invoke(object, obj); // invoke the method.
+            
+            
         } catch (Throwable ex) {
             ex.printStackTrace();
         }
-
+        return returnValue;
     }
 
 }
