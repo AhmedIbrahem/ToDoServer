@@ -6,6 +6,8 @@
 package todolistserver.model.dao.implementation;
 
 import java.util.ArrayList;
+import todolistserver.model.DatabaseConnection;
+import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -14,18 +16,21 @@ import todolistserver.model.entities.UserEntity;
  */
 public class UserDBOperations {
 
-    ArrayList<Object> queryValues;
-  
-    
-    public UserEntity login(Object user) {
-       
-        UserEntity test = new UserEntity();
-        test.setUsername("test");
-        test.setPassword("test2");
-        return test;
+    ArrayList<Object> queryValues = new ArrayList<>();
+
+    public UserEntity login(Object value) {
+
+        UserEntity user = null;
+        if (value != null) {
+            user = (UserEntity) value;            
+            queryValues.add(user.getUsername());
+            queryValues.add(user.getPassword());
+            user = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection()).get(0);            
+        }
+
+        return user;
     }
 
-    
     public int register(Object user) {
 
         return -1;

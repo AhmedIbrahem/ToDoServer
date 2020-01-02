@@ -20,16 +20,19 @@ public class TodoEntity {
     public TodoEntity() {
     }
 
-    public TodoEntity(String title, String description, int color, int creatorId, String status, Date assignDate, Date deadlineDate) {
+    public TodoEntity(int id, String title, int color, int creatorId, String status, String description, Date assignDate, Date deadlineDate) {
+        this.id = id;
         this.title = title;
-        this.description = description;
         this.color = color;
         this.creatorId = creatorId;
         this.status = status;
+        this.description = description;
         this.assignDate = assignDate;
         this.deadlineDate = deadlineDate;
     }
-
+    
+    
+    
     public int getId() {
         return id;
     }

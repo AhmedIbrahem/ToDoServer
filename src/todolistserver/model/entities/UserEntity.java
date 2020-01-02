@@ -8,6 +8,18 @@ public class UserEntity {
     private String email;
     private int onlineFlag;
 
+    public UserEntity() {
+    }
+
+    public UserEntity(int id, String username, String password, String email, int onlineFlag) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.onlineFlag = onlineFlag;
+    }
+    
+    
     public int getId() {
         return id;
     }

@@ -10,9 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import todolistserver.model.entities.ItemEntity;
+import todolistserver.model.entities.TodoEntity;
+import todolistserver.model.entities.UserEntity;
 
 /**
- *
  * @author dell
  */
 public abstract class DBStatementsExecuter {
@@ -43,23 +47,59 @@ public abstract class DBStatementsExecuter {
 
     }
 
-    public static ArrayList<Object> executeRetrieveStatement(String query, ArrayList<Object> parameters, Connection con) {
-
-        ArrayList<Object> result = new ArrayList<Object>();
-
+    private static ResultSet executeRetrieveStatement(String query, ArrayList<Object> parameters, Connection con) {
+        ResultSet resSet = null;
         try {
             PreparedStatement pst = prepareStatement(query, parameters, con);
-
-            ResultSet resSet = pst.executeQuery();
-            while (resSet.next()) {
-                result.add(resSet.getObject(1));
-            }
+            resSet = pst.executeQuery();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return result;
-
+        return resSet;
     }
+    public static ArrayList<UserEntity> retrieveUserData(String query, ArrayList<Object> parameters, Connection con){
+            ResultSet set = executeRetrieveStatement(query, parameters, con);
+            ArrayList<UserEntity> list = new ArrayList<>();
+        try {
+            while(set.next()){
+                list.add(new UserEntity(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getInt(5)));
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    public static ArrayList<TodoEntity> retrieveTodoData(String query, ArrayList<Object> parameters, Connection con){
+            ResultSet set = executeRetrieveStatement(query, parameters, con);
+            ArrayList<TodoEntity> list = new ArrayList<>();
+        try {
+            while(set.next()){
+                list.add(new TodoEntity(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), 
+                        set.getString(5), set.getString(6), set.getDate(7), set.getDate(8)));
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+   
+    public static ArrayList<ItemEntity> retrieveItemData(String query, ArrayList<Object> parameters, Connection con){
+            ResultSet set = executeRetrieveStatement(query, parameters, con);
+            ArrayList<ItemEntity> list = new ArrayList<>();
+        try {
+            while(set.next()){
+                list.add(new ItemEntity(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getInt(5), set.getDate(6)));
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+     
 
 }
