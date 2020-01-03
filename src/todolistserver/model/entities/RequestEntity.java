@@ -2,20 +2,21 @@ package todolistserver.model.entities;
 
 /**
  * @author Ibrahim
+ * @param <T>
  */
-public class RequestEntity {
+public class RequestEntity<T> {
 
     private String className;
     private String operation;    
-    private Object entity;
+    private T entity;
 
     public RequestEntity() {
     }
 
-    public RequestEntity(String className,String operation, Object entity) {
+    public RequestEntity(String className,String operation, T entity) {
         this.operation = operation;
         this.className = className;
-        this.entity = entity;
+        this.entity = entity;   
     }
 
     public String getOperation() {
@@ -34,11 +35,11 @@ public class RequestEntity {
         this.className = className;
     }
 
-    public Object getEntity() {
+    public T getEntity() {
         return entity;
     }
 
-    public void setEntity(Object entity) {
+    public void setEntity(T entity) {
         this.entity = entity;
     }
 

@@ -17,7 +17,7 @@ public class DatabaseConnection {
     
     private DatabaseConnection(){
         try {    
-            String connectionUrl = "jdbc:sqlserver://localhost:1433;databaseName=ToDoListProject;user="+DATABASE_USERNAME+";password="+DATABASE_PASSWORD;
+            String connectionUrl = "jdbc:sqlserver://localhost:1455;databaseName=ToDoListProject;user="+DATABASE_USERNAME+";password="+DATABASE_PASSWORD;
             connection = DriverManager.getConnection(connectionUrl);
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
@@ -35,7 +35,7 @@ public class DatabaseConnection {
         return instance;     
     }
     public Connection getConnection() {
-        return connection;
+        return connection;        
     }
     
     public void closeConnection() {

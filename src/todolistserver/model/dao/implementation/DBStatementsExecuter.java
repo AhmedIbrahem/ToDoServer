@@ -24,8 +24,7 @@ public abstract class DBStatementsExecuter {
     private static PreparedStatement prepareStatement(String query, ArrayList<Object> parameters, Connection con) {
         PreparedStatement pst = null;
         try {
-            pst = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE);
+            pst = con.prepareStatement(query);
             for (int i = 0; i < parameters.size(); i++) {
                 pst.setObject((i + 1), parameters.get(i));
             }

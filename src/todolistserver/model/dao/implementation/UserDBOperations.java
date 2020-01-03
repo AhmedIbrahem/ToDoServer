@@ -5,11 +5,17 @@
  */
 package todolistserver.model.dao.implementation;
 
+import com.google.gson.Gson;
+import java.sql.DriverManager;
 import java.util.ArrayList;
+import static todolistserver.model.Constants.DATABASE_PASSWORD;
+import static todolistserver.model.Constants.DATABASE_USERNAME;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.UserEntity;
-
+import java.sql.Connection;
+import java.sql.SQLException;
+import todolistserver.model.entities.RequestEntity;
 /**
  *
  * @author dell
@@ -18,17 +24,22 @@ public class UserDBOperations {
 
     ArrayList<Object> queryValues = new ArrayList<>();
 
-    public UserEntity login(Object value) {
+    public RequestEntity<UserEntity> login(Object value) throws SQLException {
 
+        
         UserEntity user = null;
+        RequestEntity<UserEntity> response=null;
         if (value != null) {
-            user = (UserEntity) value;            
+            user = (UserEntity)value;                                 
+            
             queryValues.add(user.getUsername());
-            queryValues.add(user.getPassword());
-            user = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection()).get(0);            
+            queryValues.add(user.getPassword());            
+            user = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues,  DatabaseConnection.getInstance().getConnection()).get(0);
+            
+            response = new RequestEntity("UserDBOperations","loginResponse", user);
         }
 
-        return user;
+        return response;
     }
 
     public int register(Object user) {

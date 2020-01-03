@@ -5,28 +5,26 @@
  */
 package todolistserver.controller;
 
-
 import todolistserver.model.GsonParser;
 import todolistserver.model.ReflectionClass;
 import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.UserEntity;
 
 /**
  *
  * @author dell
  */
 public class Controller {
-    
-    public static void handle(String str){
+
+    public static void handle(String str) throws InstantiationException, IllegalAccessException {
+
+        RequestEntity request = GsonParser.parseFromJson(str);
+        RequestEntity returnValue =(RequestEntity) ReflectionClass.getObject(request.getClassName(), request.getOperation(), request.getEntity());
         
-        RequestEntity  request = GsonParser.parseFromJson(str);
-        Object returnValue = ReflectionClass.getObject(request.getClassName(), request.getOperation(), request.getEntity());                
-        
-        RequestEntity response = new RequestEntity(request.getClassName(), request.getOperation(), returnValue);
-        String json = GsonParser.parseToJson(response);
-        
+        String json = GsonParser.parseToJson(returnValue);
+
         StreamingListner.getPrintStreamInstance().println(json);
-        
-        
+
     }
 }

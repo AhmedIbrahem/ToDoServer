@@ -6,6 +6,8 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import todolistserver.controller.Controller;
 
 /**
@@ -46,6 +48,10 @@ public class StreamingListner extends Thread {
                 SocketConnection.isServerRunning = false;
             } catch (IOException ex) {
                 SocketConnection.isServerRunning = false;
+            } catch (InstantiationException ex) {
+                Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         th.stop();

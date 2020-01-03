@@ -15,7 +15,10 @@ public class ItemDBOperations {
 
   
 
-    public void addItem(ItemEntity item) {
+    public ItemEntity addItem(Object itemValue) {
+        
+        ItemEntity test = (ItemEntity) itemValue;
+        return test;
         
     }
 

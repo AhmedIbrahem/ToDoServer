@@ -3,6 +3,7 @@ package todolistserver.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import todolistserver.model.DatabaseConnection;
 import todolistserver.model.SocketConnection;
 
 /**
@@ -10,13 +11,16 @@ import todolistserver.model.SocketConnection;
  */
 public class FXMLDocumentController implements Initializable{
     SocketConnection socketConnection=new SocketConnection();
-    public void handleStopServer() {
+    public void handleStopServer() {        
         socketConnection.closeSocketConnection();
+        
         //ToDoListServer.th.suspend();;
     }
 
     public void handleStartServer() {
+        DatabaseConnection.getInstance();
         socketConnection.openSocketConnection();
+        
         //ToDoListServer.th.resume();;
     }
 
