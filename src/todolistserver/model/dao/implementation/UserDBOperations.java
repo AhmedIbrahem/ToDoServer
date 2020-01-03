@@ -16,6 +16,7 @@ import todolistserver.model.entities.UserEntity;
 import java.sql.Connection;
 import java.sql.SQLException;
 import todolistserver.model.entities.RequestEntity;
+
 /**
  *
  * @author dell
@@ -26,19 +27,22 @@ public class UserDBOperations {
 
     public RequestEntity<UserEntity> login(Object value) throws SQLException {
 
-        
         UserEntity user = null;
-        RequestEntity<UserEntity> response=null;
+        RequestEntity<UserEntity> response = null;
         if (value != null) {
-            user = (UserEntity)value;                                 
-            
-            queryValues.add(user.getUsername());
-            queryValues.add(user.getPassword());            
-            user = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues,  DatabaseConnection.getInstance().getConnection()).get(0);
-            
-            response = new RequestEntity("UserDBOperations","loginResponse", user);
-        }
+            user = (UserEntity) value;
 
+            queryValues.add(user.getUsername());
+            queryValues.add(user.getPassword());
+            ArrayList<UserEntity> users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (users != null &&users.size()!=0) {
+                user = users.get(0);
+            } else {
+                user = null;
+            }
+
+        }
+        response = new RequestEntity("UserDBOperations", "loginResponse", user);
         return response;
     }
 

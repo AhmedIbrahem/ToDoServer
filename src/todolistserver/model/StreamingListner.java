@@ -19,13 +19,13 @@ public class StreamingListner extends Thread {
     Thread th;
     Boolean running = false;
     DataInputStream dataInputStream;
-    static PrintStream printStream;
+    PrintStream printStream;
     static ArrayList<StreamingListner> clientsVector = new ArrayList<StreamingListner>();
 
     public StreamingListner(Socket socketPort) {
         try {
             dataInputStream = new DataInputStream(socketPort.getInputStream());
-            printStream = new PrintStream(socketPort.getOutputStream());
+            printStream = new PrintStream(socketPort.getOutputStream());           
             running = true;
             clientsVector.add(this);
             th = new Thread(this);
@@ -42,7 +42,8 @@ public class StreamingListner extends Thread {
                 str = dataInputStream.readLine();
                 System.out.println(SocketConnection.isServerRunning);
                 if (str != null) {           
-                    Controller.handle(str);
+                   String response = Controller.handle(str);
+                   printStream.println(response);
                 }
             } catch (SocketException ex) {
                 SocketConnection.isServerRunning = false;
@@ -54,6 +55,13 @@ public class StreamingListner extends Thread {
                 Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        printStream.close();
+        try {
+            dataInputStream.close();
+        } catch (IOException ex) {
+            Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         th.stop();
     }
 
@@ -68,8 +76,5 @@ public class StreamingListner extends Thread {
             }
         }
     }
-    
-    public static PrintStream getPrintStreamInstance(){
-        return printStream;
-    }
+      
 }

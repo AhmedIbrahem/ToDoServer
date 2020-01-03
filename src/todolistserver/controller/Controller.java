@@ -17,14 +17,13 @@ import todolistserver.model.entities.UserEntity;
  */
 public class Controller {
 
-    public static void handle(String str) throws InstantiationException, IllegalAccessException {
+    public static String handle(String str) throws InstantiationException, IllegalAccessException {
 
         RequestEntity request = GsonParser.parseFromJson(str);
         RequestEntity returnValue =(RequestEntity) ReflectionClass.getObject(request.getClassName(), request.getOperation(), request.getEntity());
         
         String json = GsonParser.parseToJson(returnValue);
 
-        StreamingListner.getPrintStreamInstance().println(json);
-
+       return json;
     }
 }
