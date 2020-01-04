@@ -28,6 +28,7 @@ public class StreamingListner extends Thread {
             printStream = new PrintStream(socketPort.getOutputStream());           
             running = true;
             clientsVector.add(this);
+            printStream.println("opened");
             th = new Thread(this);
             th.start();
         } catch (IOException ex) {
@@ -39,8 +40,7 @@ public class StreamingListner extends Thread {
         String str = "";
         while (SocketConnection.isServerRunning) {
             try {
-                str = dataInputStream.readLine();
-                System.out.println(SocketConnection.isServerRunning);
+                str = dataInputStream.readLine();                
                 if (str != null) {           
                    String response = Controller.handle(str);
                    printStream.println(response);

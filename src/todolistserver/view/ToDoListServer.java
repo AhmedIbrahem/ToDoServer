@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.ReflectionClass;
+import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -29,7 +30,7 @@ public class ToDoListServer extends Application{
       
 
         stage.setOnCloseRequest((WindowEvent event) -> {
-            DatabaseConnection.getInstance().closeConnection();
+            DatabaseConnection.getInstance().closeConnection();            
             Platform.exit();
             System.exit(0);
         });
