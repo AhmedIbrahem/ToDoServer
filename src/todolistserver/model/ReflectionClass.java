@@ -14,11 +14,11 @@ import java.lang.reflect.Method;
  */
 public class ReflectionClass {
 
-    private static final String packageName = "todolistserver.model.dao.implementation";
+    private static final String PACKAGE_NAME = "todolistserver.model.dao.implementation";
 
     public static Object getObject(String className, String methodName, Object obj) {
         Object returnValue =null;
-        String objectClassName = packageName + "." + className;
+        String objectClassName = PACKAGE_NAME + "." + className;
         Class<?> objectClass;
         try {
             objectClass = Class.forName(objectClassName); // convert string classname to class

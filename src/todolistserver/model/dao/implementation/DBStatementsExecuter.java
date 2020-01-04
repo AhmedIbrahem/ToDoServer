@@ -102,5 +102,19 @@ public abstract class DBStatementsExecuter {
         }
         return list;
     }
+    
+    public static int isFriend(String query, ArrayList<Object> parameters, Connection con){
+        int result=0;
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        try {
+            set.last();
+            result = set.getRow();
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return result;
+
+    }
 
 }
