@@ -68,11 +68,15 @@ public class StreamingListner extends Thread {
                     removeObject();
                     System.out.println("closedClient " + clientsVector.size());
                 } else if (str != null) {
+                    System.out.println(str);
                     String response = Controller.handle(str);
+             
                     if (response.contains("loginResponse")) {
                         getUserID(response);
                         System.out.println(("userID = " + userID));
                     }
+                    
+
                     printStream.println(response);
                 }
             } catch (SocketException ex) {
