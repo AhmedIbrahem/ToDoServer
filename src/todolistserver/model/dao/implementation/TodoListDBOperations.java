@@ -36,13 +36,12 @@ public class TodoListDBOperations  {
             queryValues.add(todo.getDescription());
             queryValues.add(todo.getAssignDate());
             queryValues.add(todo.getDeadlineDate());
-
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if(result<=0)
                 todo=null;
         }
 
-        response = new RequestEntity("TodoListDBOperations", "registerResponse", todo);
+        response = new RequestEntity("TodoListDBOperations", "addTodoResponse", todo);
         return response;
 
     }
