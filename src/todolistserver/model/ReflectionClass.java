@@ -6,7 +6,6 @@
 package todolistserver.model;
 
 import java.lang.reflect.Method;
-import todolistserver.model.entities.UserEntity;
 
 
 /**
@@ -15,7 +14,7 @@ import todolistserver.model.entities.UserEntity;
  */
 public class ReflectionClass {
 
-    private static String packageName = "todolistserver.model.dao.implementation";
+    private static final String packageName = "todolistserver.model.dao.implementation";
 
     public static Object getObject(String className, String methodName, Object obj) {
         Object returnValue =null;
