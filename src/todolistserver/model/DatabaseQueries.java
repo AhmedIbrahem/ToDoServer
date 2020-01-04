@@ -7,7 +7,7 @@ package todolistserver.model;
 public interface DatabaseQueries {
     //user
     String LOGIN_USER_QUERY = "SELECT * FROM USERS WHERE USERNAME = ? AND PASSWORD = ?";
-    String REGISTER_USER_QUERY = "NSERT INTO USERS VALUES(?, ?, ?, ?)";
+    String REGISTER_USER_QUERY = "INSERT INTO USERS VALUES(?, ?, ?, ?)";
     String RETRIEVE_USERS_QUERY = "SELECT * FROM USERS";
     String RETRIEVE_USER_FRIENDS = "SELECT * FROM FRIENDLIST WHERE USERID = ?";
     

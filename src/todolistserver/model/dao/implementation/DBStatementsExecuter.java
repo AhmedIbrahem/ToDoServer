@@ -35,14 +35,16 @@ public abstract class DBStatementsExecuter {
 
     }
 
-    public static void executeUpdateStatement(String query, ArrayList<Object> parameters, Connection con) {
-
+    public static int executeUpdateStatement(String query, ArrayList<Object> parameters, Connection con) {
+        int result = -1;
         try {
             PreparedStatement pst = prepareStatement(query, parameters, con);
-            pst.executeUpdate();
+
+            result = pst.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        return result;
 
     }
 
@@ -57,11 +59,12 @@ public abstract class DBStatementsExecuter {
 
         return resSet;
     }
-    public static ArrayList<UserEntity> retrieveUserData(String query, ArrayList<Object> parameters, Connection con){
-            ResultSet set = executeRetrieveStatement(query, parameters, con);
-            ArrayList<UserEntity> list = new ArrayList<>();
+
+    public static ArrayList<UserEntity> retrieveUserData(String query, ArrayList<Object> parameters, Connection con) {
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        ArrayList<UserEntity> list = new ArrayList<>();
         try {
-            while(set.next()){
+            while (set.next()) {
                 list.add(new UserEntity(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getInt(5)));
             }
             set.close();
@@ -70,13 +73,13 @@ public abstract class DBStatementsExecuter {
         }
         return list;
     }
-    
-    public static ArrayList<TodoEntity> retrieveTodoData(String query, ArrayList<Object> parameters, Connection con){
-            ResultSet set = executeRetrieveStatement(query, parameters, con);
-            ArrayList<TodoEntity> list = new ArrayList<>();
+
+    public static ArrayList<TodoEntity> retrieveTodoData(String query, ArrayList<Object> parameters, Connection con) {
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        ArrayList<TodoEntity> list = new ArrayList<>();
         try {
-            while(set.next()){
-                list.add(new TodoEntity(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), 
+            while (set.next()) {
+                list.add(new TodoEntity(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4),
                         set.getString(5), set.getString(6), set.getDate(7), set.getDate(8)));
             }
             set.close();
@@ -85,12 +88,12 @@ public abstract class DBStatementsExecuter {
         }
         return list;
     }
-   
-    public static ArrayList<ItemEntity> retrieveItemData(String query, ArrayList<Object> parameters, Connection con){
-            ResultSet set = executeRetrieveStatement(query, parameters, con);
-            ArrayList<ItemEntity> list = new ArrayList<>();
+
+    public static ArrayList<ItemEntity> retrieveItemData(String query, ArrayList<Object> parameters, Connection con) {
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        ArrayList<ItemEntity> list = new ArrayList<>();
         try {
-            while(set.next()){
+            while (set.next()) {
                 list.add(new ItemEntity(set.getInt(1), set.getString(2), set.getString(3), set.getInt(4), set.getInt(5), set.getDate(6)));
             }
             set.close();
@@ -99,6 +102,5 @@ public abstract class DBStatementsExecuter {
         }
         return list;
     }
-     
 
 }
