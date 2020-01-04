@@ -35,7 +35,7 @@ public class UserDBOperations {
             queryValues.add(user.getUsername());
             queryValues.add(user.getPassword());
             ArrayList<UserEntity> users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (users != null &&users.size()!=0) {
+            if (users != null && users.size() != 0) {
                 user = users.get(0);
             } else {
                 user = null;
@@ -46,8 +46,25 @@ public class UserDBOperations {
         return response;
     }
 
-    public int register(Object user) {
+    public RequestEntity register(Object value) {
+        int result = -1;
+        UserEntity user=null;
+        RequestEntity<UserEntity> response = null;
+        if (value != null) {
+            user = (UserEntity) value;
+            queryValues = new ArrayList<Object>();
 
-        return -1;
+            queryValues.add(user.getUsername());
+            queryValues.add(user.getPassword());
+            queryValues.add(user.getEmail());
+            queryValues.add(user.getOnlineFlag());
+            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REGISTER_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            if(result<=0)
+                user=null;
+        }
+
+        response = new RequestEntity("UserDBOperations", "registerResponse", user);
+        return response;
+
     }
 }
