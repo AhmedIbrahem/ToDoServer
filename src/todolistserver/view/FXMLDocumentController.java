@@ -1,32 +1,25 @@
 package todolistserver.view;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.SocketConnection;
 
 /**
  * @author Ibrahim
  */
-public class FXMLDocumentController implements Initializable{
-    SocketConnection socketConnection=new SocketConnection();
-    public void handleStopServer() {        
-        socketConnection.closeSocketConnection();
-        
-        //ToDoListServer.th.suspend();;
+public class FXMLDocumentController{
+
+    SocketConnection socketConnection = new SocketConnection();
+
+    public void handleStopServer() {
+        if (SocketConnection.isServerRunning) {
+            socketConnection.closeSocketConnection();
+        }
     }
 
     public void handleStartServer() {
-        DatabaseConnection.getInstance();
-        socketConnection.openSocketConnection();
-        
-        //ToDoListServer.th.resume();;
+        if (!SocketConnection.isServerRunning) {
+            DatabaseConnection.getInstance();
+            socketConnection.openSocketConnection();
+        }
     }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-       // socketConnection = new SocketConnection();
-    }
-
 }

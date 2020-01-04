@@ -6,9 +6,12 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import todolistserver.controller.Controller;
+import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -17,16 +20,20 @@ import todolistserver.controller.Controller;
 public class StreamingListner extends Thread {
 
     Thread th;
-    Boolean running = false;
     DataInputStream dataInputStream;
     PrintStream printStream;
+
+    private int userID;
+
+    public int getUserId() {
+        return userID;
+    }
     static ArrayList<StreamingListner> clientsVector = new ArrayList<StreamingListner>();
 
     public StreamingListner(Socket socketPort) {
         try {
             dataInputStream = new DataInputStream(socketPort.getInputStream());
-            printStream = new PrintStream(socketPort.getOutputStream());           
-            running = true;
+            printStream = new PrintStream(socketPort.getOutputStream());
             clientsVector.add(this);
             printStream.println("opened");
             th = new Thread(this);
@@ -36,32 +43,54 @@ public class StreamingListner extends Thread {
         }
     }
 
+    private void getUserID(String jsonValue) {
+
+        try {
+            RequestEntity<UserEntity> user = GsonParser.parseFromJson(jsonValue);
+            if (user.getEntity() != null) {
+                userID = user.getEntity().getId();
+            }
+        } catch (InstantiationException ex) {
+            ex.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
     public void run() {
         String str = "";
         while (SocketConnection.isServerRunning) {
             try {
-                str = dataInputStream.readLine();                
-                if (str != null) {           
-                   String response = Controller.handle(str);
-                   printStream.println(response);
+                str = dataInputStream.readLine();
+                if (str != null && str.equals("clientClosed")) {
+                    System.out.println("i'm here");
+                    removeObject();
+                    System.out.println("closedClient " + clientsVector.size());
+                } else if (str != null) {
+                    String response = Controller.handle(str);
+                    if (response.contains("loginResponse")) {
+                        getUserID(response);
+                        System.out.println(("userID = " + userID));
+                    }
+                    printStream.println(response);
                 }
             } catch (SocketException ex) {
                 SocketConnection.isServerRunning = false;
             } catch (IOException ex) {
                 SocketConnection.isServerRunning = false;
-            } catch (InstantiationException ex) {
+            } catch (InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
+                SocketConnection.isServerRunning = false;
             }
         }
         printStream.close();
+        removeObject();
         try {
             dataInputStream.close();
         } catch (IOException ex) {
             Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         th.stop();
     }
 
@@ -69,12 +98,24 @@ public class StreamingListner extends Thread {
         printStream.print("message");
     }
 
-    void sendMessageToAll(String msg) {
+    synchronized void sendMessageToAll(String msg) {
         if (clientsVector != null) {
+            System.out.println(clientsVector.size());
             for (StreamingListner ch : clientsVector) {
                 ch.printStream.println(msg);
             }
         }
     }
-      
+
+    private synchronized void removeObject() {
+        int index = 0;
+        for (int i = 0; i < clientsVector.size(); i++) {
+            if (clientsVector.get(i).getUserId() == this.userID) {
+                index = i;
+            }
+        }
+        clientsVector.remove(index);
+        System.out.println("RemoveObject = " + clientsVector.size());
+    }
+
 }

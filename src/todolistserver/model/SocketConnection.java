@@ -40,7 +40,8 @@ public class SocketConnection extends Thread {
             if (!serverSocket.isClosed()) {
                 isServerRunning = false;                
                 System.out.println("closed");
-                streamListner.sendMessageToAll("closed");
+                if(streamListner!=null)
+                    streamListner.sendMessageToAll("closed");
                 serverSocket.close();
                 th.stop();
             }
