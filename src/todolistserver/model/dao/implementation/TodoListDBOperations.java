@@ -21,7 +21,7 @@ public class TodoListDBOperations {
 
     ArrayList<Object> queryValues = new ArrayList<>();
 
-    private RequestEntity addTodo(Object value) {
+    public RequestEntity addTodo(Object value) {
         int result = -1;
         TodoEntity todo = null;
         RequestEntity<TodoEntity> response = null;
@@ -47,11 +47,12 @@ public class TodoListDBOperations {
 
     }
 
-    private void updateTodo(TodoEntity todo) {
+    public void updateTodo(TodoEntity todo) {
 
     }
 
-    private void AssignToTodo(Object value) {
+    public RequestEntity assignTodo(Object value) {
+        RequestEntity<Integer> response = null;
         if (value != null) {
             AssignFriendTodoEntity todoFriend = (AssignFriendTodoEntity) value;
             queryValues = new ArrayList<>();
@@ -59,14 +60,19 @@ public class TodoListDBOperations {
             ArrayList<UserEntity> users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USERID_BY_USERNAME, queryValues, DatabaseConnection.getInstance().getConnection());
             if (users.size() > 0) {
                 queryValues.clear();
+                queryValues.add(todoFriend.getCurrentUserId());
                 queryValues.add(users.get(0).getId());
                 int friend = DBStatementsExecuter.isFriend(DatabaseQueries.CHECK_IF_USER_FRIEND, queryValues, DatabaseConnection.getInstance().getConnection());
                 if (friend != 0) {
-
+                    queryValues.clear();
+                    queryValues.add(todoFriend.getTodoId());
+                    queryValues.add(users.get(0).getId());
+                    int friendAssigned = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ASSIGN_FRIEND_TO_TODOLIST, queryValues, DatabaseConnection.getInstance().getConnection());
+                    response = new RequestEntity("TodoListDBOperations", "assignTodoResponse", friendAssigned);
                 }
             }
-
         }
+        return response;
     }
 
 }

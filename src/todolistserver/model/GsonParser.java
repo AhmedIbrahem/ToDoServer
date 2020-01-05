@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.RequestEntity;
@@ -30,7 +31,10 @@ public class GsonParser {
                 requestType = new TypeToken<RequestEntity<NotificationEntity>>(){}.getType();
                 break;
             case 'T':
-                requestType = new TypeToken<RequestEntity<TodoEntity>>(){}.getType();
+                if(request.contains("assignTodo"))
+                    requestType = new TypeToken<RequestEntity<AssignFriendTodoEntity>>(){}.getType();
+                else
+                    requestType = new TypeToken<RequestEntity<TodoEntity>>(){}.getType();
                 break;
             case 'z':
                 requestType = new TypeToken<RequestEntity<ArrayList<UserEntity>>>(){}.getType();
