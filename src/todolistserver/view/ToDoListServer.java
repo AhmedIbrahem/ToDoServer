@@ -18,7 +18,6 @@ import todolistserver.model.StreamingListner;
 import todolistserver.model.dao.implementation.ItemDBOperations;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.dao.implementation.TodoListDBOperations;
->>>>>>> 9f2a0f16caf25cd0b1f3200cff93432dad1b435e
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.UserEntity;
 

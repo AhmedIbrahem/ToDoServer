@@ -24,7 +24,6 @@ public class TodoListDBOperations {
     public RequestEntity addTodo(ArrayList<Object> value) {
         int result = -1;
         TodoEntity todo = null;
-        ArrayList<TodoEntity> todoList = new ArrayList<>();
         RequestEntity<TodoEntity> response = null;
         ArrayList<TodoEntity> toDoEntityList = new ArrayList<>();
         if (value != null) {
@@ -44,8 +43,6 @@ public class TodoListDBOperations {
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 todo = null;
-            }else{
-                todoList.add(todo);
             }
              else {
                 toDoEntityList.add(todo);

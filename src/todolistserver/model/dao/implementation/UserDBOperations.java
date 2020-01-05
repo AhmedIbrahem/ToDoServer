@@ -25,7 +25,7 @@ public class UserDBOperations {
         UserEntity user = null;
         ArrayList<UserEntity> users = null;
         RequestEntity<UserEntity> response = null;
-        ArrayList<UserEntity> users = new ArrayList<>();
+       users = new ArrayList<>();
         if (value != null) {
             user = (UserEntity) value.get(0);
 

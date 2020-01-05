@@ -45,7 +45,7 @@ public class ItemDBOperations {
 
         response = new RequestEntity("ItemDBOperations", "addItemResponse", itemEntityList);
             }else{
-                itemsList.add(item);
+                itemEntityList.add(item);
             }
         }
         

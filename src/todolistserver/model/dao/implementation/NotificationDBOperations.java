@@ -25,11 +25,7 @@ public class NotificationDBOperations {
         NotificationEntity notification = null;
         RequestEntity<NotificationEntity> response = null;
         ArrayList<NotificationEntity> notificationList=new ArrayList<>();
-    private RequestEntity addNotification(ArrayList<Object> notificationValue) {
-        int result = -1;
-        NotificationEntity notification = null;
-        RequestEntity<NotificationEntity> response = null;
-        ArrayList<NotificationEntity> notificationsList = null;
+       
         if (notificationValue != null) {
             notification = (NotificationEntity) notificationValue.get(0);
             queryValues = new ArrayList<>();
@@ -50,9 +46,9 @@ public class NotificationDBOperations {
         }
 
  
-        }
+        
 
-        response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationsList);
+        response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationList);
         return response;
 
     }
