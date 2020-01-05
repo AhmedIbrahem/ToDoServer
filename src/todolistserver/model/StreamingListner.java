@@ -45,16 +45,16 @@ public class StreamingListner extends Thread {
 
     private void getUserID(String jsonValue) {
 
-        try {
+//        try {
             RequestEntity<UserEntity> user = GsonParser.parseFromJson(jsonValue);
             if (user.getEntity() != null) {
-                userID = user.getEntity().getId();
+                userID = user.getEntity().get(0).getId();
             }
-        } catch (InstantiationException ex) {
-            ex.printStackTrace();
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-        }
+//        } catch (InstantiationException ex) {
+//            ex.printStackTrace();
+//        } catch (IllegalAccessException ex) {
+//            ex.printStackTrace();
+//        }
 
     }
 

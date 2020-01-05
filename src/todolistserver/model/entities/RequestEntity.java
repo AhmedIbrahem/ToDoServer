@@ -1,5 +1,7 @@
 package todolistserver.model.entities;
 
+import java.util.ArrayList;
+
 /**
  * @author Ibrahim
  * @param <T>
@@ -8,12 +10,12 @@ public class RequestEntity<T> {
 
     private String className;
     private String operation;    
-    private T entity;
+    private ArrayList<T> entity;
 
     public RequestEntity() {
     }
 
-    public RequestEntity(String className,String operation, T entity) {
+    public RequestEntity(String className,String operation, ArrayList<T> entity) {
         this.operation = operation;
         this.className = className;
         this.entity = entity;   
@@ -35,11 +37,11 @@ public class RequestEntity<T> {
         this.className = className;
     }
 
-    public T getEntity() {
+    public ArrayList<T> getEntity() {
         return entity;
     }
 
-    public void setEntity(T entity) {
+    public void setEntity(ArrayList<T> entity) {
         this.entity = entity;
     }
 

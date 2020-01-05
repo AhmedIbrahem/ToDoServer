@@ -30,6 +30,8 @@ public class ItemDBOperations {
         if (itemValue != null) {
             item = (ItemEntity) itemValue.get(0);
             queryValues = new ArrayList<Object>();
+
+
             queryValues.add(item.getTitle());
             queryValues.add(item.getDescription());
             queryValues.add(item.getTodoID());
@@ -39,12 +41,14 @@ public class ItemDBOperations {
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 item = null;
-            } else {
-                itemEntityList.add(item);
-            }
-        }
+
 
         response = new RequestEntity("ItemDBOperations", "addItemResponse", itemEntityList);
+            }else{
+                itemsList.add(item);
+            }
+        }
+        
         return response;
 
     }
