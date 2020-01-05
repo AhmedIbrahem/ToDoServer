@@ -19,14 +19,14 @@ public class ItemDBOperations {
 
     ArrayList<Object> queryValues = new ArrayList<>();
 
-    public RequestEntity addItem(Object itemValue) {
-
+    public RequestEntity addItem(ArrayList<Object> itemValue) {
         int result = -1;
         ItemEntity item = null;
         RequestEntity<ItemEntity> response = null;
+        ArrayList<ItemEntity> itemsList= new ArrayList<>();
         if (itemValue != null) {
-            item = (ItemEntity) itemValue;
-            queryValues = new ArrayList<Object>();
+            item = (ItemEntity)itemValue.get(0);
+            queryValues = new ArrayList<>();
 
             queryValues.add(item.getTitle());
             queryValues.add(item.getDescription());
@@ -37,10 +37,12 @@ public class ItemDBOperations {
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 item = null;
+            }else{
+                itemsList.add(item);
             }
         }
-
-        response = new RequestEntity("ItemDBOperations", "addItemResponse", item);
+        
+        response = new RequestEntity("ItemDBOperations", "addItemResponse", itemsList);
         return response;
 
     }

@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.NotificationEntity;
@@ -17,7 +15,7 @@ import todolistserver.model.entities.UserEntity;
  * @author Ibrahim
  */
 public class GsonParser {
-    public static RequestEntity parseFromJson(String request) throws InstantiationException, IllegalAccessException{
+    public static RequestEntity parseFromJson(String request){
         Gson gson = new Gson();        
         Type requestType = null;
         switch(request.charAt(14)){
@@ -39,9 +37,8 @@ public class GsonParser {
             case 'z':
                 requestType = new TypeToken<RequestEntity<ArrayList<UserEntity>>>(){}.getType();
         }
-        
-        
-        
+         
+       System.out.println(request);
        return gson.fromJson(request, requestType);
      
     }
