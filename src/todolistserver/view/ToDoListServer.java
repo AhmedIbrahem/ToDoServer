@@ -1,5 +1,6 @@
 package todolistserver.view;
 
+import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.application.Platform;
@@ -11,6 +12,9 @@ import javafx.stage.WindowEvent;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.ReflectionClass;
 import todolistserver.model.StreamingListner;
+import todolistserver.model.dao.implementation.ItemDBOperations;
+import todolistserver.model.entities.ItemEntity;
+import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -34,6 +38,12 @@ public class ToDoListServer extends Application{
             Platform.exit();
             System.exit(0);
         });
+//        ItemEntity itemTest = new ItemEntity();
+//        itemTest.setItemID(2);
+//        ArrayList<Object> testList = new ArrayList<Object>();
+//        testList.add(itemTest);
+//        RequestEntity test = ItemDBOperations.deleteItem(testList);
+//        System.out.println("");
     }
 
     /**

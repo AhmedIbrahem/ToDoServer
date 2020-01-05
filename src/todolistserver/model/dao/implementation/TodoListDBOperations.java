@@ -21,33 +21,87 @@ public class TodoListDBOperations {
 
     ArrayList<Object> queryValues = new ArrayList<>();
 
-    public RequestEntity addTodo(Object value) {
+    public RequestEntity addTodo(ArrayList<Object> value) {
         int result = -1;
         TodoEntity todo = null;
         RequestEntity<TodoEntity> response = null;
+        ArrayList<TodoEntity> toDoEntityList = new ArrayList<>();
         if (value != null) {
-            todo = (TodoEntity) value;
+            todo = (TodoEntity) value.get(0);
             queryValues = new ArrayList<Object>();
 
             queryValues.add(todo.getTitle());
+            queryValues.add(todo.getDescription());
+            queryValues.add(todo.getDeadlineDate());
+            queryValues.add(todo.getAssignDate());
             queryValues.add(todo.getColor());
             queryValues.add(todo.getCreatorId());
             queryValues.add(todo.getStatus());
-            queryValues.add(todo.getDescription());
-            queryValues.add(todo.getAssignDate());
-            queryValues.add(todo.getDeadlineDate());
+
+
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 todo = null;
             }
+             else {
+                toDoEntityList.add(todo);
+            }
         }
 
-        response = new RequestEntity("TodoListDBOperations", "addTodoResponse", todo);
+        response = new RequestEntity("TodoListDBOperations", "addTodoResponse", toDoEntityList);
         return response;
 
     }
 
-    public void updateTodo(TodoEntity todo) {
+    public RequestEntity updateTodo(ArrayList<Object> value) {
+          int result = -1;
+           TodoEntity todo = null;
+        RequestEntity<TodoEntity> response = null;
+        ArrayList<TodoEntity> toDoEntityList = new ArrayList<>();
+        if (value != null) {
+            todo = (TodoEntity) value.get(0);
+            queryValues = new ArrayList<Object>();
+        
+            queryValues.add(todo.getTitle());
+            queryValues.add(todo.getDescription());
+            queryValues.add(todo.getDeadlineDate());
+            queryValues.add(todo.getAssignDate());
+            queryValues.add(todo.getColor());
+            queryValues.add(todo.getStatus());
+            queryValues.add(todo.getId());
+
+            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (result <= 0) {
+                todo = null;
+            }
+              else {
+                toDoEntityList.add(todo);
+            }
+        }
+        response = new RequestEntity("TodoListDBOperations", "updateTodoResponse", toDoEntityList);
+        return response;
+
+    }
+     public RequestEntity deleteTodo(ArrayList<Object> value) {
+          int result = -1;
+           TodoEntity todo = null;
+        RequestEntity<TodoEntity> response = null;
+        ArrayList<TodoEntity> toDoEntityList = new ArrayList<>();
+        if (value != null) {
+            todo = (TodoEntity) value.get(0);
+            queryValues = new ArrayList<Object>();
+            queryValues.add(todo.getId());
+
+            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (result <= 0) {
+                todo = null;
+            }
+              else {
+                toDoEntityList.add(todo);
+            }
+        }
+        response = new RequestEntity("TodoListDBOperations", "deleteTodoResponse", toDoEntityList);
+        return response;
 
     }
 
