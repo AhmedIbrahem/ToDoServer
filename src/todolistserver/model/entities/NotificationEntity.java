@@ -11,6 +11,13 @@ public class NotificationEntity {
     private int senderID;
     private String notificationType;
 
+    public NotificationEntity(String header, String text, int senderID, String notificationType) {
+        this.header = header;
+        this.text = text;
+        this.senderID = senderID;
+        this.notificationType = notificationType;
+    }
+
     public int getNotificationID() {
         return notificationID;
     }

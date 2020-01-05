@@ -40,7 +40,6 @@ public class UserDBOperations {
             } else {
                 user = null;
             }
-
         }
         response = new RequestEntity("UserDBOperations", "loginResponse", user);
         return response;

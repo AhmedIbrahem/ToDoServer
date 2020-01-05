@@ -3,6 +3,7 @@ package todolistserver.model;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import todolistserver.model.entities.ItemEntity;
@@ -31,6 +32,8 @@ public class GsonParser {
             case 'T':
                 requestType = new TypeToken<RequestEntity<TodoEntity>>(){}.getType();
                 break;
+            case 'z':
+                requestType = new TypeToken<RequestEntity<ArrayList<UserEntity>>>(){}.getType();
         }
         
         

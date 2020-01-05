@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import todolistserver.model.entities.ItemEntity;
+import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.TodoEntity;
 import todolistserver.model.entities.UserEntity;
 
@@ -114,6 +115,22 @@ public abstract class DBStatementsExecuter {
             Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
         }
         return result;
+
+    }
+    
+    
+     public static ArrayList<NotificationEntity> retrieveNotifications(String query, ArrayList<Object> parameters, Connection con){
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        ArrayList<NotificationEntity> list = new ArrayList<>();
+        try {
+            while (set.next()) {
+                list.add(new NotificationEntity(set.getString(1), set.getString(2), set.getInt(3), set.getString(4)));
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
 
     }
 
