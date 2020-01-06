@@ -103,11 +103,11 @@ public class ItemDBOperations {
         RequestEntity<ItemEntity> response = null;
         queryValues.clear();
         queryValues.add(item.getItemID());
-        ArrayList<ItemEntity> notifcations = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-        if (notifcations == null || notifcations.size() == 0) {
+        ArrayList<ItemEntity> items = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        if (items == null || items.size() == 0) {
             return null;
         } 
-        response = new RequestEntity("NotificationDBOperations", "receiveNotificationsResponse", notifcations);
+        response = new RequestEntity("ItemDBOperations", "getAllItems", items);
         return response;
     }
 
