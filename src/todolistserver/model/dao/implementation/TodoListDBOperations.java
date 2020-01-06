@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.AssignFriendTodoEntity;
+import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.TodoEntity;
 import todolistserver.model.entities.UserEntity;
@@ -19,7 +20,7 @@ import todolistserver.model.entities.UserEntity;
  */
 public class TodoListDBOperations {
 
-    ArrayList<Object> queryValues = new ArrayList<>();
+     ArrayList<Object>  queryValues = new ArrayList<>();
 
     public RequestEntity addTodo(ArrayList<Object> value) {
         int result = -1;
@@ -28,7 +29,6 @@ public class TodoListDBOperations {
         ArrayList<TodoEntity> toDoEntityList = new ArrayList<>();
         if (value != null) {
             todo = (TodoEntity) value.get(0);
-
 
             queryValues = new ArrayList<>();
             queryValues.add(todo.getTitle());
@@ -39,32 +39,29 @@ public class TodoListDBOperations {
             queryValues.add(todo.getCreatorId());
             queryValues.add(todo.getStatus());
 
-
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 todo = null;
-            }
-             else {
+            } else {
                 toDoEntityList.add(todo);
             }
         }
 
-
         response = new RequestEntity("TodoListDBOperations", "addTodoResponse", toDoEntityList);
-            
+
         return response;
 
     }
 
     public RequestEntity updateTodo(ArrayList<Object> value) {
-          int result = -1;
-           TodoEntity todo = null;
+        int result = -1;
+        TodoEntity todo = null;
         RequestEntity<TodoEntity> response = null;
         ArrayList<TodoEntity> toDoEntityList = new ArrayList<>();
         if (value != null) {
             todo = (TodoEntity) value.get(0);
             queryValues = new ArrayList<Object>();
-        
+
             queryValues.add(todo.getTitle());
             queryValues.add(todo.getDescription());
             queryValues.add(todo.getDeadlineDate());
@@ -76,8 +73,7 @@ public class TodoListDBOperations {
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 todo = null;
-            }
-              else {
+            } else {
                 toDoEntityList.add(todo);
             }
         }
@@ -85,22 +81,34 @@ public class TodoListDBOperations {
         return response;
 
     }
-     public RequestEntity deleteTodo(ArrayList<Object> value) {
-          int result = -1;
-           TodoEntity todo = null;
+
+    public   RequestEntity deleteTodo(ArrayList<Object> value) {
+        int result = -1;
+        TodoEntity todo = null;
         RequestEntity<TodoEntity> response = null;
         ArrayList<TodoEntity> toDoEntityList = new ArrayList<>();
         if (value != null) {
             todo = (TodoEntity) value.get(0);
-            queryValues = new ArrayList<Object>();
+            queryValues = new ArrayList<>();
             queryValues.add(todo.getId());
+            ArrayList<ItemEntity> items = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (items.size() > 0) {
+                queryValues.clear();
+                queryValues.add(items.get(0).getItemID());
+                int userItemResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
+                if (userItemResult > 0) {
+                    int itemResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+                    if (itemResult > 0) {
+                        queryValues.clear();
+                        queryValues.add(todo.getId());
+                        int userTodo = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_TODO, queryValues, DatabaseConnection.getInstance().getConnection());
+                        if (userTodo > 0) {
+                            int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
 
-            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (result <= 0) {
-                todo = null;
-            }
-              else {
-                toDoEntityList.add(todo);
+                        }
+                    }
+                }
+
             }
         }
         response = new RequestEntity("TodoListDBOperations", "deleteTodoResponse", toDoEntityList);
@@ -108,7 +116,7 @@ public class TodoListDBOperations {
 
     }
 
-    public RequestEntity assignTodo(ArrayList<Object> value){
+    public RequestEntity assignTodo(ArrayList<Object> value) {
         RequestEntity<Integer> response = null;
         ArrayList<AssignFriendTodoEntity> friendsList = new ArrayList<>();
         if (value != null) {

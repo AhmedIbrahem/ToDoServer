@@ -31,6 +31,8 @@ public interface DatabaseQueries {
     String DELETE_FRIEND_ON_ITEM="DELETE FROM itemAssignedUsers WHERE ITEMID= ?";
     String GET_USERID_BY_USERNAME = "SELECT * FROM USERS WHERE USERNAME = ?";
     String CHECK_IF_USER_FRIEND = "SELECT * FROM FRIENDLIST WHERE FRIENDID = ? AND USERID = ?";
+    String DELETE_FRIEND_ON_TODO="DELETE FROM toDoListUsers WHERE todoID= ?";
+
 
 
     //notification
