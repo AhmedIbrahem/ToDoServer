@@ -10,6 +10,7 @@ import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -52,13 +53,13 @@ public class NotificationDBOperations {
 
     }
 
-    private RequestEntity<NotificationEntity> receiveNotifications(ArrayList<Object> value) {
-        
-        int userID = (int) value.get(0);
+    public RequestEntity receiveNotifications(ArrayList<Object> value) {
+               
+        UserEntity user = (UserEntity) value.get(0);
 
         RequestEntity<NotificationEntity> response = null;
         queryValues.clear();
-        queryValues.add(userID);
+        queryValues.add(user.getId());
         ArrayList<NotificationEntity> notifcations = DBStatementsExecuter.retrieveNotifications(DatabaseQueries.RETRIEVE_USER_NOTIFICATIONS, queryValues, DatabaseConnection.getInstance().getConnection());
         if (notifcations == null || notifcations.size() == 0) {
             return null;

@@ -26,7 +26,10 @@ public class GsonParser {
                 requestType = new TypeToken<RequestEntity<ItemEntity>>(){}.getType();
                 break;
             case 'N':
-                requestType = new TypeToken<RequestEntity<NotificationEntity>>(){}.getType();
+                if(request.contains("receiveNotifications"))
+                    requestType = new TypeToken<RequestEntity<UserEntity>>(){}.getType();
+                else
+                    requestType = new TypeToken<RequestEntity<NotificationEntity>>(){}.getType();
                 break;
             case 'T':
                 if(request.contains("assignTodo"))
@@ -34,8 +37,7 @@ public class GsonParser {
                 else
                     requestType = new TypeToken<RequestEntity<TodoEntity>>(){}.getType();
                 break;
-            case 'z':
-                requestType = new TypeToken<RequestEntity<ArrayList<UserEntity>>>(){}.getType();
+            
         }
          
        System.out.println(request);

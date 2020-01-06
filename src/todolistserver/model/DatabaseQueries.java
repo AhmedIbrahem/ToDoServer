@@ -35,7 +35,7 @@ public interface DatabaseQueries {
 
     //notification
    String INSERT_NOTIFICATION_QUERY = "INSERT INTO NOTIFICATIONS VALUES(?, ?, ?, ?)";
-   String RETRIEVE_USER_NOTIFICATIONS="select n.notificationID from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.receiverID = ?";
+   String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.receiverID = ?";
     
 
 
