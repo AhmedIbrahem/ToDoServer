@@ -31,7 +31,7 @@ public class SocketConnection extends Thread {
             th = new Thread(this);
             th.start();
         } catch (IOException ex) {
-            Logger.getLogger(SocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+            isServerRunning = false;
         }
     }
 
