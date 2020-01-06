@@ -5,9 +5,7 @@
  */
 package todolistserver.model.dao.implementation;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import javax.swing.text.html.parser.Entity;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.ItemEntity;
@@ -50,7 +48,6 @@ public class ItemDBOperations {
         }
         
         return response;
-
     }
 
     public RequestEntity updateItem(ArrayList<Object> itemValue) {
@@ -99,6 +96,19 @@ public class ItemDBOperations {
         response = new RequestEntity("ItemDBOperations", "UpdateItemResponse", itemEntityList);
         return response;
 
+    }
+    public RequestEntity getAllItems(ArrayList<Object> value){
+        ItemEntity item = (ItemEntity) value.get(0);
+
+        RequestEntity<ItemEntity> response = null;
+        queryValues.clear();
+        queryValues.add(item.getItemID());
+        ArrayList<ItemEntity> notifcations = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        if (notifcations == null || notifcations.size() == 0) {
+            return null;
+        } 
+        response = new RequestEntity("NotificationDBOperations", "receiveNotificationsResponse", notifcations);
+        return response;
     }
 
 }
