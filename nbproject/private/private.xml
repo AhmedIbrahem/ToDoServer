@@ -3,24 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/NotificationDBOperations.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/DBStatementsExecuter.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/FriendsDBOperations.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/entities/NotificationEntity.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/ReflectionClass.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/StreamingListner.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/dao/implementation/UserDBOperations.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/entities/FriendsEntity.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/view/ToDoListServer.java</file>
-            <file>file:/G:/Java%20files/JavaProjects/ToDoListServer/src/todolistserver/model/DatabaseQueries.java</file>
-=======
-            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/Package_info.java</file>
-            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/GsonParser.java</file>
-            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/ReflectionClass.java</file>
-            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/DatabaseQueries.java</file>
-            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/DBStatementsExecuter.java</file>
->>>>>>> 707ab22c5ae8281475e3d7449353e5b08cf095a2
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/TodoListDBOperations.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/StreamingListner.java</file>
         </group>
     </open-files>
 </project-private>
