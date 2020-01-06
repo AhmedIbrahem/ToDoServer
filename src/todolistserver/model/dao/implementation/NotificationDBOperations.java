@@ -19,16 +19,17 @@ import todolistserver.model.entities.UserEntity;
 public class NotificationDBOperations {
 
     ArrayList<Object> queryValues = new ArrayList<>();
+    
 
-    private RequestEntity addNotification(ArrayList<Object> notificationValue) {
-        int result = -1;
+    private RequestEntity sendNotification(ArrayList<Object> notificationValue) {
+           int result = -1;
         NotificationEntity notification = null;
         RequestEntity<NotificationEntity> response = null;
-        ArrayList<NotificationEntity> notificationsList = null;
+        ArrayList<NotificationEntity> notificationList=new ArrayList<>();
+       
         if (notificationValue != null) {
             notification = (NotificationEntity) notificationValue.get(0);
             queryValues = new ArrayList<>();
-
             queryValues.add(notification.getHeader());
             queryValues.add(notification.getText());
             queryValues.add(notification.getSenderID());
@@ -39,19 +40,26 @@ public class NotificationDBOperations {
             if (result <= 0) {
                 notification = null;
             }
-            else{
-                notificationsList.add(notification);
+            else
+            {
+                notificationList.add(notification);
             }
         }
 
-        response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationsList);
+ 
+        
+
+        response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationList);
         return response;
 
     }
 
+
+ 
     private void sendNotification(NotificationEntity notification) {
 
     }
+
 
     public RequestEntity receiveNotifications(ArrayList<Object> value) {
                
