@@ -63,8 +63,7 @@ public class StreamingListner extends Thread {
         while (SocketConnection.isServerRunning) {
             try {
                 str = dataInputStream.readLine();
-                if (str != null && str.equals("clientClosed")) {
-                    System.out.println("i'm here");
+                if (str != null && str.equals("clientClosed")) {                    
                     removeObject();
                     System.out.println("closedClient " + clientsVector.size());
                 } else if (str != null) {
@@ -76,7 +75,7 @@ public class StreamingListner extends Thread {
                         System.out.println(("userID = " + userID));
                     }
                     
-
+                    
                     printStream.println(response);
                 }
             } catch (SocketException ex) {
@@ -98,8 +97,16 @@ public class StreamingListner extends Thread {
         th.stop();
     }
 
-    public void sendMessage(String message) {
-        printStream.print("message");
+    public static void sendNotificationMessage(ArrayList<Integer> list) {
+        
+        for(int i=0;i<clientsVector.size();i++){
+            for(int j=0;j<list.size();j++){
+                if(clientsVector.get(i).getUserId() == list.get(j)){
+                    clientsVector.get(i).printStream.println("notification received");
+                }
+            }
+        }
+        
     }
 
     synchronized void sendMessageToAll(String msg) {

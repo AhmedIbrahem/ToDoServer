@@ -25,29 +25,18 @@ public class UserDBOperations {
         UserEntity user = null;
         ArrayList<UserEntity> users = null;
         RequestEntity<UserEntity> response = null;
-       users = new ArrayList<>();
+        users = new ArrayList<>();
         if (value != null) {
             user = (UserEntity) value.get(0);
 
-
-           // queryValues.add(user.getUsername());
-            //queryValues.add(user.getPassword());
+            queryValues.add(user.getUsername());
+            queryValues.add(user.getPassword());
             users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (users != null && users.size() != 0) {
                 user = users.get(0);
             } else {
                 user = null;
             }
-
-            queryValues.add(user.getUsername());
-            queryValues.add(user.getPassword());
-            users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-//            if (users != null && users.size() != 0) {
-//                user = users.get(0);
-//            } else {
-//                user = null;
-//            }
-
         }
         response = new RequestEntity("UserDBOperations", "loginResponse", users);
         return response;
@@ -55,7 +44,7 @@ public class UserDBOperations {
 
     public RequestEntity register(ArrayList<Object> value) {
         int result = -1;
-        UserEntity user=null;
+        UserEntity user = null;
         RequestEntity<UserEntity> response = null;
         ArrayList<UserEntity> users = new ArrayList<>();
         if (value != null) {
@@ -67,9 +56,9 @@ public class UserDBOperations {
             queryValues.add(user.getEmail());
             queryValues.add(user.getOnlineFlag());
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REGISTER_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if(result<=0)
-                user=null;
-            else{
+            if (result <= 0) {
+                user = null;
+            } else {
                 users.add(user);
             }
         }

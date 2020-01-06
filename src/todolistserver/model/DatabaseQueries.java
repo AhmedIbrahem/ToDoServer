@@ -6,7 +6,7 @@ package todolistserver.model;
  */
 public interface DatabaseQueries {
     //user
-    String LOGIN_USER_QUERY = "SELECT * FROM USERS";
+    String LOGIN_USER_QUERY = "SELECT * FROM USERS where username=? and password= ?";
     String REGISTER_USER_QUERY = "INSERT INTO USERS VALUES(?, ?, ?, ?)";
     String RETRIEVE_USERS_QUERY = "SELECT * FROM USERS";
     String RETRIEVE_USER_FRIENDS = "SELECT * FROM FRIENDLIST WHERE USERID = ?";
@@ -37,8 +37,8 @@ public interface DatabaseQueries {
 
     //notification
    String INSERT_NOTIFICATION_QUERY = "INSERT INTO NOTIFICATIONS VALUES(?, ?, ?, ?)";
-   String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.receiverID = ?";
-    
+   String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ?";
+   String RETRIEVE_NOTIFICATION_RECEIVERS="select nr.receiverID from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ? and n.notificationID =?";
 
 
 }

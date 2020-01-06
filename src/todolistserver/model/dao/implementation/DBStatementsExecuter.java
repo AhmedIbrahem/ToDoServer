@@ -65,7 +65,7 @@ public abstract class DBStatementsExecuter {
         ResultSet set = executeRetrieveStatement(query, parameters, con);
         ArrayList<UserEntity> list = new ArrayList<>();
         try {
-            while (set.next()) {
+            if (set.next()) {
                 list.add(new UserEntity(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getInt(5)));
             }
             set.close();
@@ -119,9 +119,8 @@ public abstract class DBStatementsExecuter {
         return result;
 
     }
-    
-    
-     public static ArrayList<NotificationEntity> retrieveNotifications(String query, ArrayList<Object> parameters, Connection con){
+
+    public static ArrayList<NotificationEntity> retrieveNotifications(String query, ArrayList<Object> parameters, Connection con) {
         ResultSet set = executeRetrieveStatement(query, parameters, con);
         ArrayList<NotificationEntity> list = new ArrayList<>();
         try {
@@ -129,6 +128,29 @@ public abstract class DBStatementsExecuter {
                 NotificationEntity notificationEntity = new NotificationEntity(set.getString(2), set.getString(3), set.getInt(4), set.getString(5));
                 notificationEntity.setNotificationID(set.getInt(1));
                 list.add(notificationEntity);
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    public static ArrayList<Integer> retrieveNotificationReceivers(String query, ArrayList<Object> parameters, Connection con) {
+        ArrayList<Integer> list = new ArrayList<>();
+        ResultSet set = executeRetrieveStatement(query, parameters, con);       
+        try {
+            while (set.next()) {
+              list.add(set.getInt(1));
             }
             set.close();
         } catch (SQLException ex) {
