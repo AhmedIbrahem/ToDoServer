@@ -10,6 +10,7 @@ import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.TodoEntity;
 
 /**
  *
@@ -17,16 +18,18 @@ import todolistserver.model.entities.RequestEntity;
  */
 public class ItemDBOperations {
 
-    ArrayList<Object> queryValues = new ArrayList<>();
+   ArrayList<Object> queryValues = new ArrayList<>();
 
     public RequestEntity addItem(ArrayList<Object> itemValue) {
+
         int result = -1;
         ItemEntity item = null;
         RequestEntity<ItemEntity> response = null;
-        ArrayList<ItemEntity> itemsList= new ArrayList<>();
+        ArrayList<ItemEntity> itemEntityList = new ArrayList<>();
         if (itemValue != null) {
-            item = (ItemEntity)itemValue.get(0);
-            queryValues = new ArrayList<>();
+            item = (ItemEntity) itemValue.get(0);
+            queryValues = new ArrayList<Object>();
+
 
             queryValues.add(item.getTitle());
             queryValues.add(item.getDescription());
@@ -37,17 +40,63 @@ public class ItemDBOperations {
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 item = null;
+
+
+        response = new RequestEntity("ItemDBOperations", "addItemResponse", itemEntityList);
             }else{
-                itemsList.add(item);
+                itemEntityList.add(item);
             }
         }
         
-        response = new RequestEntity("ItemDBOperations", "addItemResponse", itemsList);
+        return response;
+    }
+
+    public RequestEntity updateItem(ArrayList<Object> itemValue) {
+        int result = -1;
+        ItemEntity item = null;
+        RequestEntity<ItemEntity> response = null;
+        ArrayList<ItemEntity> itemEntityList = new ArrayList<>();
+        if (itemValue != null) {
+            item = (ItemEntity) itemValue.get(0);
+            queryValues = new ArrayList<>();
+            queryValues.add(item.getTitle());
+            queryValues.add(item.getDescription());
+            queryValues.add(item.getTodoID());
+            queryValues.add(item.getCreatorID());
+            queryValues.add(item.getDeadlineDate());
+            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (result <= 0) {
+                item = null;
+            } else {
+                itemEntityList.add(item);
+            }
+        }
+
+        response = new RequestEntity("ItemDBOperations", "UpdateItemResponse", itemEntityList);
         return response;
 
     }
 
-    public void updateItem(ItemEntity item) {
+    public  RequestEntity deleteItem(ArrayList<Object> itemValue) {
+        int result = -1;
+        ItemEntity item = null;
+        RequestEntity<ItemEntity> response = null;
+        ArrayList<ItemEntity> itemEntityList = new ArrayList<>();
+        if (itemValue != null) {
+            item = (ItemEntity) itemValue.get(0);
+            queryValues = new ArrayList<>();
+            queryValues.add(item.getItemID());
+            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (result > 0) {
+                int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+                if (finalResult > 0) {
+                    itemEntityList.add(item);
+                }
+            }
+        }
+        response = new RequestEntity("ItemDBOperations", "UpdateItemResponse", itemEntityList);
+        return response;
+
     }
 
 }

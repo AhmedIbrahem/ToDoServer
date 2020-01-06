@@ -10,6 +10,7 @@ import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -18,16 +19,17 @@ import todolistserver.model.entities.RequestEntity;
 public class NotificationDBOperations {
 
     ArrayList<Object> queryValues = new ArrayList<>();
+    
 
-    private RequestEntity addNotification(ArrayList<Object> notificationValue) {
-        int result = -1;
+    private RequestEntity sendNotification(ArrayList<Object> notificationValue) {
+           int result = -1;
         NotificationEntity notification = null;
         RequestEntity<NotificationEntity> response = null;
-        ArrayList<NotificationEntity> notificationsList = null;
+        ArrayList<NotificationEntity> notificationList=new ArrayList<>();
+       
         if (notificationValue != null) {
             notification = (NotificationEntity) notificationValue.get(0);
             queryValues = new ArrayList<>();
-
             queryValues.add(notification.getHeader());
             queryValues.add(notification.getText());
             queryValues.add(notification.getSenderID());
@@ -38,27 +40,34 @@ public class NotificationDBOperations {
             if (result <= 0) {
                 notification = null;
             }
-            else{
-                notificationsList.add(notification);
+            else
+            {
+                notificationList.add(notification);
             }
         }
 
-        response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationsList);
+ 
+        
+
+        response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationList);
         return response;
 
     }
 
+
+ 
     private void sendNotification(NotificationEntity notification) {
 
     }
 
-    private RequestEntity<NotificationEntity> receiveNotifications(ArrayList<Object> value) {
-        
-        int userID = (int) value.get(0);
+
+    public RequestEntity receiveNotifications(ArrayList<Object> value) {
+               
+        UserEntity user = (UserEntity) value.get(0);
 
         RequestEntity<NotificationEntity> response = null;
         queryValues.clear();
-        queryValues.add(userID);
+        queryValues.add(user.getId());
         ArrayList<NotificationEntity> notifcations = DBStatementsExecuter.retrieveNotifications(DatabaseQueries.RETRIEVE_USER_NOTIFICATIONS, queryValues, DatabaseConnection.getInstance().getConnection());
         if (notifcations == null || notifcations.size() == 0) {
             return null;

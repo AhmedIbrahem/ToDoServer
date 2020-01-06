@@ -126,7 +126,9 @@ public abstract class DBStatementsExecuter {
         ArrayList<NotificationEntity> list = new ArrayList<>();
         try {
             while (set.next()) {
-                list.add(new NotificationEntity(set.getString(1), set.getString(2), set.getInt(3), set.getString(4)));
+                NotificationEntity notificationEntity = new NotificationEntity(set.getString(2), set.getString(3), set.getInt(4), set.getString(5));
+                notificationEntity.setNotificationID(set.getInt(1));
+                list.add(notificationEntity);
             }
             set.close();
         } catch (SQLException ex) {
