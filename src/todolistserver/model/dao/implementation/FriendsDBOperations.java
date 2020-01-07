@@ -35,5 +35,17 @@ public class FriendsDBOperations {
         
         return onlineusers;
     }
+        public static ArrayList<UserEntity> getFrinds(ArrayList<Object> queryValues) {
+        ArrayList<UserEntity> frinds = new ArrayList<>();
+        frinds = DBStatementsExecuter.retrievefrindsIDs(DatabaseQueries.RETRIEVE_FRINDLIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        return frinds;
+    }
+        public static ArrayList<UserEntity> getFrindsData(ArrayList<Object> queryValues) {
+        ArrayList<UserEntity> frinds = new ArrayList<>();
+        frinds = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_FRINDLIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        return frinds;
+    }
+       
+       
 
 }
