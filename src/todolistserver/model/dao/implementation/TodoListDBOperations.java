@@ -148,7 +148,7 @@ public class TodoListDBOperations {
         RequestEntity<TodoEntity> response = null;
         queryValues.clear();
         queryValues.add(todo.getTitle());
-        ArrayList<ItemEntity> items = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY_2, queryValues, DatabaseConnection.getInstance().getConnection());
+        ArrayList<ItemEntity> items = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
         if (items == null || items.size() == 0) {
             items = null;
         } 

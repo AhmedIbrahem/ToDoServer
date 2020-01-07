@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package todolistserver.model.dao.implementation;
 
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
+import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
-import todolistserver.model.entities.TodoEntity;
+import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -97,6 +93,32 @@ public class ItemDBOperations {
         response = new RequestEntity("ItemDBOperations", "UpdateItemResponse", itemEntityList);
         return response;
 
+    }
+    
+    public RequestEntity assignItem(ArrayList<Object> value) {
+        RequestEntity<Integer> response = null;
+        ArrayList<Integer> friendsList = new ArrayList<>();
+        if (value != null) {
+            AssignFriendTodoEntity itemFriend = (AssignFriendTodoEntity) value.get(0);
+            queryValues = new ArrayList<>();
+            queryValues.add(itemFriend.getUserName());
+            ArrayList<UserEntity> users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USERID_BY_USERNAME, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (users.size() > 0) {
+                queryValues.clear();
+                queryValues.add(itemFriend.getCurrentUserId());
+                queryValues.add(users.get(0).getId());
+                int friend = DBStatementsExecuter.isFriend(DatabaseQueries.CHECK_IF_USER_FRIEND, queryValues, DatabaseConnection.getInstance().getConnection());
+                if (friend != 0) {
+                    queryValues.clear();
+                    queryValues.add(itemFriend.getTodoId());
+                    queryValues.add(users.get(0).getId());
+                    int friendAssigned = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ASSIGN_FRIEND_TO_iTEM, queryValues, DatabaseConnection.getInstance().getConnection());
+                    friendsList.add(friendAssigned);
+                    response = new RequestEntity("ItemDBOperations", "assignItemResponse", friendsList);
+                }
+            }
+        }
+        return response;
     }
 
 }

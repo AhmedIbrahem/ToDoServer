@@ -39,8 +39,5 @@ public class AssignFriendTodoEntity {
 
     public void setTodoId(int todoId) {
         this.todoId = todoId;
-    }
-    
-    
-    
+    }   
 }
