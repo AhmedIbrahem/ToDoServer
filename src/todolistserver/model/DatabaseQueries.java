@@ -6,7 +6,7 @@ package todolistserver.model;
  */
 public interface DatabaseQueries {
     //user
-    String LOGIN_USER_QUERY = "SELECT * FROM USERS";
+    String LOGIN_USER_QUERY = "SELECT * FROM USERS where username=? and password= ?";
     String REGISTER_USER_QUERY = "INSERT INTO USERS VALUES(?, ?, ?, ?)";
     String RETRIEVE_USERS_QUERY = "SELECT * FROM USERS";
     String RETRIEVE_ONLINE_USERS_QUERY = "SELECT * FROM USERS WHERE onlineFlag =1";
@@ -23,7 +23,7 @@ public interface DatabaseQueries {
     String INSERT_ITEM_QUERY = "INSERT INTO ITEM VALUES(?, ?, ?, ?, ?)";
     String UPDATE_ITEM_QUERY = "UPDATE ITEM SET TITLE = ?, DESCRIPTION = ? TODOID = ?, CREATORID = ?, DEADLINE = ? WHERE ITEMID = ?";
     String DELETE_ITEM_QUERY = "DELETE FROM ITEM WHERE ITEMID = ?";
-    String RETRIEVE_ALL_ITEMS_QUERY = "SELECT * FROM ITEM WHERE TODOID = ?"; 
+    String RETRIEVE_ALL_ITEMS_QUERY = "SELECT I.* FROM TODOLIST T, ITEM I WHERE T.TITLE = ? AND T.TODOID = I.TODOID";
     
     //collaborator 
     String ASSIGN_FRIEND_TO_iTEM = "INSERT INTO ITEMASSIGNEDUSERS VALUES(?, ?)";
@@ -39,8 +39,8 @@ public interface DatabaseQueries {
 
     //notification
    String INSERT_NOTIFICATION_QUERY = "INSERT INTO NOTIFICATIONS VALUES(?, ?, ?, ?)";
-   String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.receiverID = ?";
-    
+   String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ?";
+   String RETRIEVE_NOTIFICATION_RECEIVERS="select nr.receiverID from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ? and n.notificationID =?";
 
 
 }

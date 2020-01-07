@@ -118,7 +118,7 @@ public class TodoListDBOperations {
 
     public RequestEntity assignTodo(ArrayList<Object> value) {
         RequestEntity<Integer> response = null;
-        ArrayList<AssignFriendTodoEntity> friendsList = new ArrayList<>();
+        ArrayList<Integer> friendsList = new ArrayList<>();
         if (value != null) {
             AssignFriendTodoEntity todoFriend = (AssignFriendTodoEntity) value.get(0);
             queryValues = new ArrayList<>();
@@ -134,10 +134,25 @@ public class TodoListDBOperations {
                     queryValues.add(todoFriend.getTodoId());
                     queryValues.add(users.get(0).getId());
                     int friendAssigned = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ASSIGN_FRIEND_TO_TODOLIST, queryValues, DatabaseConnection.getInstance().getConnection());
+                    friendsList.add(friendAssigned);
                     response = new RequestEntity("TodoListDBOperations", "assignTodoResponse", friendsList);
                 }
             }
         }
+        return response;
+    }
+    
+    public RequestEntity getAllItems(ArrayList<Object> value){
+        TodoEntity todo = (TodoEntity) value.get(0);
+
+        RequestEntity<TodoEntity> response = null;
+        queryValues.clear();
+        queryValues.add(todo.getTitle());
+        ArrayList<ItemEntity> items = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        if (items == null || items.size() == 0) {
+            items = null;
+        } 
+        response = new RequestEntity("TodoListDBOperations", "getAllItemsResonse", items);
         return response;
     }
 
