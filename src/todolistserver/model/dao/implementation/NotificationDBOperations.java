@@ -70,7 +70,7 @@ public class NotificationDBOperations {
         queryValues.add(user.getId());
         ArrayList<NotificationEntity> notifcations = DBStatementsExecuter.retrieveNotifications(DatabaseQueries.RETRIEVE_USER_NOTIFICATIONS, queryValues, DatabaseConnection.getInstance().getConnection());
         if (notifcations == null || notifcations.size() == 0) {
-            return null;
+            notifcations =  null;
         } 
         response = new RequestEntity("NotificationDBOperations", "receiveNotificationsResponse", notifcations);
         return response;

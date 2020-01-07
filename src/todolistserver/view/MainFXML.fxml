@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="parent" prefHeight="503.0" prefWidth="600.0" styleClass="parent" stylesheets="@stylesheet.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="todolistserver.view.MainFXMLController">
+    <children>
+        <VBox fx:id="leftContact" alignment="TOP_CENTER" prefHeight="503.0" prefWidth="188.0" styleClass="sidebar">
+            <children>
+                <Label prefHeight="75.0" prefWidth="210.0" style="-fx-background-color: #00A2D3;" text="Admin Panel" textFill="WHITE">
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                    <font>
+                        <Font name="Ebrima" size="18.0" />
+                    </font>
+                </Label>
+                <HBox fx:id="controlserver" alignment="CENTER_LEFT" layoutX="10.0" layoutY="95.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#controlServer" prefHeight="40.0" prefWidth="210.0" styleClass="btns">
+                    <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#7C8184" iconName="SERVER" size="1.3em" />
+                        <Label text="Control server" textFill="#7c8184">
+                            <font>
+                                <Font name="Calibri Light" size="15.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                
+                </HBox>
+                <HBox fx:id="view_statistics" alignment="CENTER_LEFT" layoutX="10.0" layoutY="172.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getStatistics" prefHeight="40.0" prefWidth="210.0" styleClass="btns">
+                    <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#7C8184" iconName="DATABASE" size="1.3em" />
+                        <Label text="View Statistics" textFill="#7c8184">
+                            <font>
+                                <Font name="Calibri Light" size="15.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                 
+                </HBox>
+                 
+                <HBox fx:id="onlineUsers" alignment="CENTER_LEFT" layoutX="10.0" layoutY="132.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getOnlineUsres" prefHeight="40.0" prefWidth="210.0" styleClass="btns">
+                    <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#7C8184" iconName="USERS" size="1.3em" />
+                        <Label text="View Online Users" textFill="#7c8184">
+                            <font>
+                                <Font name="Calibri Light" size="15.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                  
+                </HBox>
+                <HBox fx:id="offlineUsers" alignment="CENTER_LEFT" layoutX="10.0" layoutY="132.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getOfflineUsres" prefHeight="40.0" prefWidth="210.0" styleClass="btns">
+                    <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#7C8184" iconName="USERS" size="1.3em" />
+                        <Label text="VIew Offline USers" textFill="#7c8184">
+                            <font>
+                                <Font name="Calibri Light" size="15.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                   
+                </HBox>
+                <HBox fx:id="allUsers" alignment="CENTER_LEFT" layoutX="10.0" layoutY="172.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#getAllUsres" prefHeight="40.0" prefWidth="210.0" styleClass="btns">
+                    <children>
+                        <FontAwesomeIcon glyphStyle="-fx-fill:#7C8184" iconName="USERS" size="1.3em" />
+                        <Label text="View All Users" textFill="#7c8184">
+                            <font>
+                                <Font name="Calibri Light" size="15.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                
+                </HBox>
+                
+            </children>
+        </VBox>
+      <VBox fx:id="contant" layoutX="210.0" prefHeight="503.0" prefWidth="502.0" />
+    
+    </children>
+</AnchorPane>

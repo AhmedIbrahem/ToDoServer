@@ -29,12 +29,13 @@ public class ToDoListServer extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("MainFXML.fxml"));
 
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
         stage.show();
+        stage.setResizable(false);
         //String data = "{\"className\":\"TodoListDBOperations\",\"operation\":\"assignTodo\",\"entity\":[{\"userName\":\"ibrahim\",\"currentUserId\":1,\"todoId\":2}]}";
         //Controller.handle(data);
 
