@@ -64,13 +64,13 @@ public class UserDBOperations {
             queryValues.add(user.getEmail());
             queryValues.add(user.getOnlineFlag());
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REGISTER_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (result <= 0) {
+            if (result <=0) {
                 user = null;
             } else {
                 users.add(user);
             }
         }
-
+        System.out.println("todolistserver.model.dao.implementation.UserDBOperations.register()"+result);
         response = new RequestEntity("UserDBOperations", "registerResponse", users);
         return response;
 
