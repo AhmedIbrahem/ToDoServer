@@ -65,7 +65,7 @@ public abstract class DBStatementsExecuter {
         ResultSet set = executeRetrieveStatement(query, parameters, con);
         ArrayList<UserEntity> list = new ArrayList<>();
         try {
-            if (set.next()) {
+            while (set.next()) {
                 list.add(new UserEntity(set.getInt(1), set.getString(2), set.getString(3), set.getString(4), set.getInt(5)));
             }
             set.close();
