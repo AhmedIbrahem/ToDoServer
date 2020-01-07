@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package todolistserver.model.dao.implementation;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
