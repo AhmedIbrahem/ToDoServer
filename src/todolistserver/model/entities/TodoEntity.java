@@ -10,7 +10,7 @@ public class TodoEntity {
 
     private int id;
     private String title;
-    private int color;
+    private String color;
     private int creatorId;
     private String status;
     private String description;
@@ -20,7 +20,7 @@ public class TodoEntity {
     public TodoEntity() {
     }
 
-    public TodoEntity(int id, String title, int color, int creatorId, String status, String description, Date assignDate, Date deadlineDate) {
+    public TodoEntity(int id, String title, String color, int creatorId, String status, String description, Date assignDate, Date deadlineDate) {
         this.id = id;
         this.title = title;
         this.color = color;
@@ -49,11 +49,11 @@ public class TodoEntity {
         this.title = title;
     }
 
-    public int getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(String color) {
         this.color = color;
     }
 

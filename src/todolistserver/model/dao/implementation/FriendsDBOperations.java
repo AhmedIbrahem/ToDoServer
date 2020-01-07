@@ -5,10 +5,6 @@
  */
 package todolistserver.model.dao.implementation;
 
-import java.sql.SQLException;
-import todolistserver.model.entities.RequestEntity;
-import todolistserver.model.entities.UserEntity;
-
 /**
  *
  * @author dell
