@@ -6,7 +6,6 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import todolistserver.controller.Controller;
@@ -47,7 +46,7 @@ public class StreamingListner extends Thread {
 
 //        try {
             RequestEntity<UserEntity> user = GsonParser.parseFromJson(jsonValue);
-            if (user.getEntity() != null) {
+            if (user.getEntity() != null || user.getEntity().size()!=0) {
                 userID = user.getEntity().get(0).getId();
             }
 //        } catch (InstantiationException ex) {
