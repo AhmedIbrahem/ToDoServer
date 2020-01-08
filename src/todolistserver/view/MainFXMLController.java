@@ -34,6 +34,7 @@ import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.SocketConnection;
 import todolistserver.model.dao.implementation.DBStatementsExecuter;
+import todolistserver.model.dao.implementation.FriendsDBOperations;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -82,6 +83,9 @@ public class MainFXMLController implements Initializable {
                         new PieChart.Data("offline USers", offlineeusers.size()));
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle("Users in system");
+        System.out.println(onlineusers.size());
+        System.out.println(offlineeusers.size());
+
 
         contant.getChildren().add(chart);
 
@@ -90,7 +94,7 @@ public class MainFXMLController implements Initializable {
     public void getOnlineUsres() {
         contant.getChildren().clear();
         ArrayList<UserEntity> users = new ArrayList<>();
-        users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_ONLINE_USERS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        users=FriendsDBOperations.getOnlineUSers(queryValues);
         ObservableList<String> items = FXCollections.observableArrayList();
         for (int i = 0; i < users.size(); i++) {
             items.add(users.get(i).getUsername().toString());
@@ -107,7 +111,7 @@ public class MainFXMLController implements Initializable {
     public void getOfflineUsres() {
         contant.getChildren().clear();
         ArrayList<UserEntity> users = new ArrayList<>();
-        users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_OFFLINE_USERS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        users=FriendsDBOperations.getOfflineUSers(queryValues);
         ObservableList<String> items = FXCollections.observableArrayList();
         for (int i = 0; i < users.size(); i++) {
             items.add(users.get(i).getUsername());
@@ -126,10 +130,11 @@ public class MainFXMLController implements Initializable {
         System.out.println("Hiiii get all");
         contant.getChildren().clear();
         ArrayList<UserEntity> users = new ArrayList<>();
-        users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_USERS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        users=FriendsDBOperations.getAllUSers(queryValues);
         ObservableList<String> items = FXCollections.observableArrayList();
+        System.out.println(users.size());
         for (int i = 0; i < users.size(); i++) {
-            items.add(users.get(i).getUsername().toString());
+            items.add(users.get(i).getUsername());
         }
         ListView<String> list = new ListView<>();
         list.setItems(items);

@@ -28,14 +28,15 @@ public class TodoListDBOperations {
         RequestEntity<TodoEntity> response = null;
         ArrayList<TodoEntity> toDoEntityList = new ArrayList<>();
         if (value != null) {
-            todo = (TodoEntity) value.get(0);
+         todo = (TodoEntity) value.get(0);	         
 
-            queryValues = new ArrayList<>();
-            queryValues.add(todo.getTitle());
-            queryValues.add(todo.getDescription());
-            queryValues.add(todo.getDeadlineDate());
-            queryValues.add(todo.getAssignDate());
-            queryValues.add(todo.getColor());
+            System.out.println(todo.getTitle());
+            queryValues = new ArrayList<>();	       
+            queryValues.add(todo.getTitle());	       
+            queryValues.add(todo.getDescription());	
+            queryValues.add(todo.getDeadlineDate());	
+            queryValues.add(todo.getAssignDate());	
+            queryValues.add(todo.getColor());	        
             queryValues.add(todo.getCreatorId());
             queryValues.add(todo.getStatus());
 

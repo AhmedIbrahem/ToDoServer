@@ -80,12 +80,12 @@ public abstract class DBStatementsExecuter {
         ArrayList<TodoEntity> list = new ArrayList<>();
         try {
             while (set.next()) {
-                list.add(new TodoEntity(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4),
-                        set.getString(5), set.getString(6), set.getDate(7), set.getDate(8)));
+                list.add(new TodoEntity(set.getInt(1), set.getString(2), set.getString(6), set.getInt(7),
+                        set.getString(8), set.getString(3), set.getDate(4), set.getDate(5)));
             }
             set.close();
         } catch (SQLException ex) {
-            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return list;
     }
@@ -158,6 +158,19 @@ public abstract class DBStatementsExecuter {
         }
         return list;
 
+    }
+    public static ArrayList<UserEntity> retrievefrindsIDs(String query, ArrayList<Object> parameters, Connection con) {
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        ArrayList<UserEntity> list = new ArrayList<>();
+        try {
+            while (set.next()) {
+                list.add(new UserEntity(set.getInt(1), set.getString(2)));
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
 
 }
