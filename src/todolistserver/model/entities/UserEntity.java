@@ -18,7 +18,12 @@ public class UserEntity {
         this.email = email;
         this.onlineFlag = onlineFlag;
     }
-    
+
+   public UserEntity(int id, String username) {
+        this.id = id;
+        this.username = username;
+      
+    }    
     
     public int getId() {
         return id;

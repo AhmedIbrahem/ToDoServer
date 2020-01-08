@@ -43,7 +43,6 @@ public class ItemDBOperations {
                 itemEntityList.add(item);
             }
         }
-        
         return response;
     }
 

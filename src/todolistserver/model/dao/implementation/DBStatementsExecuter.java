@@ -159,5 +159,18 @@ public abstract class DBStatementsExecuter {
         return list;
 
     }
+    public static ArrayList<UserEntity> retrievefrindsIDs(String query, ArrayList<Object> parameters, Connection con) {
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        ArrayList<UserEntity> list = new ArrayList<>();
+        try {
+            while (set.next()) {
+                list.add(new UserEntity(set.getInt(1), set.getString(2)));
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
 }
