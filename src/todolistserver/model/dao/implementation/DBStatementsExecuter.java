@@ -164,7 +164,7 @@ public abstract class DBStatementsExecuter {
         ArrayList<UserEntity> list = new ArrayList<>();
         try {
             while (set.next()) {
-                list.add(new UserEntity(set.getInt(1), set.getString(2)));
+                list.add(new UserEntity(set.getInt(1),set.getString(2)));
             }
             set.close();
         } catch (SQLException ex) {

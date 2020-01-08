@@ -14,6 +14,11 @@ public interface DatabaseQueries {
     String RETRIEVE_USER_FRIENDS = "SELECT * FROM FRIENDLIST WHERE USERID = ?";
     String UPDATE_ONLINE_FLAG = "UPDATE USERS SET onLineFlag = ? where username = ?";
     String RETRIEVE_FRINDLIST_QUERY = "select * from users where users.userID in(select friendID from friendList where userID =? )";
+    String RETRIEVE_COLLABROTOR_QUERY = "select * from users where users.userID in(select userID from toDoListUsers where todoID = ?)";
+    String RETRIEVE_USerID_ifExist_QUERY = "select * from users where username = ?";
+    String ADD_FRIND_QUERY = "INSERT INTO friendList VALUES(?,?)";
+
+    
 
     
     //todos

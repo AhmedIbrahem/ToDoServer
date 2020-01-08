@@ -18,6 +18,7 @@ import todolistserver.model.StreamingListner;
 import todolistserver.model.dao.implementation.ItemDBOperations;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.dao.implementation.TodoListDBOperations;
+import todolistserver.model.dao.implementation.UserDBOperations;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.UserEntity;
 
@@ -56,7 +57,7 @@ public class ToDoListServer extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        launch(args); 
     }
 
 }

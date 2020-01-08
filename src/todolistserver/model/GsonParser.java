@@ -15,37 +15,52 @@ import todolistserver.model.entities.UserEntity;
  * @author Ibrahim
  */
 public class GsonParser {
-    public static RequestEntity parseFromJson(String request){
-        Gson gson = new Gson();        
+
+    public static RequestEntity parseFromJson(String request) {
+        Gson gson = new Gson();
         Type requestType = null;
-        switch(request.charAt(14)){
+        switch (request.charAt(14)) {
             case 'U':
-                 requestType = new TypeToken<RequestEntity<UserEntity>>(){}.getType();
-                 break;
+                requestType = new TypeToken<RequestEntity<UserEntity>>() {
+                }.getType();
+                break;
             case 'I':
-                requestType = new TypeToken<RequestEntity<ItemEntity>>(){}.getType();
+                requestType = new TypeToken<RequestEntity<ItemEntity>>() {
+                }.getType();
                 break;
             case 'N':
-                if(request.contains("receiveNotifications"))
-                    requestType = new TypeToken<RequestEntity<UserEntity>>(){}.getType();
-                else
-                    requestType = new TypeToken<RequestEntity<NotificationEntity>>(){}.getType();
+                if (request.contains("receiveNotifications")) {
+                    requestType = new TypeToken<RequestEntity<UserEntity>>() {
+                    }.getType();
+                } else {
+                    requestType = new TypeToken<RequestEntity<NotificationEntity>>() {
+                    }.getType();
+                }
                 break;
             case 'T':
-                if(request.contains("assignTodo"))
-                    requestType = new TypeToken<RequestEntity<AssignFriendTodoEntity>>(){}.getType();
-                else
-                    requestType = new TypeToken<RequestEntity<TodoEntity>>(){}.getType();
+                if (request.contains("assignTodo")) {
+                    requestType = new TypeToken<RequestEntity<AssignFriendTodoEntity>>() {
+                    }.getType();
+                
+                } else {
+                    requestType = new TypeToken<RequestEntity<TodoEntity>>() {
+                    }.getType();
+                }
+
+                 /*else if (request.contains("getTodoCollaborators")) {
+                    requestType = new TypeToken<RequestEntity<UserEntity>>() {
+                    }.getType();*/
                 break;
-            
+
         }
-         
-       System.out.println(request);
-       return gson.fromJson(request, requestType);
-     
+
+        System.out.println(request);
+        return gson.fromJson(request, requestType);
+
     }
-    public static String parseToJson(RequestEntity req){
-        
+
+    public static String parseToJson(RequestEntity req) {
+
         Gson gson = new Gson();
         return gson.toJson(req);
     }
