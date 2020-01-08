@@ -42,6 +42,8 @@ public interface DatabaseQueries {
 
     //notification
    String INSERT_NOTIFICATION_QUERY = "INSERT INTO NOTIFICATIONS VALUES(?, ?, ?, ?)";
+   String INSERT_NOTIFICATION_RECIEVERS_QUERY = "INSERT INTO notificationReceivers VALUES(?, ?, null, null)";
+   String GET_NOTIFICATION_ID_BY_NOTIFICATION_HEADER = "select top 1 * from notifications where header = ?  and senderID= ? order by notificationID desc";
    String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ?";
    String RETRIEVE_NOTIFICATION_RECEIVERS="select nr.receiverID from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ? and n.notificationID =?";
 
