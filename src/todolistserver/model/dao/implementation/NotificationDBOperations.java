@@ -22,7 +22,7 @@ public class NotificationDBOperations {
     ArrayList<Object> queryValues = new ArrayList<>();
 
     public RequestEntity sendNotification(ArrayList<Object> notificationValue) {
-        int result = -1;
+        int result = -1, result2 = -1;
         NotificationEntity notification = null;
         RequestEntity<NotificationEntity> response = null;
         ArrayList<NotificationEntity> notificationList = new ArrayList<>();
@@ -39,24 +39,42 @@ public class NotificationDBOperations {
             if (result <= 0) {
                 notification = null;
             } else {
+                queryValues.clear();
 
-                ArrayList<Object> senderList = new ArrayList<>();
-                senderList.add(1);
-                senderList.add(12);
-                ArrayList<Integer> receiversList = DBStatementsExecuter.retrieveNotificationReceivers(DatabaseQueries.RETRIEVE_NOTIFICATION_RECEIVERS, senderList, DatabaseConnection.getInstance().getConnection());
-                StreamingListner.sendNotificationMessage(receiversList);
+                queryValues.add(notification.getHeader());
+                queryValues.add(notification.getSenderID());
+                ArrayList<NotificationEntity> notifcations = DBStatementsExecuter.retrieveNotifications(DatabaseQueries.GET_NOTIFICATION_ID_BY_NOTIFICATION_HEADER, queryValues, DatabaseConnection.getInstance().getConnection());
+                ArrayList<Integer> notificationRecievers = null;
+                if (notifcations != null && notifcations.size() != 0) {
 
-                
-                notificationList.add(notification);
+                    notificationRecievers = new ArrayList<>();
+
+                    for (int i = 0; i < notification.getNotificationReceivers().size(); i++) {
+                        queryValues.clear();
+
+                        queryValues.add(notifcations.get(0).getNotificationID());
+                        queryValues.add(notification.getNotificationReceivers().get(i).getReceiverID());
+                        result2 = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_NOTIFICATION_RECIEVERS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+                        if (result2 > 0) {
+                            notificationRecievers.add(notification.getNotificationReceivers().get(i).getReceiverID());
+                        }
+
+                    }
+
+                    /*ArrayList<Object> senderList = new ArrayList<>();
+                    senderList.add(notifcations.get(0).getSenderID());
+                    senderList.add(notifcations.get(0).getNotificationID());
+                    ArrayList<Integer> receiversList = DBStatementsExecuter.retrieveNotificationReceivers(DatabaseQueries.RETRIEVE_NOTIFICATION_RECEIVERS, senderList, DatabaseConnection.getInstance().getConnection());*/
+                    StreamingListner.sendNotificationMessage(notificationRecievers);
+
+                    notificationList.add(notification);
+                }
+
             }
         }
 
         //response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationList);
         return null;
-
-    }
-
-    private void sendNotification(NotificationEntity notification) {
 
     }
 
