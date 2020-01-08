@@ -13,8 +13,7 @@ public interface DatabaseQueries {
     String RETRIEVE_OFFLINE_USERS_QUERY = "SELECT * FROM USERS WHERE onlineFlag =0";
     String RETRIEVE_USER_FRIENDS = "SELECT * FROM FRIENDLIST WHERE USERID = ?";
     String UPDATE_ONLINE_FLAG = "UPDATE USERS SET onLineFlag = ? where username = ?";
-    String RETRIEVE_FRINDLIST_QUERY = "select * from users where users.userID in(select friendID from friendList where userID =? )";
-
+    String RETRIEVE_FRINDLIST_QUERY = "select * from users where users.userID in(select friendID from friendList where userID =? )";   
     
     //todos
     String INSERT_TODO_LIST_QUERY = "INSERT INTO TODOLIST VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -35,6 +34,7 @@ public interface DatabaseQueries {
     String RETRIEVE_ALL_FRIEND_ASSIGNED_TO_TODOLIST = "SELECT u.* FROM USERS AS U, TODOList AS T, TODOLISTUSERS AS TU WHERE  TU.userID = U.userID and Tu.todoID = T.todoID  and  T.todoID=?";
     String DELETE_FRIEND_ON_ITEM="DELETE FROM itemAssignedUsers WHERE ITEMID= ?";
     String GET_USERID_BY_USERNAME = "SELECT * FROM USERS WHERE USERNAME = ?";
+    String GET_USER_DATA_BY_USERID = "SELECT * FROM USERS WHERE USERID = ?";
     String CHECK_IF_USER_FRIEND = "SELECT * FROM FRIENDLIST WHERE FRIENDID = ? AND USERID = ?";
     String DELETE_FRIEND_ON_TODO="DELETE FROM toDoListUsers WHERE todoID= ?";
 
@@ -46,7 +46,8 @@ public interface DatabaseQueries {
    String GET_NOTIFICATION_ID_BY_NOTIFICATION_HEADER = "select top 1 * from notifications where header = ?  and senderID= ? order by notificationID desc";
    String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ?";
    String RETRIEVE_NOTIFICATION_RECEIVERS="select nr.receiverID from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ? and n.notificationID =?";
-
+   String UPDATE_NOTIFICATION_ACCEPTANCE_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 1 where notificationID = ? ";
+   
 
 }
 
