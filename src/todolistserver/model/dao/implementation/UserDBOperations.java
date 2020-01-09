@@ -20,7 +20,7 @@ import todolistserver.model.entities.TodoEntity;
  */
 public class UserDBOperations {
 
-  static ArrayList<Object> queryValues = new ArrayList<>();
+    static ArrayList<Object> queryValues = new ArrayList<>();
 
     public RequestEntity<UserEntity> login(ArrayList<Object> value) throws SQLException {
 
@@ -103,6 +103,7 @@ public class UserDBOperations {
             user = (UserEntity) value.get(0);
             queryValues = new ArrayList<Object>();
             queryValues.add(user.getId());
+            queryValues.add(user.getId());
             users = FriendsDBOperations.getFrindsData(queryValues);
             if (users != null || !users.isEmpty()) {
                 for (int i = 0; i < users.size(); i++) {
@@ -119,7 +120,7 @@ public class UserDBOperations {
 
     }
 
-  public  static RequestEntity addFrind(ArrayList<Object> value) {
+    public static RequestEntity addFrind(ArrayList<Object> value) {
         int result = -1;
         UserEntity user = null;
         RequestEntity<UserEntity> response = null;
@@ -133,19 +134,36 @@ public class UserDBOperations {
                 queryValues.clear();
                 queryValues.add(user.getId());
                 queryValues.add(foundusers.get(0).getId());
-                result=DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ADD_FRIND_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-                 if (result <= 0) {
-                user = null;
-            } else {
-                users.add(user);
-            }
-                    }
+                result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ADD_FRIND_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+                if (result <= 0) {
+                    user = null;
+                } else {
+                    users.add(user);
                 }
+            }
+        }
 
-            
-        
         response = new RequestEntity("UserDBOperations", "addFrindResponse", users);
         return response;
 
     }
+
+    public RequestEntity getAllUsers(ArrayList<Object> objects) {
+        RequestEntity<UserEntity> response = null;
+        ArrayList<UserEntity> users = new ArrayList<>();
+        UserEntity user = null;
+
+        if (objects != null || objects.size() != 0) {
+            user = (UserEntity) objects.get(0);
+
+            queryValues.clear();
+            queryValues.add(user.getId());
+            users = FriendsDBOperations.getAllUSersExpictedLoginUser(queryValues);
+            System.out.println("sssss" + users.size());
+        }
+        response = new RequestEntity("UserDBOperations", "getAllUsersResonse", users);
+        return response;
+
+    }
+
 }

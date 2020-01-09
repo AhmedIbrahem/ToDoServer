@@ -51,6 +51,12 @@ public class FriendsDBOperations {
             System.out.println("ss"+Collaborators.size());
         return Collaborators;
         }
+        public static ArrayList<UserEntity> getAllUSersExpictedLoginUser(ArrayList<Object> queryValues) {
+        ArrayList<UserEntity> allusers = new ArrayList<>();
+        allusers = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_All_USERS_EXPICTED_LOFIN_USER, queryValues, DatabaseConnection.getInstance().getConnection());
+        
+        return allusers;
+    }
        
         
 }
