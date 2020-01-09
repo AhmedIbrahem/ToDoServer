@@ -10,6 +10,7 @@ import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.NotificationEntity;
+import todolistserver.model.entities.NotificationReceiversEntity;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.UserEntity;
 
@@ -40,7 +41,6 @@ public class NotificationDBOperations {
                 notification = null;
             } else {
                 queryValues.clear();
-
                 queryValues.add(notification.getHeader());
                 queryValues.add(notification.getSenderID());
                 ArrayList<NotificationEntity> notifcations = DBStatementsExecuter.retrieveNotifications(DatabaseQueries.GET_NOTIFICATION_ID_BY_NOTIFICATION_HEADER, queryValues, DatabaseConnection.getInstance().getConnection());
@@ -94,5 +94,137 @@ public class NotificationDBOperations {
         return response;
 
     }
+
+    public void ItemAcceptNotification(ArrayList<Object> list) {
+        
+        NotificationEntity notification = (NotificationEntity)list.get(0);
+        if (notification != null) {
+            if (notification.getNotificationType().contains("itemInvitation")) {
+                int itemNumber = Integer.parseInt(notification.getNotificationType().split("itemInvitation")[1]);
+
+                queryValues.clear();
+                queryValues.add(notification.getNotificationID());
+                int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_NOTIFICATION_ACCEPTANCE_STATUS, queryValues, DatabaseConnection.getInstance().getConnection());
+
+                if (result > 0) {
+
+                    queryValues.clear();
+                    queryValues.add(itemNumber);
+                    queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
+                    result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ASSIGN_FRIEND_TO_iTEM, queryValues, DatabaseConnection.getInstance().getConnection());
+                    if (result > 0) {
+                        queryValues.clear();
+                        queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
+                        ArrayList<UserEntity>users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USER_DATA_BY_USERID, queryValues, DatabaseConnection.getInstance().getConnection());
+                        
+                        ArrayList<Object> notificationList = new ArrayList<>();
+                        notificationList.add(notification);
+                        notification.setHeader("Acceptance info");
+                        notification.setNotificationType("Acceptance");
+                        notification.setHeader("item invitation info");
+                        notification.setText("user "+ users.get(0).getUsername() + " accepted your invitation on item :"+itemNumber);
+                        int temp = notification.getSenderID();
+                        notification.setSenderID(notification.getNotificationReceivers().get(0).getReceiverID());
+                        ArrayList<NotificationReceiversEntity> newReceiversList = new ArrayList<>();
+                        NotificationReceiversEntity reciever = new NotificationReceiversEntity();
+                        reciever.setReceiverID(temp);
+                        newReceiversList.add(reciever);
+                        notification.setNotificationReceivers(newReceiversList);                        
+                        sendNotification(notificationList);
+                    }
+                }
+
+            }
+        }
+    }
+    
+    
+     public void todoAcceptNotification(ArrayList<Object> list) {
+        
+        NotificationEntity notification = (NotificationEntity)list.get(0);
+        if (notification != null) {
+            if (notification.getNotificationType().contains("todoInvitation")) {
+                int todoNumber = Integer.parseInt(notification.getNotificationType().split("todoInvitation")[1]);
+
+                queryValues.clear();
+                queryValues.add(notification.getNotificationID());
+                int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_NOTIFICATION_ACCEPTANCE_STATUS, queryValues, DatabaseConnection.getInstance().getConnection());
+
+                if (result > 0) {
+
+                    queryValues.clear();
+                    queryValues.add(todoNumber);
+                    queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
+                    result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ASSIGN_FRIEND_TO_TODOLIST, queryValues, DatabaseConnection.getInstance().getConnection());
+                    if (result > 0) {
+                        queryValues.clear();
+                        queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
+                        ArrayList<UserEntity>users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USER_DATA_BY_USERID, queryValues, DatabaseConnection.getInstance().getConnection());
+                        
+                        ArrayList<Object> notificationList = new ArrayList<>();
+                        notificationList.add(notification);
+                        notification.setHeader("Acceptance info");
+                        notification.setNotificationType("Acceptance");
+                        notification.setHeader("todo invitation info");
+                        notification.setText("user "+ users.get(0).getUsername() + " accepted your invitation on todo :"+todoNumber);
+                        int temp = notification.getSenderID();
+                        notification.setSenderID(notification.getNotificationReceivers().get(0).getReceiverID());
+                        ArrayList<NotificationReceiversEntity> newReceiversList = new ArrayList<>();
+                        NotificationReceiversEntity reciever = new NotificationReceiversEntity();
+                        reciever.setReceiverID(temp);
+                        newReceiversList.add(reciever);
+                        notification.setNotificationReceivers(newReceiversList);                        
+                        sendNotification(notificationList);
+                    }
+                }
+
+            }
+        }
+    }
+     
+     public void friendAcceptNotification(ArrayList<Object> list) {
+        
+        NotificationEntity notification = (NotificationEntity)list.get(0);
+        if (notification != null) {
+            if (notification.getNotificationType().contains("friendInvitation")) {
+                int friendID = notification.getSenderID();
+
+                queryValues.clear();
+                queryValues.add(notification.getNotificationID());
+                int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_NOTIFICATION_ACCEPTANCE_STATUS, queryValues, DatabaseConnection.getInstance().getConnection());
+
+                if (result > 0) {
+
+                    queryValues.clear();
+                    queryValues.add(friendID);
+                    queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
+                    result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ASSIGN_FRIEND_TO_TODOLIST, queryValues, DatabaseConnection.getInstance().getConnection());
+                    if (result > 0) {
+                        queryValues.clear();
+                        queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
+                        ArrayList<UserEntity>users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USER_DATA_BY_USERID, queryValues, DatabaseConnection.getInstance().getConnection());
+                        
+                        ArrayList<Object> notificationList = new ArrayList<>();
+                        notificationList.add(notification);
+                        notification.setHeader("Acceptance info");
+                        notification.setNotificationType("Acceptance");
+                        notification.setHeader("todo invitation info");
+                        notification.setText("user "+ users.get(0).getUsername() + " accepted your invitation on todo :"+friendID);
+                        int temp = notification.getSenderID();
+                        notification.setSenderID(notification.getNotificationReceivers().get(0).getReceiverID());
+                        ArrayList<NotificationReceiversEntity> newReceiversList = new ArrayList<>();
+                        NotificationReceiversEntity reciever = new NotificationReceiversEntity();
+                        reciever.setReceiverID(temp);
+                        newReceiversList.add(reciever);
+                        notification.setNotificationReceivers(newReceiversList);                        
+                        sendNotification(notificationList);
+                    }
+                }
+
+            }
+        }
+    }
+     
+     
 
 }

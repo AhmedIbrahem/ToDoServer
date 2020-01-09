@@ -45,7 +45,12 @@ public class FriendsDBOperations {
         frinds = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_FRINDLIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
         return frinds;
     }
+        public static ArrayList<UserEntity> getTodoCollaborators(ArrayList<Object> queryValues) {
+        ArrayList<UserEntity> Collaborators = new ArrayList<>();
+        Collaborators = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_COLLABROTOR_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            System.out.println("ss"+Collaborators.size());
+        return Collaborators;
+        }
        
-       
-
+        
 }
