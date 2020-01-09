@@ -30,7 +30,7 @@ public class UserDBOperations {
         users = new ArrayList<>();
         if (value != null) {
             user = (UserEntity) value.get(0);
-
+            queryValues.clear();
             queryValues.add(user.getUsername());
             queryValues.add(user.getPassword());
             users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());

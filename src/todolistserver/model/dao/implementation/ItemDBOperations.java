@@ -59,6 +59,7 @@ public class ItemDBOperations {
             queryValues.add(item.getTodoID());
             queryValues.add(item.getCreatorID());
             queryValues.add(item.getDeadlineDate());
+            queryValues.add(item.getItemID());
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 item = null;
@@ -67,7 +68,7 @@ public class ItemDBOperations {
             }
         }
 
-        response = new RequestEntity("ItemDBOperations", "UpdateItemResponse", itemEntityList);
+        response = new RequestEntity("ItemDBOperations", "updateItemResponse", itemEntityList);
         return response;
 
     }
@@ -82,16 +83,13 @@ public class ItemDBOperations {
             queryValues = new ArrayList<>();
             queryValues.add(item.getItemID());
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (result > 0) {
-                int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-                if (finalResult > 0) {
-                    itemEntityList.add(item);
-                }
+            int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (finalResult > 0) {
+                itemEntityList.add(item);
             }
         }
-        response = new RequestEntity("ItemDBOperations", "UpdateItemResponse", itemEntityList);
+        response = new RequestEntity("ItemDBOperations", "deleteItemResponse", itemEntityList);
         return response;
-
     }
     
     public RequestEntity assignItem(ArrayList<Object> value) {
