@@ -149,5 +149,26 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
         response = new RequestEntity("TodoListDBOperations", "getAllItemsResonse", items);
         return response;
     }
+        public RequestEntity getTodoCollaborators(ArrayList<Object> value) {
+        TodoEntity todo = null;
+        RequestEntity<UserEntity> response = null;
+        ArrayList<UserEntity> collaborators = new ArrayList<>();
+
+        if (value != null) {
+            todo = (TodoEntity) value.get(0);
+            queryValues.clear();
+            queryValues.add(todo.getId());
+            System.out.println(todo.getId());
+            collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
+            System.out.println("size"+collaborators.size());
+            if (collaborators != null || !collaborators.isEmpty()) {
+              
+            
+            }
+        }
+        response = new RequestEntity("TodoListDBOperations", "getToDoCollaboratorsResonse", collaborators);
+        return response;
+
+    }
 
 }

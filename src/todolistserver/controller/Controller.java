@@ -23,7 +23,7 @@ public class Controller {
         RequestEntity returnValue =(RequestEntity) ReflectionClass.getObject(request.getClassName(), request.getOperation(), request.getEntity());
         
         String json = GsonParser.parseToJson(returnValue);
-
+        System.out.println("json"+json);
        return json;
     }
 }
