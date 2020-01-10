@@ -6,6 +6,7 @@ import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.TodoEntity;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -116,6 +117,25 @@ public class ItemDBOperations {
             }
         }
         return response;
+    }
+       public RequestEntity getItemCollaborators(ArrayList<Object> value) {
+        ItemEntity item = null;
+        RequestEntity<UserEntity> response = null;
+        ArrayList<UserEntity> collaborators = new ArrayList<>();
+
+        if (value != null) {
+            item = (ItemEntity) value.get(0);
+            queryValues.clear();
+            queryValues.add(item.getItemID());
+            collaborators = FriendsDBOperations.getItemCollaborators(queryValues);
+            System.out.println("size"+collaborators.size());
+            if (collaborators != null || !collaborators.isEmpty()) {
+            
+            }
+        }
+        response = new RequestEntity("ItemDBOperations", "getItemCollaboratorsResonse", collaborators);
+        return response;
+
     }
 
 }
