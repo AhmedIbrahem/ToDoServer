@@ -92,7 +92,7 @@ public class TodoListDBOperations {
             todo = (TodoEntity) value.get(0);
             queryValues = new ArrayList<>();
             queryValues.add(todo.getId());
-            ArrayList<ItemEntity> items = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            ArrayList<ItemEntity> items = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY_BY_TODO_ID, queryValues, DatabaseConnection.getInstance().getConnection());
             for (int i = 0; i < items.size(); i++) {
                 queryValues.clear();
                 queryValues.add(items.get(i).getItemID());
@@ -170,5 +170,5 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
         return response;
 
     }
-
+        
 }

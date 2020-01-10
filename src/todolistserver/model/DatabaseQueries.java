@@ -13,12 +13,15 @@ public interface DatabaseQueries {
     String RETRIEVE_OFFLINE_USERS_QUERY = "SELECT * FROM USERS WHERE onlineFlag =0";
     String RETRIEVE_USER_FRIENDS = "SELECT * FROM FRIENDLIST WHERE USERID = ?";
     String UPDATE_ONLINE_FLAG = "UPDATE USERS SET onLineFlag = ? where username = ?";
+    String RETRIEVE_All_USERS_EXPICTED_LOFIN_USER = "select * from users where userID <>?";
 
     //friend
-    String RETRIEVE_FRINDLIST_QUERY = "select * from users where users.userID in(select friendID from friendList where userID =? )";
+    String RETRIEVE_FRINDLIST_QUERY = "select * from users where users.userID in(select friendID from friendList where userID=?  UNION select userID from friendList where friendID= ?)";
     String RETRIEVE_COLLABROTOR_QUERY = "select * from users where users.userID in(select userID from toDoListUsers where todoID = ?)";
     String RETRIEVE_USerID_ifExist_QUERY = "select * from users where username = ?";
     String ADD_FRIND_QUERY = "INSERT INTO friendList VALUES(?,?)";
+    String RETRIEVE_ITEM_COLLABROTOR_QUERY = " select * from users where users.userID in(select userID from itemAssignedUsers where itemID =?)";
+
     
     
     //todos
@@ -32,7 +35,7 @@ public interface DatabaseQueries {
     String UPDATE_ITEM_QUERY = "UPDATE ITEM SET TITLE = ?, DESCRIPTION = ?, TODOID = ?, CREATORID = ?, DEADLINEDATE= ? WHERE ITEMID = ?";
     String DELETE_ITEM_QUERY = "DELETE FROM ITEM WHERE ITEMID = ?";
     String RETRIEVE_ALL_ITEMS_QUERY = "SELECT I.* FROM TODOLIST T, ITEM I WHERE T.TITLE = ? AND T.TODOID = I.TODOID";
-    
+    String RETRIEVE_ALL_ITEMS_QUERY_BY_TODO_ID = "SELECT I.* FROM TODOLIST T, ITEM I WHERE T.TODOID = I.TODOID and T.TODOID = ?";
     //collaborator 
     String ASSIGN_FRIEND_TO_iTEM = "INSERT INTO ITEMASSIGNEDUSERS VALUES(?, ?)";
     String RERIEVE_ALL_FRIENDS_ASSIGNED_TO_iTEM = "SELECT U.* FROM USERS AS U, TODOList AS T, TODOLISTUSERS AS TU, ITEM AS I, ITEMASSIGNEDUSERS AS IAU WHERE  IAU.userID = U.USERID and TU.userID = U.userID and Tu.todoID = T.todoID and I.todoID = T.todoID  and  IAU.itemID = I.itemID  and T.todoID=? and I.itemID =?";
