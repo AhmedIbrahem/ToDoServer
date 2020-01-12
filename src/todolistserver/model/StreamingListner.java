@@ -19,6 +19,7 @@ import todolistserver.model.entities.UserEntity;
 public class StreamingListner extends Thread {
 
     Thread th;
+    boolean isRunning = true;
     DataInputStream dataInputStream;
     PrintStream printStream;
 
@@ -46,7 +47,7 @@ public class StreamingListner extends Thread {
 
 //        try {
             RequestEntity<UserEntity> user = GsonParser.parseFromJson(jsonValue);
-            if (user.getEntity() != null || user.getEntity().size()!=0) {
+            if (user.getEntity().size()!=0) {
                 userID = user.getEntity().get(0).getId();
             }
 //        } catch (InstantiationException ex) {
@@ -59,36 +60,40 @@ public class StreamingListner extends Thread {
 
     public void run() {
         String str = "";
-        while (SocketConnection.isServerRunning) {
+        while (SocketConnection.isServerRunning&&isRunning) {
             try {
                 str = dataInputStream.readLine();
                 if (str != null && str.equals("clientClosed")) {                    
                     removeObject();
                     System.out.println("closedClient " + clientsVector.size());
                 } else if (str != null) {
-                    System.out.println(str);
+                    System.out.println("StreamingListenenr"+str);
                     String response = Controller.handle(str);
                     if (response.contains("loginResponse")) {
                         getUserID(response);
                         System.out.println(("userID = " + userID));
                     }  
                     printStream.println(response);
+                }if(str == null){
+                    isRunning = false;
                 }
             } catch (SocketException ex) {
-                SocketConnection.isServerRunning = false;
+                //SocketConnection.isServerRunning = false;
+                isRunning = false;
                 System.out.println("catch");
             } catch (IOException ex) {
-                SocketConnection.isServerRunning = false;
+                //SocketConnection.isServerRunning = false;
+                isRunning = false;
                 System.out.println("catch");
             } catch (InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
-                SocketConnection.isServerRunning = false;
+                //SocketConnection.isServerRunning = false;
+                isRunning = false;
                 System.out.println("catch");
             }
         }
         try {
             printStream.close();
-            removeObject();
             dataInputStream.close();
         } catch (IOException ex) {
             Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
