@@ -43,17 +43,14 @@ public class StreamingListner extends Thread {
     }
 
     private void getUserID(String jsonValue) {
-
-//        try {
+        try {
             RequestEntity<UserEntity> user = GsonParser.parseFromJson(jsonValue);
-            if (user.getEntity() != null || user.getEntity().size()!=0) {
+            if (user.getEntity() != null || !user.getEntity().isEmpty()) {
                 userID = user.getEntity().get(0).getId();
             }
-//        } catch (InstantiationException ex) {
-//            ex.printStackTrace();
-//        } catch (IllegalAccessException ex) {
-//            ex.printStackTrace();
-//        }
+        } catch (Exception ex) {
+            // if user sign in is incorrect
+        }
 
     }
 
@@ -62,19 +59,18 @@ public class StreamingListner extends Thread {
         while (SocketConnection.isServerRunning) {
             try {
                 str = dataInputStream.readLine();
-                if (str != null && str.equals("clientClosed")) {                    
+                if (str != null && str.equals("clientClosed")) {
                     removeObject();
                     System.out.println("closedClient " + clientsVector.size());
                 } else if (str != null) {
                     System.out.println(str);
                     String response = Controller.handle(str);
-             
+
                     if (response.contains("loginResponse")) {
                         getUserID(response);
                         System.out.println(("userID = " + userID));
                     }
-                    
-                    
+
                     printStream.println(response);
                 }
             } catch (SocketException ex) {
@@ -97,15 +93,15 @@ public class StreamingListner extends Thread {
     }
 
     public static void sendNotificationMessage(ArrayList<Integer> list) {
-        
-        for(int i=0;i<clientsVector.size();i++){
-            for(int j=0;j<list.size();j++){
-                if(clientsVector.get(i).getUserId() == list.get(j)){
+
+        for (int i = 0; i < clientsVector.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (clientsVector.get(i).getUserId() == list.get(j)) {
                     clientsVector.get(i).printStream.println("notification received");
                 }
             }
         }
-        
+
     }
 
     synchronized void sendMessageToAll(String msg) {
