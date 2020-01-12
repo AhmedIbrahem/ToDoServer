@@ -44,17 +44,15 @@ public class StreamingListner extends Thread {
     }
 
     private void getUserID(String jsonValue) {
-
-//        try {
+        try {
             RequestEntity<UserEntity> user = GsonParser.parseFromJson(jsonValue);
+
             if (user.getEntity().size()!=0) {
                 userID = user.getEntity().get(0).getId();
             }
-//        } catch (InstantiationException ex) {
-//            ex.printStackTrace();
-//        } catch (IllegalAccessException ex) {
-//            ex.printStackTrace();
-//        }
+        } catch (Exception ex) {
+            // if user sign in is incorrect
+        }
 
     }
 
@@ -63,12 +61,13 @@ public class StreamingListner extends Thread {
         while (SocketConnection.isServerRunning&&isRunning) {
             try {
                 str = dataInputStream.readLine();
-                if (str != null && str.equals("clientClosed")) {                    
+                if (str != null && str.equals("clientClosed")) {
                     removeObject();
                     System.out.println("closedClient " + clientsVector.size());
                 } else if (str != null) {
                     System.out.println("StreamingListenenr"+str);
                     String response = Controller.handle(str);
+
                     if (response.contains("loginResponse")) {
                         getUserID(response);
                         System.out.println(("userID = " + userID));
@@ -102,15 +101,15 @@ public class StreamingListner extends Thread {
     }
 
     public static void sendNotificationMessage(ArrayList<Integer> list) {
-        
-        for(int i=0;i<clientsVector.size();i++){
-            for(int j=0;j<list.size();j++){
-                if(clientsVector.get(i).getUserId() == list.get(j)){
+
+        for (int i = 0; i < clientsVector.size(); i++) {
+            for (int j = 0; j < list.size(); j++) {
+                if (clientsVector.get(i).getUserId() == list.get(j)) {
                     clientsVector.get(i).printStream.println("notification received");
                 }
             }
         }
-        
+
     }
     
     public static void syncFriendsUI(ArrayList<UserEntity> list, String message) {
