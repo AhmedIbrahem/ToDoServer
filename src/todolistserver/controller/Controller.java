@@ -7,9 +7,7 @@ package todolistserver.controller;
 
 import todolistserver.model.GsonParser;
 import todolistserver.model.ReflectionClass;
-import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.RequestEntity;
-import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -23,7 +21,7 @@ public class Controller {
         RequestEntity returnValue =(RequestEntity) ReflectionClass.getObject(request.getClassName(), request.getOperation(), request.getEntity());
         
         String json = GsonParser.parseToJson(returnValue);
-        System.out.println("json"+json);
+        System.out.println("Controller "+json);
        return json;
     }
 }

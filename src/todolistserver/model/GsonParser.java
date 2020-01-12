@@ -3,7 +3,6 @@ package todolistserver.model;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.NotificationEntity;
@@ -54,7 +53,7 @@ public class GsonParser {
 
         }
 
-        System.out.println(request);
+        System.out.println("GsonParser "+request);
         return gson.fromJson(request, requestType);
 
     }

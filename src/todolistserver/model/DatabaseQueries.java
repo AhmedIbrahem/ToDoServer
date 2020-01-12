@@ -14,6 +14,7 @@ public interface DatabaseQueries {
     String RETRIEVE_USER_FRIENDS = "SELECT * FROM FRIENDLIST WHERE USERID = ?";
     String UPDATE_ONLINE_FLAG = "UPDATE USERS SET onLineFlag = ? where username = ?";
     String RETRIEVE_All_USERS_EXPICTED_LOFIN_USER = "select * from users where userID <>?";
+    String GET_ALL_FRIENDS_ASSIGNED_TO_TODO = "select users.* from users, todoList, toDoListUsers where todoList.todoID = toDoListUsers.todoID and users.userID = toDoListUsers.userID and todoList.todoID = ?";
 
     //friend
     String RETRIEVE_FRINDLIST_QUERY = "select * from users where users.userID in(select friendID from friendList where userID=?  UNION select userID from friendList where friendID= ?)";
@@ -28,7 +29,7 @@ public interface DatabaseQueries {
     String INSERT_TODO_LIST_QUERY = "INSERT INTO TODOLIST VALUES(?, ?, ?, ?, ?, ?, ?)";
     String UPDATE_TODO_LIST_QUERY = "UPDATE TODOLIST SET TITLE = ?, DESCRIPTION = ?, DEADLINEDATE = ?, ASSIGNINGDATE = ?, BACKGROUNDCOLOR = ?, STATUS = ? WHERE TODOID = ?";
     String DELETE_TODO_LIST_QUERY = "DELETE FROM TODOLIST WHERE TODOID = ?";
-    String RETRIEVE_ALL_TODO_LISTS_QUERY = "SELECT * FROM TODOLIST WHERE CREATORID = ?";
+    String RETRIEVE_ALL_TODO_LISTS_QUERY = "SELECT * FROM TODOLIST WHERE CREATORID = ? UNION select todoList.* from toDoListUsers, todoList where todoList.todoID = toDoListUsers.todoID";
     
     //items
     String INSERT_ITEM_QUERY = "INSERT INTO ITEM VALUES(?, ?, ?, ?, ?)";
