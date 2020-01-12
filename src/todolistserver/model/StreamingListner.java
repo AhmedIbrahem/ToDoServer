@@ -68,27 +68,27 @@ public class StreamingListner extends Thread {
                 } else if (str != null) {
                     System.out.println(str);
                     String response = Controller.handle(str);
-             
                     if (response.contains("loginResponse")) {
                         getUserID(response);
                         System.out.println(("userID = " + userID));
-                    }
-                    
-                    
+                    }  
                     printStream.println(response);
                 }
             } catch (SocketException ex) {
                 SocketConnection.isServerRunning = false;
+                System.out.println("catch");
             } catch (IOException ex) {
                 SocketConnection.isServerRunning = false;
+                System.out.println("catch");
             } catch (InstantiationException | IllegalAccessException ex) {
                 Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
                 SocketConnection.isServerRunning = false;
+                System.out.println("catch");
             }
         }
-        printStream.close();
-        removeObject();
         try {
+            printStream.close();
+            removeObject();
             dataInputStream.close();
         } catch (IOException ex) {
             Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,7 +107,19 @@ public class StreamingListner extends Thread {
         }
         
     }
+    
+    public static void syncFriendsUI(ArrayList<UserEntity> list, String message) {
 
+        for(int i=0;i<clientsVector.size();i++){
+            for(int j=0;j<list.size();j++){
+                if(clientsVector.get(i).getUserId() == list.get(j).getId()){
+                    clientsVector.get(i).printStream.println(message);
+                }
+            }
+        }
+        
+    }
+    
     synchronized void sendMessageToAll(String msg) {
         if (clientsVector != null) {
             System.out.println(clientsVector.size());

@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 package todolistserver.model.dao.implementation;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
-import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.TodoEntity;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -58,5 +57,10 @@ public class FriendsDBOperations {
         return allusers;
     }
        
-        
+    public static ArrayList<UserEntity> getAllCollaborators(TodoEntity todo){
+        ArrayList<Object> queryValues = new ArrayList<>();
+        queryValues.add(todo.getId());
+        ArrayList<UserEntity> collaborators = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_ALL_FRIENDS_ASSIGNED_TO_TODO, queryValues, DatabaseConnection.getInstance().getConnection());
+        return collaborators;
+    }
 }

@@ -8,6 +8,7 @@ package todolistserver.model.dao.implementation;
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
+import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
@@ -76,6 +77,9 @@ public class TodoListDBOperations {
                 todo = null;
             } else {
                 toDoEntityList.add(todo);
+                //NotifyUserCollaborators
+                ArrayList<UserEntity> collaborators = FriendsDBOperations.getAllCollaborators(todo);
+                StreamingListner.syncFriendsUI(collaborators, "Update Notification");
             }
         }
         response = new RequestEntity("TodoListDBOperations", "updateTodoResponse", toDoEntityList);
@@ -92,6 +96,7 @@ public class TodoListDBOperations {
             todo = (TodoEntity) value.get(0);
             queryValues = new ArrayList<>();
             queryValues.add(todo.getId());
+            ArrayList<UserEntity> collaborators = FriendsDBOperations.getAllCollaborators(todo);
             ArrayList<ItemEntity> items = DBStatementsExecuter.retrieveItemData(DatabaseQueries.RETRIEVE_ALL_ITEMS_QUERY_BY_TODO_ID, queryValues, DatabaseConnection.getInstance().getConnection());
             for (int i = 0; i < items.size(); i++) {
                 queryValues.clear();
@@ -105,6 +110,8 @@ public class TodoListDBOperations {
             int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_TODO_LIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if(finalResult>0)
                 toDoEntityList.add(todo);
+                //getUserFriends.
+                StreamingListner.syncFriendsUI(collaborators, "Delete Notification");
             }
         response  = new RequestEntity("TodoListDBOperations", "deleteTodoResponse", toDoEntityList);
         return response ;
