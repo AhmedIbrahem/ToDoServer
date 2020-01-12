@@ -119,7 +119,6 @@ public class NotificationDBOperations {
 
                         ArrayList<Object> notificationList = new ArrayList<>();
                         notificationList.add(notification);
-                        notification.setHeader("Acceptance info");
                         notification.setNotificationType("Acceptance");
                         notification.setHeader("item invitation info");
                         notification.setText("user " + users.get(0).getUsername() + " accepted your invitation on item :" + itemNumber);
@@ -162,7 +161,6 @@ public class NotificationDBOperations {
 
                         ArrayList<Object> notificationList = new ArrayList<>();
                         notificationList.add(notification);
-                        notification.setHeader("Acceptance info");
                         notification.setNotificationType("Acceptance");
                         notification.setHeader("todo invitation info");
                         notification.setText("user " + users.get(0).getUsername() + " accepted your invitation on todo :" + todoNumber);
@@ -195,41 +193,79 @@ public class NotificationDBOperations {
                 if (result > 0) {
 
                     queryValues.clear();
-                    queryValues.add(senderID);
                     queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
+                    queryValues.add(senderID);
                     result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ADD_FRIND_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
 
                     if (result > 0) {
-
                         queryValues.clear();
                         queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
-                        queryValues.add(senderID);
-                        result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ADD_FRIND_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+                        ArrayList<UserEntity> users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USER_DATA_BY_USERID, queryValues, DatabaseConnection.getInstance().getConnection());
 
-                        if (result > 0) {
-                            queryValues.clear();
-                            queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
-                            ArrayList<UserEntity> users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USER_DATA_BY_USERID, queryValues, DatabaseConnection.getInstance().getConnection());
-
-                            ArrayList<Object> notificationList = new ArrayList<>();
-                            notificationList.add(notification);
-                            notification.setHeader("Acceptance info");
-                            notification.setNotificationType("Acceptance");
-                            notification.setHeader("friend invitation info");
-                            notification.setText("user " + users.get(0).getUsername() + " accepted your friend invitation ");
-                            int temp = notification.getSenderID();
-                            notification.setSenderID(notification.getNotificationReceivers().get(0).getReceiverID());
-                            ArrayList<NotificationReceiversEntity> newReceiversList = new ArrayList<>();
-                            NotificationReceiversEntity reciever = new NotificationReceiversEntity();
-                            reciever.setReceiverID(temp);
-                            newReceiversList.add(reciever);
-                            notification.setNotificationReceivers(newReceiversList);
-                            sendNotification(notificationList);
-                        }
+                        ArrayList<Object> notificationList = new ArrayList<>();
+                        notificationList.add(notification);
+                        notification.setNotificationType("Acceptance");
+                        notification.setHeader("friend invitation info");
+                        notification.setText("user " + users.get(0).getUsername() + " accepted your friend invitation ");
+                        int temp = notification.getSenderID();
+                        notification.setSenderID(notification.getNotificationReceivers().get(0).getReceiverID());
+                        ArrayList<NotificationReceiversEntity> newReceiversList = new ArrayList<>();
+                        NotificationReceiversEntity reciever = new NotificationReceiversEntity();
+                        reciever.setReceiverID(temp);
+                        newReceiversList.add(reciever);
+                        notification.setNotificationReceivers(newReceiversList);
+                        sendNotification(notificationList);
                     }
                 }
 
             }
+        }
+    }
+
+    public void rejectInvitationNotification(ArrayList<Object> list) {
+
+        NotificationEntity notification = (NotificationEntity) list.get(0);
+        if (notification != null) {
+
+            queryValues.clear();
+            queryValues.add(notification.getNotificationID());
+            int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_NOTIFICATION_REJECTION_STATUS, queryValues, DatabaseConnection.getInstance().getConnection());
+
+            if (result > 0) {
+
+                queryValues.clear();
+                queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
+                ArrayList<UserEntity> users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USER_DATA_BY_USERID, queryValues, DatabaseConnection.getInstance().getConnection());
+
+                ArrayList<Object> notificationList = new ArrayList<>();
+                notificationList.add(notification);
+                if (notification.getNotificationType().contains("friendInvitation")) {
+                    notification.setNotificationType("Rejection");
+                    notification.setHeader("friend invitation info");
+                    notification.setText("user " + users.get(0).getUsername() + " rejected your friend invitation ");
+                } else if (notification.getNotificationType().contains("itemInvitation")) {
+                    int itemNumber = Integer.parseInt(notification.getNotificationType().split("itemInvitation")[1]);
+                    notification.setNotificationType("Rejection");
+                    notification.setHeader("item invitation info");
+                    notification.setText("user " + users.get(0).getUsername() + " rejected your invitation on item number : " + itemNumber);
+                } else if (notification.getNotificationType().contains("todoInvitation")) {
+                    int todoNumber = Integer.parseInt(notification.getNotificationType().split("todoInvitation")[1]);
+                    notification.setNotificationType("Rejection");
+                    notification.setHeader("todo invitation info");
+                    notification.setText("user " + users.get(0).getUsername() + " rejected your invitation on todo number : " + todoNumber);
+                }
+
+                int senderID = notification.getSenderID();
+                notification.setSenderID(notification.getNotificationReceivers().get(0).getReceiverID());
+                ArrayList<NotificationReceiversEntity> newReceiversList = new ArrayList<>();
+                NotificationReceiversEntity reciever = new NotificationReceiversEntity();
+                reciever.setReceiverID(senderID);
+                newReceiversList.add(reciever);
+                notification.setNotificationReceivers(newReceiversList);
+                sendNotification(notificationList);
+
+            }
+
         }
     }
 

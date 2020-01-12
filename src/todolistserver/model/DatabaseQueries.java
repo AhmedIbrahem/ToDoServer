@@ -21,6 +21,8 @@ public interface DatabaseQueries {
     String RETRIEVE_COLLABROTOR_QUERY = "select * from users where users.userID in(select userID from toDoListUsers where todoID = ?)";
     String RETRIEVE_USerID_ifExist_QUERY = "select * from users where username = ?";
     String ADD_FRIND_QUERY = "INSERT INTO friendList VALUES(?,?)";
+    String RETRIEVE_ITEM_COLLABROTOR_QUERY = " select * from users where users.userID in(select userID from itemAssignedUsers where itemID =?)";
+
     
     
     //todos
@@ -55,7 +57,7 @@ public interface DatabaseQueries {
    String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ?";
    String RETRIEVE_NOTIFICATION_RECEIVERS="select nr.receiverID from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ? and n.notificationID =?";
    String UPDATE_NOTIFICATION_ACCEPTANCE_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 1 where notificationID = ? ";
-   
+   String UPDATE_NOTIFICATION_REJECTION_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 0 where notificationID = ? ";
 
 }
 
