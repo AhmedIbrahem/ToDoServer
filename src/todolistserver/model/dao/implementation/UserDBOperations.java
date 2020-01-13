@@ -10,7 +10,6 @@ import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.UserEntity;
 import java.sql.SQLException;
-import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.TodoEntity;
 
@@ -82,6 +81,7 @@ public class UserDBOperations {
 
         RequestEntity<TodoEntity> response = null;
         queryValues.clear();
+        queryValues.add(userId.getId());
         queryValues.add(userId.getId());
         ArrayList<TodoEntity> items = DBStatementsExecuter.retrieveTodoData(DatabaseQueries.RETRIEVE_ALL_TODO_LISTS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
         if (items == null || items.size() == 0) {
