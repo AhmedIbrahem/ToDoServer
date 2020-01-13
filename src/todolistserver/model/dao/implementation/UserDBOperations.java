@@ -158,10 +158,36 @@ public class UserDBOperations {
 
             queryValues.clear();
             queryValues.add(user.getId());
+            queryValues.add(user.getId());
+            queryValues.add(user.getId());
             users = FriendsDBOperations.getAllUSersExpictedLoginUser(queryValues);
             System.out.println("sssss" + users.size());
         }
         response = new RequestEntity("UserDBOperations", "getAllUsersResonse", users);
+        return response;
+
+    }
+
+    public RequestEntity<UserEntity> logout(ArrayList<Object> value) throws SQLException {
+        int result = -1;
+        System.out.println("kjkjlkkjkl");
+        UserEntity user = null;
+        RequestEntity<UserEntity> response = null;
+        ArrayList<UserEntity> users = new ArrayList<>();
+
+        if (value != null) {
+            user = (UserEntity) value.get(0);
+            queryValues.clear();
+            queryValues.add(user.getId());
+            result = FriendsDBOperations.logout(queryValues);
+            if (result <= 0) {
+                user = null;
+            } else {
+                users.add(user);
+            }
+
+        }
+        response = new RequestEntity("UserDBOperations", "logoutResponse", users);
         return response;
 
     }

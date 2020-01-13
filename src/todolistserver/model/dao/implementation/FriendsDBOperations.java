@@ -4,10 +4,12 @@
  * and open the template in the editor.
  */
 package todolistserver.model.dao.implementation;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
+import static todolistserver.model.dao.implementation.UserDBOperations.queryValues;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.UserEntity;
 
@@ -20,49 +22,61 @@ public class FriendsDBOperations {
     public static ArrayList<UserEntity> getAllUSers(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> allusers = new ArrayList<>();
         allusers = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_USERS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-        
+
         return allusers;
     }
-      public static ArrayList<UserEntity> getOnlineUSers(ArrayList<Object> queryValues) {
+
+    public static ArrayList<UserEntity> getOnlineUSers(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> onlineusers = new ArrayList<>();
         onlineusers = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_ONLINE_USERS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-        
+
         return onlineusers;
     }
-       public static ArrayList<UserEntity> getOfflineUSers(ArrayList<Object> queryValues) {
+
+    public static ArrayList<UserEntity> getOfflineUSers(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> onlineusers = new ArrayList<>();
         onlineusers = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_OFFLINE_USERS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-        
+
         return onlineusers;
     }
-        public static ArrayList<UserEntity> getFrinds(ArrayList<Object> queryValues) {
+
+    public static ArrayList<UserEntity> getFrinds(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> frinds = new ArrayList<>();
         frinds = DBStatementsExecuter.retrievefrindsIDs(DatabaseQueries.RETRIEVE_FRINDLIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
         return frinds;
     }
-        public static ArrayList<UserEntity> getFrindsData(ArrayList<Object> queryValues) {
+
+    public static ArrayList<UserEntity> getFrindsData(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> frinds = new ArrayList<>();
         frinds = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_FRINDLIST_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
         return frinds;
     }
-        public static ArrayList<UserEntity> getTodoCollaborators(ArrayList<Object> queryValues) {
+
+    public static ArrayList<UserEntity> getTodoCollaborators(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> Collaborators = new ArrayList<>();
         Collaborators = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_COLLABROTOR_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            System.out.println("ss"+Collaborators.size());
+        System.out.println("ss" + Collaborators.size());
         return Collaborators;
-        }
-        public static ArrayList<UserEntity> getAllUSersExpictedLoginUser(ArrayList<Object> queryValues) {
+    }
+
+    public static ArrayList<UserEntity> getAllUSersExpictedLoginUser(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> allusers = new ArrayList<>();
         allusers = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_All_USERS_EXPICTED_LOFIN_USER, queryValues, DatabaseConnection.getInstance().getConnection());
-        
+
         return allusers;
     }
-        public static ArrayList<UserEntity> getItemCollaborators(ArrayList<Object> queryValues) {
+
+    public static ArrayList<UserEntity> getItemCollaborators(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> Collaborators = new ArrayList<>();
         Collaborators = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_ITEM_COLLABROTOR_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            System.out.println("ss"+Collaborators.size());
+        System.out.println("ss" + Collaborators.size());
         return Collaborators;
-        }
-       
-        
+    }
+
+    public static int logout(ArrayList<Object> queryValues) {
+        int result = -1;
+        result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.LOGOUT_QUARY, queryValues, DatabaseConnection.getInstance().getConnection());
+        return result;
+    }
+
 }

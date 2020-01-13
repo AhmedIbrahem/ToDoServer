@@ -13,8 +13,8 @@ public interface DatabaseQueries {
     String RETRIEVE_OFFLINE_USERS_QUERY = "SELECT * FROM USERS WHERE onlineFlag =0";
     String RETRIEVE_USER_FRIENDS = "SELECT * FROM FRIENDLIST WHERE USERID = ?";
     String UPDATE_ONLINE_FLAG = "UPDATE USERS SET onLineFlag = ? where username = ?";
-    String RETRIEVE_All_USERS_EXPICTED_LOFIN_USER = "select * from users where userID <>?";
-
+    String RETRIEVE_All_USERS_EXPICTED_LOFIN_USER = " select * from users where userID<>? and users.userID  not in (select userID from users where users.userID in(select friendID from friendList where userID=?  UNION select userID from friendList where friendID=?))";
+    String LOGOUT_QUARY="update users set onlineFlag=0 where userID =?";
     //friend
     String RETRIEVE_FRINDLIST_QUERY = "select * from users where users.userID in(select friendID from friendList where userID=?  UNION select userID from friendList where friendID= ?)";
     String RETRIEVE_COLLABROTOR_QUERY = "select * from users where users.userID in(select userID from toDoListUsers where todoID = ?)";
