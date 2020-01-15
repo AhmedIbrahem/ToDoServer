@@ -81,7 +81,7 @@ public abstract class DBStatementsExecuter {
         try {
             while (set.next()) {
                 list.add(new TodoEntity(set.getInt(1), set.getString(2), set.getString(6), set.getInt(7),
-                        set.getString(8), set.getString(3), set.getDate(4), set.getDate(5)));
+                        set.getString(8), set.getString(3), set.getDate(5), set.getDate(4)));
             }
             set.close();
         } catch (SQLException ex) {
