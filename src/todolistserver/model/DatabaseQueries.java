@@ -30,7 +30,7 @@ public interface DatabaseQueries {
     String INSERT_TODO_LIST_QUERY = "INSERT INTO TODOLIST VALUES(?, ?, ?, ?, ?, ?, ?)";
     String UPDATE_TODO_LIST_QUERY = "UPDATE TODOLIST SET TITLE = ?, DESCRIPTION = ?, DEADLINEDATE = ?, ASSIGNINGDATE = ?, BACKGROUNDCOLOR = ?, STATUS = ? WHERE TODOID = ?";
     String DELETE_TODO_LIST_QUERY = "DELETE FROM TODOLIST WHERE TODOID = ?";
-    String RETRIEVE_ALL_TODO_LISTS_QUERY = "SELECT * FROM TODOLIST WHERE CREATORID = ? UNION select todoList.* from toDoListUsers, todoList where todoList.todoID = toDoListUsers.todoID";
+    String RETRIEVE_ALL_TODO_LISTS_QUERY = "SELECT * FROM TODOLIST WHERE CREATORID = ? UNION select todoList.* from toDoListUsers, todoList where todoList.todoID = toDoListUsers.todoID and  toDoListUsers.userID  = ?";
     
     //items
     String INSERT_ITEM_QUERY = "INSERT INTO ITEM VALUES(?, ?, ?, ?, ?)";
@@ -38,6 +38,7 @@ public interface DatabaseQueries {
     String DELETE_ITEM_QUERY = "DELETE FROM ITEM WHERE ITEMID = ?";
     String RETRIEVE_ALL_ITEMS_QUERY = "SELECT I.* FROM TODOLIST T, ITEM I WHERE T.TITLE = ? AND T.TODOID = I.TODOID";
     String RETRIEVE_ALL_ITEMS_QUERY_BY_TODO_ID = "SELECT I.* FROM TODOLIST T, ITEM I WHERE T.TODOID = I.TODOID and T.TODOID = ?";
+    
     //collaborator 
     String ASSIGN_FRIEND_TO_iTEM = "INSERT INTO ITEMASSIGNEDUSERS VALUES(?, ?)";
     String RERIEVE_ALL_FRIENDS_ASSIGNED_TO_iTEM = "SELECT U.* FROM USERS AS U, TODOList AS T, TODOLISTUSERS AS TU, ITEM AS I, ITEMASSIGNEDUSERS AS IAU WHERE  IAU.userID = U.USERID and TU.userID = U.userID and Tu.todoID = T.todoID and I.todoID = T.todoID  and  IAU.itemID = I.itemID  and T.todoID=? and I.itemID =?";
@@ -60,5 +61,12 @@ public interface DatabaseQueries {
    String UPDATE_NOTIFICATION_ACCEPTANCE_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 1 where notificationID = ? ";
    String UPDATE_NOTIFICATION_REJECTION_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 0 where notificationID = ? ";
 
+   //Component
+   String INSERT_COMPONENT_QUERY = "INSERT INTO ITEMCOMPONENTS VALUES(?, ?, ?, ?)";
+  // String UPDATE_COMPONENT_QUERY = "UPDATE ITEMCOMPONENTS SET TITLE = ?, DESCRIPTION = ?, DEADLINEDATE = ?, ASSIGNINGDATE = ?, BACKGROUNDCOLOR = ?, STATUS = ? WHERE TODOID = ?";
+   //you can ignore the itemid.
+   String DELETE_COMPONENT_QUERY = "DELETE FROM ITEMCOMPONENTS WHERE ITEMID = ? AND COMPONENTID = ?";
+   String RETRIEVE_ALL_COMPONENT_BY_ITEMID_QUERY = "SELECT * FROM ITEMCOMPONENTS WHERE ITEMID = ?";
+   
 }
 

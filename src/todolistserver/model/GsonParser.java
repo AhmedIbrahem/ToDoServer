@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import todolistserver.model.entities.AssignFriendTodoEntity;
+import todolistserver.model.entities.ComponentEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.RequestEntity;
@@ -50,7 +51,10 @@ public class GsonParser {
                     requestType = new TypeToken<RequestEntity<UserEntity>>() {
                     }.getType();*/
                 break;
-
+            case 'C':
+                requestType = new TypeToken<RequestEntity<ComponentEntity>>() {
+                }.getType();
+                break;
         }
 
         System.out.println("GsonParser "+request);

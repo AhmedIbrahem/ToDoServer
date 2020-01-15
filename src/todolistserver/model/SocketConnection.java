@@ -10,17 +10,28 @@ import java.util.logging.Logger;
  * @author dell
  */
 public class SocketConnection extends Thread {
-
+    
+    private static SocketConnection instance;
     Thread th;
     static ServerSocket serverSocket;
     final static int SOCKET_PORT = 5005;
     public static boolean isServerRunning = false;  
     StreamingListner streamListner=null;
 
-    public SocketConnection() {
+    private SocketConnection() {
         openSocketConnection();
     }
-
+    
+    public static SocketConnection getInstance(){
+         if(instance == null){
+            synchronized(SocketConnection.class){
+                if(instance == null){
+                    instance = new SocketConnection();
+                }
+            }
+        }
+        return instance;
+    }
     public void openSocketConnection() {
         try {
             serverSocket = new ServerSocket(SOCKET_PORT);
