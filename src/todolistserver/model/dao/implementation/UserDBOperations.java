@@ -70,17 +70,22 @@ public class UserDBOperations {
         ArrayList<UserEntity> users = new ArrayList<>();
         if (value != null) {
             user = (UserEntity) value.get(0);
-            queryValues = new ArrayList<Object>();
-
-            queryValues.add(user.getUsername());
-            queryValues.add(user.getPassword());
-            queryValues.add(user.getEmail());
-            queryValues.add(user.getOnlineFlag());
-            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REGISTER_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (result <= 0) {
-                user = null;
-            } else {
-                users.add(user);
+            if(!isUserExisted(user.getUsername())){
+                queryValues = new ArrayList<Object>();
+                queryValues.add(user.getUsername());
+                queryValues.add(user.getPassword());
+                queryValues.add(user.getEmail());
+                queryValues.add(user.getOnlineFlag());
+                result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REGISTER_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+                if (result <= 0) {
+                    user = null;
+                } else {
+                    users.add(user);
+                }
+            }
+            else{
+                users=null;
+                System.out.println("\n********\n Sign Up User Already Existed\n");
             }
         }
         System.out.println("todolistserver.model.dao.implementation.UserDBOperations.register()" + result);
@@ -88,7 +93,16 @@ public class UserDBOperations {
         return response;
 
     }
-
+    public boolean isUserExisted(String username){
+        queryValues.clear();
+        queryValues.add(username);
+        ArrayList<UserEntity> users = new ArrayList<>();
+        users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USERID_BY_USERNAME, queryValues, DatabaseConnection.getInstance().getConnection());
+        if(users!= null || users.size()!=0){
+            return true;
+        }
+        return false;
+    }
     public RequestEntity getAllTodos(ArrayList<Object> value) {
         UserEntity userId = (UserEntity) value.get(0);
 
