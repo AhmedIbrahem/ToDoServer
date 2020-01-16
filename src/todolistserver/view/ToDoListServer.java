@@ -13,6 +13,7 @@ import todolistserver.controller.Controller;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.GsonParser;
 import todolistserver.model.ReflectionClass;
+import todolistserver.model.SocketConnection;
 import todolistserver.model.StreamingListner;
 
 import todolistserver.model.dao.implementation.ItemDBOperations;
@@ -41,7 +42,7 @@ public class ToDoListServer extends Application {
         //Controller.handle(data);
 
         stage.setOnCloseRequest((WindowEvent event) -> {
-            DatabaseConnection.getInstance().closeConnection();
+            DatabaseConnection.getInstance().closeConnection();            
             Platform.exit();
             System.exit(0);
         });
