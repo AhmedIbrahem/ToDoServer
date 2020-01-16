@@ -30,12 +30,17 @@ public class NotificationDBOperations {
 
         if (notificationValue != null) {
             notification = (NotificationEntity) notificationValue.get(0);
-            queryValues = new ArrayList<>();
+            queryValues.clear();          
+            queryValues.add(notification.getNotificationType());
+            
+            ArrayList<NotificationEntity> PreviousNotifcations = DBStatementsExecuter.retrieveNotifications(DatabaseQueries.GET_LAST_NOTIFICATION_BY_NOFITICATION_TYPE, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (PreviousNotifcations.size() <1) {
+            queryValues.clear();
             queryValues.add(notification.getHeader());
             queryValues.add(notification.getText());
             queryValues.add(notification.getSenderID());
             queryValues.add(notification.getNotificationType());
-
+            
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_NOTIFICATION_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 notification = null;
@@ -43,16 +48,16 @@ public class NotificationDBOperations {
                 queryValues.clear();
                 queryValues.add(notification.getHeader());
                 queryValues.add(notification.getSenderID());
-                ArrayList<NotificationEntity> notifcations = DBStatementsExecuter.retrieveNotifications(DatabaseQueries.GET_NOTIFICATION_ID_BY_NOTIFICATION_HEADER, queryValues, DatabaseConnection.getInstance().getConnection());
+                ArrayList<NotificationEntity> currentNotificationList = DBStatementsExecuter.retrieveNotifications(DatabaseQueries.GET_NOTIFICATION_ID_BY_NOTIFICATION_HEADER, queryValues, DatabaseConnection.getInstance().getConnection());
                 ArrayList<Integer> notificationRecievers = null;
-                if (notifcations != null && notifcations.size() != 0) {
+                if (currentNotificationList != null && currentNotificationList.size() != 0) {
 
                     notificationRecievers = new ArrayList<>();
 
                     for (int i = 0; i < notification.getNotificationReceivers().size(); i++) {
                         queryValues.clear();
 
-                        queryValues.add(notifcations.get(0).getNotificationID());
+                        queryValues.add(currentNotificationList.get(0).getNotificationID());
                         queryValues.add(notification.getNotificationReceivers().get(i).getReceiverID());
                         result2 = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_NOTIFICATION_RECIEVERS_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
                         if (result2 > 0) {
@@ -72,7 +77,7 @@ public class NotificationDBOperations {
 
             }
         }
-
+        }
         //response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationList);
         return null;
 

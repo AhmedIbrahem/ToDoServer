@@ -5,26 +5,16 @@
  */
 package todolistserver.view;
 
-import static java.lang.Math.E;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -50,7 +40,7 @@ public class MainFXMLController implements Initializable {
     private VBox leftContact;
     @FXML
     private AnchorPane parent;
-    SocketConnection socketConnection = new SocketConnection();
+    SocketConnection socketConnection = SocketConnection.getInstance();
     ArrayList<Object> queryValues = new ArrayList<>();
     final int ROW_HEIGHT = 25;
     final int ROW_WIDTH = 350;

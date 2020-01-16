@@ -6,7 +6,6 @@ import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
-import todolistserver.model.entities.TodoEntity;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -26,8 +25,6 @@ public class ItemDBOperations {
         if (itemValue != null) {
             item = (ItemEntity) itemValue.get(0);
             queryValues = new ArrayList<Object>();
-
-
             queryValues.add(item.getTitle());
             queryValues.add(item.getDescription());
             queryValues.add(item.getTodoID());
@@ -37,13 +34,11 @@ public class ItemDBOperations {
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 item = null;
-
-
-        response = new RequestEntity("ItemDBOperations", "addItemResponse", itemEntityList);
             }else{
                 itemEntityList.add(item);
             }
         }
+        response = new RequestEntity("ItemDBOperations", "addItemResponse", itemEntityList);
         return response;
     }
 

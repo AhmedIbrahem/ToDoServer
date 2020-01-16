@@ -38,6 +38,7 @@ public interface DatabaseQueries {
     String DELETE_ITEM_QUERY = "DELETE FROM ITEM WHERE ITEMID = ?";
     String RETRIEVE_ALL_ITEMS_QUERY = "SELECT I.* FROM TODOLIST T, ITEM I WHERE T.TITLE = ? AND T.TODOID = I.TODOID";
     String RETRIEVE_ALL_ITEMS_QUERY_BY_TODO_ID = "SELECT I.* FROM TODOLIST T, ITEM I WHERE T.TODOID = I.TODOID and T.TODOID = ?";
+    
     //collaborator 
     String ASSIGN_FRIEND_TO_iTEM = "INSERT INTO ITEMASSIGNEDUSERS VALUES(?, ?)";
     String RERIEVE_ALL_FRIENDS_ASSIGNED_TO_iTEM = "SELECT U.* FROM USERS AS U, TODOList AS T, TODOLISTUSERS AS TU, ITEM AS I, ITEMASSIGNEDUSERS AS IAU WHERE  IAU.userID = U.USERID and TU.userID = U.userID and Tu.todoID = T.todoID and I.todoID = T.todoID  and  IAU.itemID = I.itemID  and T.todoID=? and I.itemID =?";
@@ -59,6 +60,13 @@ public interface DatabaseQueries {
    String RETRIEVE_NOTIFICATION_RECEIVERS="select nr.receiverID from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ? and n.notificationID =?";
    String UPDATE_NOTIFICATION_ACCEPTANCE_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 1 where notificationID = ? ";
    String UPDATE_NOTIFICATION_REJECTION_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 0 where notificationID = ? ";
-
+   String GET_LAST_NOTIFICATION_BY_NOFITICATION_TYPE="select top 1 n.* from notifications n , notificationReceivers nr where n.notificationID=nr.notificationID and (nr.acceptanceFlag != 1 or nr.acceptanceFlag is null) and (nr.readFlag != 1 or nr.readFlag is null) and n.notificationType = ? and (n.notificationType!='Acceptance' or n.notificationType!='Rejection')";
+   //Component
+   String INSERT_COMPONENT_QUERY = "INSERT INTO ITEMCOMPONENTS VALUES(?, ?, ?, ?)";
+  // String UPDATE_COMPONENT_QUERY = "UPDATE ITEMCOMPONENTS SET TITLE = ?, DESCRIPTION = ?, DEADLINEDATE = ?, ASSIGNINGDATE = ?, BACKGROUNDCOLOR = ?, STATUS = ? WHERE TODOID = ?";
+   //you can ignore the itemid.
+   String DELETE_COMPONENT_QUERY = "DELETE FROM ITEMCOMPONENTS WHERE ITEMID = ? AND COMPONENTID = ?";
+   String RETRIEVE_ALL_COMPONENT_BY_ITEMID_QUERY = "SELECT * FROM ITEMCOMPONENTS WHERE ITEMID = ?";
+   
 }
 
