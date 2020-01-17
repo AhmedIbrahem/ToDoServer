@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import todolistserver.model.entities.ComponentEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.TodoEntity;
@@ -165,6 +166,21 @@ public abstract class DBStatementsExecuter {
         try {
             while (set.next()) {
                 list.add(new UserEntity(set.getInt(1),set.getString(2)));
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    
+    public static ArrayList<ComponentEntity> retrieveComponentData(String query, ArrayList<Object> parameters, Connection con) {
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        ArrayList<ComponentEntity> list = new ArrayList<>();
+        try {
+            while (set.next()) {
+                list.add(new ComponentEntity(set.getInt(1), set.getInt(2), set.getString(3), set.getString(4), set.getInt(5)));
             }
             set.close();
         } catch (SQLException ex) {

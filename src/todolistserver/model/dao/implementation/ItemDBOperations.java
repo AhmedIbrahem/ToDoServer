@@ -68,9 +68,10 @@ public class ItemDBOperations {
         return response;
 
     }
-
+    //to delete item , 1- delete item assigned user 2- delete item tasks 3- delete item itself 
     public  RequestEntity deleteItem(ArrayList<Object> itemValue) {
-        int result = -1;
+        int resultDeleteCollaborators = -1;
+        int resultDeleteItemTasks = -1;
         ItemEntity item = null;
         RequestEntity<ItemEntity> response = null;
         ArrayList<ItemEntity> itemEntityList = new ArrayList<>();
@@ -78,9 +79,10 @@ public class ItemDBOperations {
             item = (ItemEntity) itemValue.get(0);
             queryValues = new ArrayList<>();
             queryValues.add(item.getItemID());
-            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
+            resultDeleteCollaborators = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
+            resultDeleteItemTasks = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ALL_ITEM_COMPONENT_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (finalResult > 0) {
+            if (finalResult > 0 && resultDeleteCollaborators > 0 && resultDeleteItemTasks > 0 ) {
                 itemEntityList.add(item);
             }
         }
