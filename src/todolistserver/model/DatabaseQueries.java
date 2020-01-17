@@ -49,7 +49,7 @@ public interface DatabaseQueries {
     String GET_USER_DATA_BY_USERID = "SELECT * FROM USERS WHERE USERID = ?";
     String CHECK_IF_USER_FRIEND = "SELECT * FROM FRIENDLIST WHERE FRIENDID = ? AND USERID = ?";
     String DELETE_FRIEND_ON_TODO="DELETE FROM toDoListUsers WHERE todoID= ?";
-
+    String REMOVE_TODO_COLLABORATOR="delete from toDoListUsers where todoID = ? and userID = ?";
 
 
     //notification

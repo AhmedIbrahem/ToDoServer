@@ -12,6 +12,7 @@ import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.TodoCollaboratorEntity;
 import todolistserver.model.entities.TodoEntity;
 import todolistserver.model.entities.UserEntity;
 
@@ -178,4 +179,21 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
 
     }
         
+     public RequestEntity removeTodoCollaborator(ArrayList<Object> value){
+         TodoCollaboratorEntity todoCollaborator = (TodoCollaboratorEntity) value.get(0);
+
+        RequestEntity<TodoCollaboratorEntity> response = null;
+        queryValues.clear();
+        queryValues.add(todoCollaborator.getTodoID());
+        queryValues.add(todoCollaborator.getUserID());
+        ArrayList<TodoCollaboratorEntity> responseList = new ArrayList<>();
+        int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REMOVE_TODO_COLLABORATOR, queryValues, DatabaseConnection.getInstance().getConnection());
+        if (result < 1) {
+            responseList = null;
+        } 
+        else
+            responseList.add(todoCollaborator);
+        response = new RequestEntity("TodoListDBOperations", "removeCollaboratorResponse", responseList);
+        return response;
+    }
 }
