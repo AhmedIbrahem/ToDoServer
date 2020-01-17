@@ -63,9 +63,9 @@ public interface DatabaseQueries {
    String GET_LAST_NOTIFICATION_BY_NOFITICATION_TYPE="select top 1 n.* from notifications n , notificationReceivers nr where n.notificationID=nr.notificationID and (nr.acceptanceFlag != 1 or nr.acceptanceFlag is null) and (nr.readFlag != 1 or nr.readFlag is null) and n.notificationType = ? and n.notificationType!='Acceptance' and n.notificationType!='Rejection'";
    //Component
    String INSERT_COMPONENT_QUERY = "INSERT INTO ITEMCOMPONENTS VALUES(?, ?, ?, ?)";
-  // String UPDATE_COMPONENT_QUERY = "UPDATE ITEMCOMPONENTS SET TITLE = ?, DESCRIPTION = ?, DEADLINEDATE = ?, ASSIGNINGDATE = ?, BACKGROUNDCOLOR = ?, STATUS = ? WHERE TODOID = ?";
-   //you can ignore the itemid.
+   String UPDATE_COMPONENT_QUERY = "UPDATE ITEMCOMPONENTS SET finishedFlag = ? where componentId = ?";
    String DELETE_COMPONENT_QUERY = "DELETE FROM ITEMCOMPONENTS WHERE ITEMID = ? AND COMPONENTID = ?";
+   String DELETE_ALL_ITEM_COMPONENT_QUERY = "DELETE FROM ITEMCOMPONENTS WHERE ITEMID = ?";
    String RETRIEVE_ALL_COMPONENT_BY_ITEMID_QUERY = "SELECT * FROM ITEMCOMPONENTS WHERE ITEMID = ?";
    
 }
