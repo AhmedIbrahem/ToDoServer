@@ -124,7 +124,7 @@ public class StreamingListner extends Thread {
         
     }
     
-    synchronized void sendMessageToAll(String msg) {
+    public synchronized void sendMessageToAll(String msg) {
         if (clientsVector != null) {
             System.out.println(clientsVector.size());
             for (StreamingListner ch : clientsVector) {
