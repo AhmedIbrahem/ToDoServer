@@ -80,7 +80,7 @@ public class ItemDBOperations {
             queryValues = new ArrayList<>();
             queryValues.add(item.getItemID());
             resultDeleteCollaborators = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
-            resultDeleteItemTasks = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ALL_ITEM_COMPONENT_QUERY, itemValue, DatabaseConnection.getInstance().getConnection());
+            resultDeleteItemTasks = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ALL_ITEM_COMPONENT_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (finalResult > 0 && resultDeleteCollaborators > 0 && resultDeleteItemTasks > 0 ) {
                 itemEntityList.add(item);
