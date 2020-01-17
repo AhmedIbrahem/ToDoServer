@@ -1,6 +1,5 @@
 package todolistserver.view;
 
-import java.util.ArrayList;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.application.Platform;
@@ -9,19 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import todolistserver.controller.Controller;
 import todolistserver.model.DatabaseConnection;
-import todolistserver.model.GsonParser;
-import todolistserver.model.ReflectionClass;
 import todolistserver.model.SocketConnection;
-import todolistserver.model.StreamingListner;
-
-import todolistserver.model.dao.implementation.ItemDBOperations;
-import todolistserver.model.entities.ItemEntity;
-import todolistserver.model.dao.implementation.TodoListDBOperations;
-import todolistserver.model.dao.implementation.UserDBOperations;
-import todolistserver.model.entities.RequestEntity;
-import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -42,7 +30,8 @@ public class ToDoListServer extends Application {
         //Controller.handle(data);
 
         stage.setOnCloseRequest((WindowEvent event) -> {
-            DatabaseConnection.getInstance().closeConnection();            
+            DatabaseConnection.getInstance().closeConnection();    
+            SocketConnection.getInstance().streamListner.sendMessageToAll("closed");
             Platform.exit();
             System.exit(0);
         });
