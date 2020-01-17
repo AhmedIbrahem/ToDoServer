@@ -5,34 +5,36 @@ package todolistserver.model.entities;
  * @author Ibrahim
  */
 public class ComponentEntity {
-    private int componentId;
-    private int itemId;
-    private String componentType;
-    private String componentText;
-    private int finisheFlag;
+   private int componentId;
+   private int itemId;
+   private String componentType;
+   private String componentText;
+   private int finishedFlag;
 
-    public ComponentEntity() {
+    public ComponentEntity(int itemId, String componentType, String componentText, int finishedFlag) {
+        this.itemId = itemId;
+        this.componentType = componentType;
+        this.componentText = componentText;
+        this.finishedFlag = finishedFlag;
+    }
+    
+    public ComponentEntity(int itemId, String componentType, String componentText) {
+        this.itemId = itemId;
+        this.componentType = componentType;
+        this.componentText = componentText;
     }
 
-    public ComponentEntity(int componentId, int itemId, String componentType, String componentText, int finisheFlag) {
+    public ComponentEntity(int componentId, int itemId, String componentType, String componentText, int finishedFlag) {
         this.componentId = componentId;
         this.itemId = itemId;
         this.componentType = componentType;
         this.componentText = componentText;
-        this.finisheFlag = finisheFlag;
+        this.finishedFlag = finishedFlag;
     }
 
-    public ComponentEntity(int itemId, String componentType, String componentText, int finisheFlag) {
-        this.itemId = itemId;
-        this.componentType = componentType;
-        this.componentText = componentText;
-        this.finisheFlag = finisheFlag;
+    public ComponentEntity() {
     }
 
-    public int getComponentId() {
-        return componentId;
-    }
-    
     public int getItemId() {
         return itemId;
     }
@@ -57,12 +59,17 @@ public class ComponentEntity {
         this.componentText = componentText;
     }
 
-    public int getFinisheFlag() {
-        return finisheFlag;
+    public int getFinishedFlag() {
+        return finishedFlag;
     }
 
-    public void setFinisheFlag(int finisheFlag) {
-        this.finisheFlag = finisheFlag;
+    public void setFinishedFlag(int finishedFlag) {
+        this.finishedFlag = finishedFlag;
     }
+
+    public int getComponentId() {
+        return componentId;
+    }
+    
     
 }
