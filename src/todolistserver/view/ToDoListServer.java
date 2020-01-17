@@ -30,8 +30,9 @@ public class ToDoListServer extends Application {
         //Controller.handle(data);
 
         stage.setOnCloseRequest((WindowEvent event) -> {
-            DatabaseConnection.getInstance().closeConnection();    
-            SocketConnection.getInstance().streamListner.sendMessageToAll("closed");
+            DatabaseConnection.getInstance().closeConnection();   
+            if( SocketConnection.getInstance().streamListner!=null)
+                SocketConnection.getInstance().streamListner.sendMessageToAll("closed");
             Platform.exit();
             System.exit(0);
         });
