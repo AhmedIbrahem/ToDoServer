@@ -34,14 +34,19 @@ public class UserDBOperations {
             queryValues.add(user.getPassword());
             users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (users != null && users.size() != 0) {
-                queryValues.clear();
-                queryValues.add(1);
-                queryValues.add(user.getUsername());
-                int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_ONLINE_FLAG, queryValues, DatabaseConnection.getInstance().getConnection());
-                if (result == 1) {
-                    users.get(0).setOnlineFlag(1);
+                if (!isUserAlreadySigned(users.get(0))) {
+                    queryValues.clear();
+                    queryValues.add(1);
+                    queryValues.add(user.getUsername());
+                    int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_ONLINE_FLAG, queryValues, DatabaseConnection.getInstance().getConnection());
+                    if (result == 1) {
+                        users.get(0).setOnlineFlag(1);
+                    }
+                    user = users.get(0);
+                } else {
+                    users = null;
+                    System.out.println("\n********\n User Already Signed in\n");
                 }
-                user = users.get(0);
             } else {
                 user = null;
             }
@@ -50,6 +55,14 @@ public class UserDBOperations {
         return response;
     }
 
+    public boolean isUserAlreadySigned(UserEntity signedUser) {
+        int flag = -1;
+        flag = signedUser.getOnlineFlag();
+        if (flag == 0) {
+            return false;
+        }
+        return true;
+    }
     public RequestEntity register(ArrayList<Object> value) {
         int result = -1;
         UserEntity user = null;
@@ -57,17 +70,22 @@ public class UserDBOperations {
         ArrayList<UserEntity> users = new ArrayList<>();
         if (value != null) {
             user = (UserEntity) value.get(0);
-            queryValues = new ArrayList<Object>();
-
-            queryValues.add(user.getUsername());
-            queryValues.add(user.getPassword());
-            queryValues.add(user.getEmail());
-            queryValues.add(user.getOnlineFlag());
-            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REGISTER_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (result <= 0) {
-                user = null;
-            } else {
-                users.add(user);
+            if(!isUserExisted(user.getUsername())){
+                queryValues = new ArrayList<Object>();
+                queryValues.add(user.getUsername());
+                queryValues.add(user.getPassword());
+                queryValues.add(user.getEmail());
+                queryValues.add(user.getOnlineFlag());
+                result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REGISTER_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+                if (result <= 0) {
+                    user = null;
+                } else {
+                    users.add(user);
+                }
+            }
+            else{
+                users=null;
+                System.out.println("\n********\n Sign Up User Already Existed\n");
             }
         }
         System.out.println("todolistserver.model.dao.implementation.UserDBOperations.register()" + result);
@@ -75,7 +93,16 @@ public class UserDBOperations {
         return response;
 
     }
-
+    public boolean isUserExisted(String username){
+        queryValues.clear();
+        queryValues.add(username);
+        ArrayList<UserEntity> users = new ArrayList<>();
+        users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USERID_BY_USERNAME, queryValues, DatabaseConnection.getInstance().getConnection());
+        if(users!= null || users.size()!=0){
+            return true;
+        }
+        return false;
+    }
     public RequestEntity getAllTodos(ArrayList<Object> value) {
         UserEntity userId = (UserEntity) value.get(0);
 

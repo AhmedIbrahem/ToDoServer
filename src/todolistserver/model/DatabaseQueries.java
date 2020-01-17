@@ -56,15 +56,16 @@ public interface DatabaseQueries {
    String INSERT_NOTIFICATION_QUERY = "INSERT INTO NOTIFICATIONS VALUES(?, ?, ?, ?)";
    String INSERT_NOTIFICATION_RECIEVERS_QUERY = "INSERT INTO notificationReceivers VALUES(?, ?, null, null)";
    String GET_NOTIFICATION_ID_BY_NOTIFICATION_HEADER = "select top 1 * from notifications where header = ?  and senderID= ? order by notificationID desc";
-   String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ?";
+   String RETRIEVE_USER_NOTIFICATIONS="select n.* from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ? order by nr.notificationID desc";
    String RETRIEVE_NOTIFICATION_RECEIVERS="select nr.receiverID from notifications as n , notificationReceivers as nr where n.notificationID = nr.notificationID and nr.acceptanceFlag is null  and (nr.readFlag != 1 or nr.readFlag is null) and nr.receiverID = ? and n.notificationID =?";
    String UPDATE_NOTIFICATION_ACCEPTANCE_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 1 where notificationID = ? ";
    String UPDATE_NOTIFICATION_REJECTION_STATUS = "update notificationReceivers set readFlag = 1 , acceptanceFlag = 0 where notificationID = ? ";
-
+   String GET_LAST_NOTIFICATION_BY_NOFITICATION_TYPE="select top 1 n.* from notifications n , notificationReceivers nr where n.notificationID=nr.notificationID and (nr.acceptanceFlag != 1 or nr.acceptanceFlag is null) and (nr.readFlag != 1 or nr.readFlag is null) and n.notificationType = ? and (n.notificationType!='Acceptance' or n.notificationType!='Rejection')";
    //Component
    String INSERT_COMPONENT_QUERY = "INSERT INTO ITEMCOMPONENTS VALUES(?, ?, ?, ?)";
    String UPDATE_COMPONENT_QUERY = "UPDATE ITEMCOMPONENTS SET finishedFlag = ? where componentId = ?";
    String DELETE_COMPONENT_QUERY = "DELETE FROM ITEMCOMPONENTS WHERE ITEMID = ? AND COMPONENTID = ?";
+   String DELETE_ALL_ITEM_COMPONENT_QUERY = "DELETE FROM ITEMCOMPONENTS WHERE ITEMID = ?";
    String RETRIEVE_ALL_COMPONENT_BY_ITEMID_QUERY = "SELECT * FROM ITEMCOMPONENTS WHERE ITEMID = ?";
    
 }
