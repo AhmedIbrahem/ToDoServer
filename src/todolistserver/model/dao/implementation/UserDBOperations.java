@@ -34,35 +34,25 @@ public class UserDBOperations {
             queryValues.add(user.getPassword());
             users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.LOGIN_USER_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (users != null && users.size() != 0) {
-                if (!isUserAlreadySigned(users.get(0))) {
-                    queryValues.clear();
-                    queryValues.add(1);
-                    queryValues.add(user.getUsername());
-                    int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_ONLINE_FLAG, queryValues, DatabaseConnection.getInstance().getConnection());
-                    if (result == 1) {
-                        users.get(0).setOnlineFlag(1);
-                    }
-                    user = users.get(0);
-                } else {
-                    users = null;
-                    System.out.println("\n********\n User Already Signed in\n");
-                }
-            } else {
-                user = null;
+                queryValues.clear();
+                queryValues.add(1);
+                queryValues.add(user.getUsername());
+                int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_ONLINE_FLAG, queryValues, DatabaseConnection.getInstance().getConnection());
             }
         }
         response = new RequestEntity("UserDBOperations", "loginResponse", users);
         return response;
     }
 
-    public boolean isUserAlreadySigned(UserEntity signedUser) {
-        int flag = -1;
-        flag = signedUser.getOnlineFlag();
-        if (flag == 0) {
-            return false;
-        }
-        return true;
-    }
+//    public boolean isUserAlreadySigned(UserEntity signedUser) {
+//        int flag = -1;
+//        flag = signedUser.getOnlineFlag();
+//        if (flag == 0) {
+//            return false;
+//        }
+//        return true;
+//    }
+    
     public RequestEntity register(ArrayList<Object> value) {
         int result = -1;
         UserEntity user = null;

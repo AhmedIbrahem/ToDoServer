@@ -137,9 +137,17 @@ public class ItemDBOperations {
             queryValues.clear();
             queryValues.add(item.getItemID());
             collaborators = FriendsDBOperations.getItemCollaborators(queryValues);
-            System.out.println("size"+collaborators.size());
             if (collaborators != null || !collaborators.isEmpty()) {
-            
+                System.out.println("size"+collaborators.size());
+                for(int i = 0 ;i <collaborators.size();i++){
+                    for(int j =0 ;j<StreamingListner.clientsVector.size();j++){
+                        if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(i).getId()){
+                            collaborators.get(i).setOnlineFlag(1);
+                        }else{
+                            collaborators.get(i).setOnlineFlag(0);
+                        }
+                    }
+                }
             }
         }
         response = new RequestEntity("ItemDBOperations", "getItemCollaboratorsResonse", collaborators);

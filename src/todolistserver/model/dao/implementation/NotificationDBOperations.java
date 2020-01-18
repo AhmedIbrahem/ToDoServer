@@ -12,6 +12,7 @@ import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.NotificationReceiversEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.TodoEntity;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -163,7 +164,12 @@ public class NotificationDBOperations {
                         queryValues.clear();
                         queryValues.add(notification.getNotificationReceivers().get(0).getReceiverID());
                         ArrayList<UserEntity> users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USER_DATA_BY_USERID, queryValues, DatabaseConnection.getInstance().getConnection());
-
+                        
+                        TodoEntity todo = new TodoEntity();
+                        todo.setId(todoNumber);
+                        ArrayList<UserEntity> collaborators = FriendsDBOperations.getAllCollaborators(todo);
+                        StreamingListner.syncFriendsUI(collaborators, "Update Notification");    
+                        
                         ArrayList<Object> notificationList = new ArrayList<>();
                         notificationList.add(notification);
                         notification.setNotificationType("Acceptance");

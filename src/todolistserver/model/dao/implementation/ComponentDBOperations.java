@@ -3,8 +3,11 @@ package todolistserver.model.dao.implementation;
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
+import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.ComponentEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.TodoEntity;
+import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -35,6 +38,14 @@ public class ComponentDBOperations {
                     componentEntityList.add(component);
                 }
             }
+            
+            queryValues.clear();
+            queryValues.add(component.getItemId());
+            ArrayList<TodoEntity> todo = DBStatementsExecuter.retrieveTodoData(DatabaseQueries.Retrieve_todo_by_itemid, queryValues, DatabaseConnection.getInstance().getConnection());
+            queryValues.clear();
+            queryValues.add(todo.get(0).getId());
+            ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
+            StreamingListner.syncFriendsUI(collaborators, "Task Notification+" + component.getItemId());
         }
         response = new RequestEntity("ComponentDBOperations", "addComponentResponse", componentEntityList);
         return response;
@@ -95,5 +106,19 @@ public class ComponentDBOperations {
         }
         response = new RequestEntity("ComponentDBOperations", "updateComponentResponse", componentEntityList);
         return response;
+    }
+     public RequestEntity getAllCheckBoxComponent(ArrayList<Object> itemValue){
+        TodoEntity todo = null;
+        RequestEntity<ComponentEntity> response = null;
+        ArrayList<ComponentEntity> componentEntityList = null;
+        if (itemValue != null) {
+            todo =(TodoEntity) itemValue.get(0);
+            queryValues = new ArrayList<>();
+            queryValues.add(todo.getId());
+            componentEntityList = DBStatementsExecuter.retrieveComponentData(DatabaseQueries.RETRIEVE_ALL_COMPONENT_BY_TODOID_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        }
+       response = new RequestEntity("ComponentDBOperations", "getAllCheckBoxComponentResponse", componentEntityList);
+         System.out.println("dddddddd"+response);
+       return response; 
     }
 }

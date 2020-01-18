@@ -138,9 +138,9 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
                     queryValues.add(users.get(0).getId());
                     int friendAssigned = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ASSIGN_FRIEND_TO_TODOLIST, queryValues, DatabaseConnection.getInstance().getConnection());
                     friendsList.add(friendAssigned);
-                    response = new RequestEntity("TodoListDBOperations", "assignTodoResponse", friendsList);
                 }
             }
+            response = new RequestEntity("TodoListDBOperations", "assignTodoResponse", friendsList);
         }
         return response;
     }
@@ -158,7 +158,8 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
         response = new RequestEntity("TodoListDBOperations", "getAllItemsResonse", items);
         return response;
     }
-        public RequestEntity getTodoCollaborators(ArrayList<Object> value) {
+    
+    public RequestEntity getTodoCollaborators(ArrayList<Object> value) {
         TodoEntity todo = null;
         RequestEntity<UserEntity> response = null;
         ArrayList<UserEntity> collaborators = new ArrayList<>();
@@ -169,10 +170,17 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
             queryValues.add(todo.getId());
             System.out.println(todo.getId());
             collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
-            System.out.println("size"+collaborators.size());
             if (collaborators != null || !collaborators.isEmpty()) {
-              
-            
+                System.out.println("size"+collaborators.size());
+                for(int i = 0 ;i <collaborators.size();i++){
+                    for(int j =0 ;j<StreamingListner.clientsVector.size();j++){
+                        if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(i).getId()){
+                            collaborators.get(i).setOnlineFlag(1);
+                        }else{
+                            collaborators.get(i).setOnlineFlag(0);
+                        }
+                    }
+                }
             }
         }
         response = new RequestEntity("TodoListDBOperations", "getToDoCollaboratorsResonse", collaborators);
