@@ -188,6 +188,7 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
         queryValues.add(todoCollaborator.getTodoID());
         queryValues.add(todoCollaborator.getUserID());
         ArrayList<TodoCollaboratorEntity> responseList = new ArrayList<>();
+        ArrayList<UserEntity> collaborators = new ArrayList<>();
         int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REMOVE_TODO_COLLABORATOR, queryValues, DatabaseConnection.getInstance().getConnection());
         if (result < 1) {
             responseList = null;
@@ -202,13 +203,13 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
             collaboratorUser.setId(todoCollaborator.getUserID());
             UserEntity creatorUser = new UserEntity();
             creatorUser.setId(creatorID);
-            ArrayList<UserEntity> collaborators = new ArrayList<>();
+            collaborators = new ArrayList<>();
             collaborators.add(creatorUser);
             collaborators.add(collaboratorUser);
             
             StreamingListner.syncFriendsUI(collaborators, "Update Notification");
         }
-        response = new RequestEntity("TodoListDBOperations", "removeCollaboratorResponse", responseList);
+        response = new RequestEntity("TodoListDBOperations", "removeCollaboratorResponse", collaborators);
         return response;
     }
 }
