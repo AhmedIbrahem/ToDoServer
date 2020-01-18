@@ -28,7 +28,7 @@ public class StreamingListner extends Thread {
     public int getUserId() {
         return userID;
     }
-    static ArrayList<StreamingListner> clientsVector = new ArrayList<StreamingListner>();
+    public static ArrayList<StreamingListner> clientsVector = new ArrayList<StreamingListner>();
 
     public StreamingListner(Socket socketPort) {
         try {
