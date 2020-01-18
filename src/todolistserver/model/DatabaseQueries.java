@@ -31,7 +31,7 @@ public interface DatabaseQueries {
     String UPDATE_TODO_LIST_QUERY = "UPDATE TODOLIST SET TITLE = ?, DESCRIPTION = ?, DEADLINEDATE = ?, ASSIGNINGDATE = ?, BACKGROUNDCOLOR = ?, STATUS = ? WHERE TODOID = ?";
     String DELETE_TODO_LIST_QUERY = "DELETE FROM TODOLIST WHERE TODOID = ?";
     String RETRIEVE_ALL_TODO_LISTS_QUERY = "SELECT * FROM TODOLIST WHERE CREATORID = ? UNION select todoList.* from toDoListUsers, todoList where todoList.todoID = toDoListUsers.todoID and  toDoListUsers.userID  = ?";
-    
+    String RETRIEVE_TODO_DATA_BY_TODOID = "SELECT * FROM TODOLIST WHERE todoID = ?";
     //items
     String INSERT_ITEM_QUERY = "INSERT INTO ITEM VALUES(?, ?, ?, ?, ?)";
     String UPDATE_ITEM_QUERY = "UPDATE ITEM SET TITLE = ?, DESCRIPTION = ?, TODOID = ?, CREATORID = ?, DEADLINEDATE= ? WHERE ITEMID = ?";
