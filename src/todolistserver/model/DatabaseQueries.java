@@ -32,6 +32,7 @@ public interface DatabaseQueries {
     String DELETE_TODO_LIST_QUERY = "DELETE FROM TODOLIST WHERE TODOID = ?";
     String RETRIEVE_ALL_TODO_LISTS_QUERY = "SELECT * FROM TODOLIST WHERE CREATORID = ? UNION select todoList.* from toDoListUsers, todoList where todoList.todoID = toDoListUsers.todoID and  toDoListUsers.userID  = ?";
     String Retrieve_todo_by_itemid = "select todoList.* from todoList, item where todoList.todoID = item.todoID and itemID = ?";
+    String RETRIEVE_TODO_DATA_BY_TODOID = "SELECT * FROM TODOLIST WHERE todoID = ?";
     
     //items
     String INSERT_ITEM_QUERY = "INSERT INTO ITEM VALUES(?, ?, ?, ?, ?)";
@@ -51,7 +52,7 @@ public interface DatabaseQueries {
     String GET_USER_DATA_BY_USERID = "SELECT * FROM USERS WHERE USERID = ?";
     String CHECK_IF_USER_FRIEND = "SELECT * FROM FRIENDLIST WHERE FRIENDID = ? AND USERID = ?";
     String DELETE_FRIEND_ON_TODO="DELETE FROM toDoListUsers WHERE todoID= ?";
-
+    String REMOVE_TODO_COLLABORATOR="delete from toDoListUsers where todoID = ? and userID = ?";
 
 
     //notification
