@@ -52,8 +52,14 @@ public class GsonParser {
                     }.getType();*/
                 break;
             case 'C':
+                 if (request.contains("getAllCheckBoxComponent")) {
+                        requestType = new TypeToken<RequestEntity<TodoEntity>>() {
+                        }.getType();
+                    }
+                 else{
                 requestType = new TypeToken<RequestEntity<ComponentEntity>>() {
                 }.getType();
+                 }
                 break;
         }
 

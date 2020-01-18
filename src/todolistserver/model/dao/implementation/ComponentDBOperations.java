@@ -5,6 +5,7 @@ import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.ComponentEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.TodoEntity;
 
 /**
  *
@@ -95,5 +96,19 @@ public class ComponentDBOperations {
         }
         response = new RequestEntity("ComponentDBOperations", "updateComponentResponse", componentEntityList);
         return response;
+    }
+     public RequestEntity getAllCheckBoxComponent(ArrayList<Object> itemValue){
+        TodoEntity todo = null;
+        RequestEntity<ComponentEntity> response = null;
+        ArrayList<ComponentEntity> componentEntityList = null;
+        if (itemValue != null) {
+            todo =(TodoEntity) itemValue.get(0);
+            queryValues = new ArrayList<>();
+            queryValues.add(todo.getId());
+            componentEntityList = DBStatementsExecuter.retrieveComponentData(DatabaseQueries.RETRIEVE_ALL_COMPONENT_BY_TODOID_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        }
+       response = new RequestEntity("ComponentDBOperations", "getAllCheckBoxComponentResponse", componentEntityList);
+         System.out.println("dddddddd"+response);
+       return response; 
     }
 }
