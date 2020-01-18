@@ -71,6 +71,7 @@ public interface DatabaseQueries {
    String DELETE_COMPONENT_QUERY = "DELETE FROM ITEMCOMPONENTS WHERE ITEMID = ? AND COMPONENTID = ?";
    String DELETE_ALL_ITEM_COMPONENT_QUERY = "DELETE FROM ITEMCOMPONENTS WHERE ITEMID = ?";
    String RETRIEVE_ALL_COMPONENT_BY_ITEMID_QUERY = "SELECT * FROM ITEMCOMPONENTS WHERE ITEMID = ?";
+   String RETRIEVE_ALL_COMPONENT_BY_TODOID_QUERY="select ic.* from itemComponents ic , todoList t , item i where t.todoID = i.todoID and i.itemID = ic.itemID and t.todoID = ?  and ic.componentType='checkboxComponent'";
    
 }
 
