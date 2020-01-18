@@ -3,9 +3,11 @@ package todolistserver.model.dao.implementation;
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
+import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.ComponentEntity;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.TodoEntity;
+import todolistserver.model.entities.UserEntity;
 
 /**
  *
@@ -36,6 +38,14 @@ public class ComponentDBOperations {
                     componentEntityList.add(component);
                 }
             }
+            
+            queryValues.clear();
+            queryValues.add(component.getItemId());
+            ArrayList<TodoEntity> todo = DBStatementsExecuter.retrieveTodoData(DatabaseQueries.Retrieve_todo_by_itemid, queryValues, DatabaseConnection.getInstance().getConnection());
+            queryValues.clear();
+            queryValues.add(todo.get(0).getId());
+            ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
+            StreamingListner.syncFriendsUI(collaborators, "Task Notification+" + component.getItemId());
         }
         response = new RequestEntity("ComponentDBOperations", "addComponentResponse", componentEntityList);
         return response;

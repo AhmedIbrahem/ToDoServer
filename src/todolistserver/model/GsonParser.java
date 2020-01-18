@@ -8,6 +8,7 @@ import todolistserver.model.entities.ComponentEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.TodoCollaboratorEntity;
 import todolistserver.model.entities.TodoEntity;
 import todolistserver.model.entities.UserEntity;
 
@@ -42,7 +43,12 @@ public class GsonParser {
                     requestType = new TypeToken<RequestEntity<AssignFriendTodoEntity>>() {
                     }.getType();
                 
-                } else {
+                }
+                else if (request.contains("removeTodoCollaborator")){
+                  requestType = new TypeToken<RequestEntity<TodoCollaboratorEntity>>() {
+                    }.getType();
+                }
+                else {
                     requestType = new TypeToken<RequestEntity<TodoEntity>>() {
                     }.getType();
                 }

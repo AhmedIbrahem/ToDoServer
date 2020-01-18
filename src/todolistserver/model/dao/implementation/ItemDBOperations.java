@@ -3,6 +3,7 @@ package todolistserver.model.dao.implementation;
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
+import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
@@ -17,7 +18,6 @@ public class ItemDBOperations {
    ArrayList<Object> queryValues = new ArrayList<>();
 
     public RequestEntity addItem(ArrayList<Object> itemValue) {
-
         int result = -1;
         ItemEntity item = null;
         RequestEntity<ItemEntity> response = null;
@@ -36,6 +36,10 @@ public class ItemDBOperations {
                 item = null;
             }else{
                 itemEntityList.add(item);
+                queryValues.clear();
+                queryValues.add(item.getTodoID());
+                ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
+                StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
             }
         }
         response = new RequestEntity("ItemDBOperations", "addItemResponse", itemEntityList);
@@ -61,6 +65,10 @@ public class ItemDBOperations {
                 item = null;
             } else {
                 itemEntityList.add(item);
+                queryValues.clear();
+                queryValues.add(item.getTodoID());
+                ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
+                StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
             }
         }
 
@@ -85,6 +93,10 @@ public class ItemDBOperations {
             if (finalResult > 0 && resultDeleteCollaborators > 0 && resultDeleteItemTasks > 0 ) {
                 itemEntityList.add(item);
             }
+            queryValues.clear();
+            queryValues.add(item.getTodoID());
+            ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
+            StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
         }
         response = new RequestEntity("ItemDBOperations", "deleteItemResponse", itemEntityList);
         return response;
@@ -109,10 +121,10 @@ public class ItemDBOperations {
                     queryValues.add(users.get(0).getId());
                     int friendAssigned = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.ASSIGN_FRIEND_TO_iTEM, queryValues, DatabaseConnection.getInstance().getConnection());
                     friendsList.add(friendAssigned);
-                    response = new RequestEntity("ItemDBOperations", "assignItemResponse", friendsList);
                 }
             }
         }
+        response = new RequestEntity("ItemDBOperations", "assignItemResponse", friendsList);
         return response;
     }
        public RequestEntity getItemCollaborators(ArrayList<Object> value) {
