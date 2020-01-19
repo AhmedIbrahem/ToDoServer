@@ -203,19 +203,24 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
         } 
         else{
             queryValues.clear();
-            queryValues.add(todoCollaborator.getTodoID());
-            ArrayList<TodoEntity> todo= DBStatementsExecuter.retrieveTodoData(DatabaseQueries.RETRIEVE_TODO_DATA_BY_TODOID, queryValues, DatabaseConnection.getInstance().getConnection());
-            int creatorID = todo.get(0).getCreatorId();
-            responseList.add(todoCollaborator);
-            UserEntity collaboratorUser = new UserEntity();
-            collaboratorUser.setId(todoCollaborator.getUserID());
-            UserEntity creatorUser = new UserEntity();
-            creatorUser.setId(creatorID);
-            collaborators = new ArrayList<>();
-            collaborators.add(creatorUser);
-            collaborators.add(collaboratorUser);
-            
-            StreamingListner.syncFriendsUI(collaborators, "Update Notification");
+            queryValues.add(todoCollaborator.getUserID());
+             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REMOVE_ITEM_COLLABORATOR, queryValues, DatabaseConnection.getInstance().getConnection());
+            if(result > 0){
+                queryValues.clear();
+                queryValues.add(todoCollaborator.getTodoID());
+                ArrayList<TodoEntity> todo= DBStatementsExecuter.retrieveTodoData(DatabaseQueries.RETRIEVE_TODO_DATA_BY_TODOID, queryValues, DatabaseConnection.getInstance().getConnection());
+                int creatorID = todo.get(0).getCreatorId();
+                responseList.add(todoCollaborator);
+                UserEntity collaboratorUser = new UserEntity();
+                collaboratorUser.setId(todoCollaborator.getUserID());
+                UserEntity creatorUser = new UserEntity();
+                creatorUser.setId(creatorID);
+                collaborators = new ArrayList<>();
+                collaborators.add(creatorUser);
+                collaborators.add(collaboratorUser);
+
+                StreamingListner.syncFriendsUI(collaborators, "Update Notification");
+            }
         }
         response = new RequestEntity("TodoListDBOperations", "removeCollaboratorResponse", collaborators);
         return response;

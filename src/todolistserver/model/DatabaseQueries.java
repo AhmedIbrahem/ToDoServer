@@ -53,7 +53,7 @@ public interface DatabaseQueries {
     String CHECK_IF_USER_FRIEND = "SELECT * FROM FRIENDLIST WHERE FRIENDID = ? AND USERID = ?";
     String DELETE_FRIEND_ON_TODO="DELETE FROM toDoListUsers WHERE todoID= ?";
     String REMOVE_TODO_COLLABORATOR="delete from toDoListUsers where todoID = ? and userID = ?";
-    //String REMOVE_ITEM_COLLABORATOR = "delete from itemA";
+    String REMOVE_ITEM_COLLABORATOR = "delete from itemAssignedUsers where userID = ?";
 
 
     //notification
