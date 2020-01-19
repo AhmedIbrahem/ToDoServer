@@ -3,7 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/ITI%20life/Project%20Java/ToDoServer/ToDoServer/src/todolistserver/model/dao/implementation/ItemDBOperations.java</file>
+<<<<<<< HEAD
+            <file>file:/F:/ITI%20life/Project%20Java/ToDoServer/ToDoServer/src/todolistserver/model/dao/implementation/NotificationDBOperations.java</file>
+            <file>file:/F:/ITI%20life/Project%20Java/ToDoServer/ToDoServer/src/todolistserver/model/DatabaseQueries.java</file>
+            <file>file:/F:/ITI%20life/Project%20Java/ToDoServer/ToDoServer/src/todolistserver/model/GsonParser.java</file>
+            <file>file:/F:/ITI%20life/Project%20Java/ToDoServer/ToDoServer/src/todolistserver/model/dao/implementation/FriendsDBOperations.java</file>
+            <file>file:/F:/ITI%20life/Project%20Java/ToDoServer/ToDoServer/src/todolistserver/model/dao/implementation/TodoListDBOperations.java</file>
+            <file>file:/F:/ITI%20life/Project%20Java/ToDoServer/ToDoServer/src/todolistserver/model/dao/implementation/UserDBOperations.java</file>
+            <file>file:/F:/ITI%20life/Project%20Java/ToDoServer/ToDoServer/src/todolistserver/model/ReflectionClass.java</file>
+=======
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/NotificationDBOperations.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/UserDBOperations.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/TodoListDBOperations.java</file>
+            <file>file:/D:/ITI%20Material/JAVA/JavaProjects/JavaProject/TodoServer/src/todolistserver/model/dao/implementation/ItemDBOperations.java</file>
+>>>>>>> 505ca1aa99b504c09160177c6c0f133360c8584f
         </group>
     </open-files>
 </project-private>
