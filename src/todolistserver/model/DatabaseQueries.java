@@ -23,6 +23,7 @@ public interface DatabaseQueries {
     String RETRIEVE_USerID_ifExist_QUERY = "select * from users where username = ?";
     String ADD_FRIND_QUERY = "INSERT INTO friendList VALUES(?,?)";
     String RETRIEVE_ITEM_COLLABROTOR_QUERY = " select * from users where users.userID in(select userID from itemAssignedUsers where itemID =?)";
+    String RETRIEVE_COLLABROTOR_QUERY_V2 = "select * from users where users.userID in(select userID from toDoListUsers where todoID = ?) union select users.* from users, todoList where users.userID = todoList.creatorID and todoID = ?";
 
     
     

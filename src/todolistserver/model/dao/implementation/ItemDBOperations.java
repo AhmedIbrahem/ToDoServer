@@ -141,7 +141,7 @@ public class ItemDBOperations {
                 System.out.println("size"+collaborators.size());
                 for(int i = 0 ;i <collaborators.size();i++){
                     for(int j =0 ;j<StreamingListner.clientsVector.size();j++){
-                        if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(i).getId()){
+                        if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(j).getId()){
                             collaborators.get(i).setOnlineFlag(1);
                         }else{
                             collaborators.get(i).setOnlineFlag(0);

@@ -10,35 +10,36 @@ import java.util.logging.Logger;
  * @author dell
  */
 public class SocketConnection extends Thread {
-    
-    private static SocketConnection instance;
+
+    public static SocketConnection instance;
     Thread th;
-    static ServerSocket serverSocket;
+    public static ServerSocket serverSocket;
     final static int SOCKET_PORT = 5005;
-    public static boolean isServerRunning = false;  
-    public StreamingListner streamListner=null;
+    public static boolean isServerRunning = false;
+    public StreamingListner streamListner = null;
 
     private SocketConnection() {
         openSocketConnection();
     }
-    
-    public static SocketConnection getInstance(){
-         if(instance == null){
-            synchronized(SocketConnection.class){
-                if(instance == null){
+
+    public static SocketConnection getInstance() {
+        if (instance == null) {
+            synchronized (SocketConnection.class) {
+                if (instance == null) {
                     instance = new SocketConnection();
                 }
             }
         }
         return instance;
     }
+
     public void openSocketConnection() {
         try {
             serverSocket = new ServerSocket(SOCKET_PORT);
             if (!isServerRunning) {
                 isServerRunning = true;
-            }            
-            
+            }
+
             th = new Thread(this);
             th.start();
         } catch (IOException ex) {
@@ -49,10 +50,11 @@ public class SocketConnection extends Thread {
     public void closeSocketConnection() {
         try {
             if (!serverSocket.isClosed()) {
-                isServerRunning = false;                
+                isServerRunning = false;
                 System.out.println("closed");
-                if(streamListner!=null)
+                if (streamListner != null) {
                     streamListner.sendMessageToAll("closed");
+                }
                 serverSocket.close();
                 th.stop();
             }
@@ -65,13 +67,14 @@ public class SocketConnection extends Thread {
     public void run() {
         try {
             while (isServerRunning) {
-                
+
                 Socket socket = null;
                 System.out.println("opened");
-                if(streamListner!=null)
+                if (streamListner != null) {
                     streamListner.sendMessageToAll("opened");
+                }
                 socket = serverSocket.accept();
-                streamListner = new StreamingListner(socket); 
+                streamListner = new StreamingListner(socket);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
