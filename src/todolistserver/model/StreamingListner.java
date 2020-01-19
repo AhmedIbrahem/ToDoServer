@@ -93,6 +93,7 @@ public class StreamingListner extends Thread {
         }
         try {
             printStream.close();
+            removeObject();
             dataInputStream.close();
         } catch (IOException ex) {
             Logger.getLogger(StreamingListner.class.getName()).log(Level.SEVERE, null, ex);

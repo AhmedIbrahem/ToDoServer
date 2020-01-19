@@ -5,12 +5,6 @@
  */
 package todolistserver.model.dao.implementation;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import todolistserver.model.DatabaseConnection;
-import todolistserver.model.DatabaseQueries;
-import static todolistserver.model.dao.implementation.UserDBOperations.queryValues;
-import todolistserver.model.entities.RequestEntity;
 import java.util.ArrayList;
 import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
@@ -58,7 +52,7 @@ public class FriendsDBOperations {
 
     public static ArrayList<UserEntity> getTodoCollaborators(ArrayList<Object> queryValues) {
         ArrayList<UserEntity> Collaborators = new ArrayList<>();
-        Collaborators = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_COLLABROTOR_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+        Collaborators = DBStatementsExecuter.retrieveUserData(DatabaseQueries.RETRIEVE_COLLABROTOR_QUERY_V2, queryValues, DatabaseConnection.getInstance().getConnection());
         System.out.println("ss" + Collaborators.size());
         return Collaborators;
     }

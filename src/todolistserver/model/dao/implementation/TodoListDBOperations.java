@@ -163,22 +163,25 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
         TodoEntity todo = null;
         RequestEntity<UserEntity> response = null;
         ArrayList<UserEntity> collaborators = new ArrayList<>();
-
         if (value != null) {
             todo = (TodoEntity) value.get(0);
             queryValues.clear();
+            queryValues.add(todo.getId());
             queryValues.add(todo.getId());
             System.out.println(todo.getId());
             collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
             if (collaborators != null || !collaborators.isEmpty()) {
                 System.out.println("size"+collaborators.size());
                 for(int i = 0 ;i <collaborators.size();i++){
+                    boolean isOnline = false;
                     for(int j =0 ;j<StreamingListner.clientsVector.size();j++){
-                        if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(i).getId()){
+                        if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(j).getUserId()){
                             collaborators.get(i).setOnlineFlag(1);
-                        }else{
-                            collaborators.get(i).setOnlineFlag(0);
+                            isOnline = true;
                         }
+                    }
+                    if(!isOnline){
+                        collaborators.get(i).setOnlineFlag(0);
                     }
                 }
             }
