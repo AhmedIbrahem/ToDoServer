@@ -88,10 +88,10 @@ public class UserDBOperations {
         queryValues.add(username);
         ArrayList<UserEntity> users = new ArrayList<>();
         users = DBStatementsExecuter.retrieveUserData(DatabaseQueries.GET_USERID_BY_USERNAME, queryValues, DatabaseConnection.getInstance().getConnection());
-        if(users!= null || users.size()!=0){
-            return true;
+        if(users== null || users.size()==0){
+            return false;
         }
-        return false;
+        return true;
     }
     public RequestEntity getAllTodos(ArrayList<Object> value) {
         UserEntity userId = (UserEntity) value.get(0);
