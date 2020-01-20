@@ -38,6 +38,8 @@ public class ItemDBOperations {
                 itemEntityList.add(item);
                 queryValues.clear();
                 queryValues.add(item.getTodoID());
+                queryValues.add(item.getTodoID());
+
                 ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
                 StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
             }
@@ -67,6 +69,7 @@ public class ItemDBOperations {
                 itemEntityList.add(item);
                 queryValues.clear();
                 queryValues.add(item.getTodoID());
+                queryValues.add(item.getTodoID());
                 ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
                 StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
             }
@@ -78,7 +81,7 @@ public class ItemDBOperations {
     }
 
     //to delete item , 1- delete item assigned user 2- delete item tasks 3- delete item itself 
-    public  RequestEntity deleteItem(ArrayList<Object> itemValue) {
+    public RequestEntity deleteItem(ArrayList<Object> itemValue) {
         int resultDeleteCollaborators = -1;
         int resultDeleteItemTasks = -1;
         ItemEntity item = null;
@@ -96,10 +99,10 @@ public class ItemDBOperations {
             resultDeleteCollaborators = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
             resultDeleteItemTasks = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ALL_ITEM_COMPONENT_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (finalResult > 0 && resultDeleteCollaborators > 0 && resultDeleteItemTasks > 0 ) {
+            if (finalResult > 0 && resultDeleteCollaborators > 0 && resultDeleteItemTasks > 0) {
                 itemEntityList.add(item);
             }
-            StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
+            StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
         }
         response = new RequestEntity("ItemDBOperations", "deleteItemResponse", itemEntityList);
         return response;
