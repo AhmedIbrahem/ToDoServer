@@ -7,6 +7,7 @@ import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.UserAssignedToItem;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -157,6 +158,24 @@ public class ItemDBOperations {
         response = new RequestEntity("ItemDBOperations", "getItemCollaboratorsResonse", collaborators);
         return response;
 
+    }
+        public RequestEntity exitCollaboratorFromItem(ArrayList<Object> value){
+        UserAssignedToItem user = null;
+        RequestEntity<UserAssignedToItem> response = null;
+        ArrayList<UserAssignedToItem> usersAssignedToItems = null;
+        if (value != null) {
+            user = (UserAssignedToItem) value.get(0);
+            queryValues.clear();
+            queryValues.add(user.getId());
+            queryValues.add(user.getItemId());
+            int ans = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.EXIT_COLLABORATOR_FROM_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (ans>0) {
+                usersAssignedToItems = new ArrayList<>();
+                usersAssignedToItems.add(user);
+            }
+        }
+        response = new RequestEntity("ItemDBOperations", "exitFromAnItemResponse", usersAssignedToItems);
+        return response;
     }
 
 }

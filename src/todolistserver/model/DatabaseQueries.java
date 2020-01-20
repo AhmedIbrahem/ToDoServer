@@ -55,6 +55,8 @@ public interface DatabaseQueries {
     String DELETE_FRIEND_ON_TODO="DELETE FROM toDoListUsers WHERE todoID= ?";
     String REMOVE_TODO_COLLABORATOR="delete from toDoListUsers where todoID = ? and userID = ?";
     String REMOVE_ITEM_COLLABORATOR = "delete from itemAssignedUsers where userID = ?";
+    String RETRIEVE_TODO_ITEMS_COLLABORATORS = "select u.userID, u.username, iu.itemID from users as u, todoList as t, item as i, itemAssignedUsers iu where i.todoID = t.todoID  and iu.itemID = i.itemID and iu.userID = u.userID and i.itemID in (select itemID from item where todoId = ?)";
+    String EXIT_COLLABORATOR_FROM_ITEM = "delete from itemAssignedUsers where userId = ? and itemID= ?";    
 
 
     //notification

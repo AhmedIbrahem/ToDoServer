@@ -16,6 +16,7 @@ import todolistserver.model.entities.ComponentEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.TodoEntity;
+import todolistserver.model.entities.UserAssignedToItem;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -181,6 +182,20 @@ public abstract class DBStatementsExecuter {
         try {
             while (set.next()) {
                 list.add(new ComponentEntity(set.getInt(1), set.getInt(2), set.getString(3), set.getString(4), set.getInt(5)));
+            }
+            set.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBStatementsExecuter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    public static ArrayList<UserAssignedToItem> retrieveUsersAssignedToItemsData(String query, ArrayList<Object> parameters, Connection con) {
+        ResultSet set = executeRetrieveStatement(query, parameters, con);
+        ArrayList<UserAssignedToItem> list = new ArrayList<>();
+        try {
+            while (set.next()) {
+                list.add(new UserAssignedToItem(set.getInt(1), set.getString(2), set.getInt(3)));
             }
             set.close();
         } catch (SQLException ex) {
