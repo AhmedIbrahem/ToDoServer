@@ -10,6 +10,7 @@ import todolistserver.model.entities.NotificationEntity;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.TodoCollaboratorEntity;
 import todolistserver.model.entities.TodoEntity;
+import todolistserver.model.entities.UserAssignedToItem;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -26,8 +27,13 @@ public class GsonParser {
                 }.getType();
                 break;
             case 'I':
-                requestType = new TypeToken<RequestEntity<ItemEntity>>() {
-                }.getType();
+                if(request.contains("exitCollaboratorFromItem")){
+                   requestType = new TypeToken<RequestEntity<UserAssignedToItem>>() {
+                    }.getType(); 
+                }else{
+                    requestType = new TypeToken<RequestEntity<ItemEntity>>() {
+                    }.getType();
+                }
                 break;
             case 'N':
                 if (request.contains("receiveNotifications")) {
@@ -80,3 +86,4 @@ public class GsonParser {
         return gson.toJson(req);
     }
 }
+

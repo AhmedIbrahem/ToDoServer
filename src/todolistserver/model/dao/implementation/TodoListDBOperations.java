@@ -14,6 +14,7 @@ import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.TodoCollaboratorEntity;
 import todolistserver.model.entities.TodoEntity;
+import todolistserver.model.entities.UserAssignedToItem;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -199,27 +200,51 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
         queryValues.add(todoCollaborator.getTodoID());
         queryValues.add(todoCollaborator.getUserID());
         ArrayList<TodoCollaboratorEntity> responseList = new ArrayList<>();
+        ArrayList<UserEntity> collaborators = new ArrayList<>();
         int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REMOVE_TODO_COLLABORATOR, queryValues, DatabaseConnection.getInstance().getConnection());
         if (result < 1) {
             responseList = null;
         } 
         else{
             queryValues.clear();
-            queryValues.add(todoCollaborator.getTodoID());
-            ArrayList<TodoEntity> todo= DBStatementsExecuter.retrieveTodoData(DatabaseQueries.RETRIEVE_TODO_DATA_BY_TODOID, queryValues, DatabaseConnection.getInstance().getConnection());
-            int creatorID = todo.get(0).getCreatorId();
-            responseList.add(todoCollaborator);
-            UserEntity collaboratorUser = new UserEntity();
-            collaboratorUser.setId(todoCollaborator.getUserID());
-            UserEntity creatorUser = new UserEntity();
-            creatorUser.setId(creatorID);
-            ArrayList<UserEntity> collaborators = new ArrayList<>();
-            collaborators.add(creatorUser);
-            collaborators.add(collaboratorUser);
-            
-            StreamingListner.syncFriendsUI(collaborators, "Update Notification");
+            queryValues.add(todoCollaborator.getUserID());
+             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REMOVE_ITEM_COLLABORATOR, queryValues, DatabaseConnection.getInstance().getConnection());
+            if(result > 0){
+                queryValues.clear();
+                queryValues.add(todoCollaborator.getTodoID());
+                ArrayList<TodoEntity> todo= DBStatementsExecuter.retrieveTodoData(DatabaseQueries.RETRIEVE_TODO_DATA_BY_TODOID, queryValues, DatabaseConnection.getInstance().getConnection());
+                int creatorID = todo.get(0).getCreatorId();
+                responseList.add(todoCollaborator);
+                UserEntity collaboratorUser = new UserEntity();
+                collaboratorUser.setId(todoCollaborator.getUserID());
+                UserEntity creatorUser = new UserEntity();
+                creatorUser.setId(creatorID);
+                collaborators = new ArrayList<>();
+                collaborators.add(creatorUser);
+                collaborators.add(collaboratorUser);
+
+                StreamingListner.syncFriendsUI(collaborators, "Update Notification");
+            }
         }
-        response = new RequestEntity("TodoListDBOperations", "removeCollaboratorResponse", responseList);
+        response = new RequestEntity("TodoListDBOperations", "removeCollaboratorResponse", collaborators);
+        return response;
+    }
+     
+     public RequestEntity getAllItemsCollaborators(ArrayList<Object> todoId){
+        TodoEntity todo = null;
+        RequestEntity<UserAssignedToItem> response = null;
+        ArrayList<UserAssignedToItem> usersAssignedToItems = null;
+        if (todoId != null) {
+            todo = (TodoEntity) todoId.get(0);
+            queryValues.clear();
+            queryValues.add(todo.getId());
+            System.out.println(todo.getId());
+            usersAssignedToItems = DBStatementsExecuter.retrieveUsersAssignedToItemsData(DatabaseQueries.RETRIEVE_TODO_ITEMS_COLLABORATORS, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (usersAssignedToItems != null || !usersAssignedToItems.isEmpty()) {
+                System.out.println("size"+usersAssignedToItems.size());
+            }
+        }
+        response = new RequestEntity("TodoListDBOperations", "gotAllItemsCollaboratorsResponse", usersAssignedToItems);
         return response;
     }
 }
