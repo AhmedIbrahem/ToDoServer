@@ -39,6 +39,7 @@ public class ItemDBOperations {
                 itemEntityList.add(item);
                 queryValues.clear();
                 queryValues.add(item.getTodoID());
+                queryValues.add(item.getTodoID());
                 ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
                 StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
             }
@@ -67,6 +68,7 @@ public class ItemDBOperations {
             } else {
                 itemEntityList.add(item);
                 queryValues.clear();
+                queryValues.add(item.getTodoID());
                 queryValues.add(item.getTodoID());
                 ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
                 StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
