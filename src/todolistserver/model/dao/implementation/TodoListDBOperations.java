@@ -176,6 +176,7 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
                     boolean isOnline = false;
                     for(int j =0 ;j<StreamingListner.clientsVector.size();j++){
                         if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(j).getUserId()){
+                            collaborators.get(i).setOnlineFlag(1);
                             isOnline = true;
                         }
                     }

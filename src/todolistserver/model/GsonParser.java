@@ -22,8 +22,10 @@ public class GsonParser {
     public static RequestEntity parseFromJson(String request) {
         Gson gson = new Gson();
         Type requestType = null;
-        switch (request.charAt(14)) {
-            case 'U':
+
+        if(request!= null){
+            switch (request.charAt(14)) {
+                case 'U':
                 if(request.contains("removeFriend")){
                       requestType = new TypeToken<RequestEntity<FriendsEntity>>() {
                         }.getType();
@@ -31,61 +33,61 @@ public class GsonParser {
                 requestType = new TypeToken<RequestEntity<UserEntity>>() {
                 }.getType();
                 break;
-            case 'I':
-                if(request.contains("exitCollaboratorFromItem")){
-                   requestType = new TypeToken<RequestEntity<UserAssignedToItem>>() {
-                    }.getType(); 
-                }else{
-                    requestType = new TypeToken<RequestEntity<ItemEntity>>() {
-                    }.getType();
-                }
-                break;
-            case 'N':
-                if (request.contains("receiveNotifications")) {
-                    requestType = new TypeToken<RequestEntity<UserEntity>>() {
-                    }.getType();
-                } else {
-                    requestType = new TypeToken<RequestEntity<NotificationEntity>>() {
-                    }.getType();
-                }
-                break;
-            case 'T':
-                if (request.contains("assignTodo")) {
-                    requestType = new TypeToken<RequestEntity<AssignFriendTodoEntity>>() {
-                    }.getType();
-                
-                }
-                else if (request.contains("removeTodoCollaborator")){
-                  requestType = new TypeToken<RequestEntity<TodoCollaboratorEntity>>() {
-                    }.getType();
-                }
-                else {
-                    requestType = new TypeToken<RequestEntity<TodoEntity>>() {
-                    }.getType();
-                }
+                case 'I':
+                    if(request.contains("exitCollaboratorFromItem")){
+                       requestType = new TypeToken<RequestEntity<UserAssignedToItem>>() {
+                        }.getType(); 
+                    }else{
+                        requestType = new TypeToken<RequestEntity<ItemEntity>>() {
+                        }.getType();
+                    }
+                    break;
+                case 'N':
+                    if (request.contains("receiveNotifications")) {
+                        requestType = new TypeToken<RequestEntity<UserEntity>>() {
+                        }.getType();
+                    } else {
+                        requestType = new TypeToken<RequestEntity<NotificationEntity>>() {
+                        }.getType();
+                    }
+                    break;
+                case 'T':
+                    if (request.contains("assignTodo")) {
+                        requestType = new TypeToken<RequestEntity<AssignFriendTodoEntity>>() {
+                        }.getType();
 
-                 /*else if (request.contains("getTodoCollaborators")) {
-                    requestType = new TypeToken<RequestEntity<UserEntity>>() {
-                    }.getType();*/
-                break;
-            case 'C':
-                 if (request.contains("getAllCheckBoxComponent")) {
+                    }
+                    else if (request.contains("removeTodoCollaborator")){
+                      requestType = new TypeToken<RequestEntity<TodoCollaboratorEntity>>() {
+                        }.getType();
+                    }
+                    else {
                         requestType = new TypeToken<RequestEntity<TodoEntity>>() {
                         }.getType();
                     }
-                 else{
-                requestType = new TypeToken<RequestEntity<ComponentEntity>>() {
-                }.getType();
-                 }
-                break;
-             case 'F':
-                        requestType = new TypeToken<RequestEntity<FriendsEntity>>() {
-                        }.getType();
-                  
-                    break;
-        }
 
-        System.out.println("GsonParser "+request);
+                     /*else if (request.contains("getTodoCollaborators")) {
+                        requestType = new TypeToken<RequestEntity<UserEntity>>() {
+                        }.getType();*/
+                    break;
+                case 'C':
+                     if (request.contains("getAllCheckBoxComponent")) {
+                            requestType = new TypeToken<RequestEntity<TodoEntity>>() {
+                            }.getType();
+                        }
+                     else{
+                    requestType = new TypeToken<RequestEntity<ComponentEntity>>() {
+                    }.getType();
+                     }
+                    break;
+                 case 'F':
+                            requestType = new TypeToken<RequestEntity<FriendsEntity>>() {
+                            }.getType();
+                    break;
+            }
+
+            System.out.println("GsonParser "+request);
+        }
         return gson.fromJson(request, requestType);
 
     }
