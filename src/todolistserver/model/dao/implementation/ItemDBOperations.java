@@ -15,7 +15,7 @@ import todolistserver.model.entities.UserEntity;
  */
 public class ItemDBOperations {
 
-   ArrayList<Object> queryValues = new ArrayList<>();
+    ArrayList<Object> queryValues = new ArrayList<>();
 
     public RequestEntity addItem(ArrayList<Object> itemValue) {
         int result = -1;
@@ -34,12 +34,12 @@ public class ItemDBOperations {
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 item = null;
-            }else{
+            } else {
                 itemEntityList.add(item);
                 queryValues.clear();
                 queryValues.add(item.getTodoID());
                 ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
-                StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
+                StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
             }
         }
         response = new RequestEntity("ItemDBOperations", "addItemResponse", itemEntityList);
@@ -68,7 +68,7 @@ public class ItemDBOperations {
                 queryValues.clear();
                 queryValues.add(item.getTodoID());
                 ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
-                StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
+                StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
             }
         }
 
@@ -76,6 +76,7 @@ public class ItemDBOperations {
         return response;
 
     }
+
     //to delete item , 1- delete item assigned user 2- delete item tasks 3- delete item itself 
     public  RequestEntity deleteItem(ArrayList<Object> itemValue) {
         int resultDeleteCollaborators = -1;
@@ -86,6 +87,11 @@ public class ItemDBOperations {
         if (itemValue != null) {
             item = (ItemEntity) itemValue.get(0);
             queryValues = new ArrayList<>();
+            queryValues.clear();
+            queryValues.add(item.getTodoID());
+            queryValues.add(item.getTodoID());
+            ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
+            queryValues.clear();
             queryValues.add(item.getItemID());
             resultDeleteCollaborators = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
             resultDeleteItemTasks = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ALL_ITEM_COMPONENT_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
@@ -93,15 +99,12 @@ public class ItemDBOperations {
             if (finalResult > 0 && resultDeleteCollaborators > 0 && resultDeleteItemTasks > 0 ) {
                 itemEntityList.add(item);
             }
-            queryValues.clear();
-            queryValues.add(item.getTodoID());
-            ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
             StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
         }
         response = new RequestEntity("ItemDBOperations", "deleteItemResponse", itemEntityList);
         return response;
     }
-    
+
     public RequestEntity assignItem(ArrayList<Object> value) {
         RequestEntity<Integer> response = null;
         ArrayList<Integer> friendsList = new ArrayList<>();
@@ -127,7 +130,8 @@ public class ItemDBOperations {
         response = new RequestEntity("ItemDBOperations", "assignItemResponse", friendsList);
         return response;
     }
-       public RequestEntity getItemCollaborators(ArrayList<Object> value) {
+
+    public RequestEntity getItemCollaborators(ArrayList<Object> value) {
         ItemEntity item = null;
         RequestEntity<UserEntity> response = null;
         ArrayList<UserEntity> collaborators = new ArrayList<>();
@@ -138,12 +142,12 @@ public class ItemDBOperations {
             queryValues.add(item.getItemID());
             collaborators = FriendsDBOperations.getItemCollaborators(queryValues);
             if (collaborators != null || !collaborators.isEmpty()) {
-                System.out.println("size"+collaborators.size());
-                for(int i = 0 ;i <collaborators.size();i++){
-                    for(int j =0 ;j<StreamingListner.clientsVector.size();j++){
-                        if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(j).getId()){
+                System.out.println("size" + collaborators.size());
+                for (int i = 0; i < collaborators.size(); i++) {
+                    for (int j = 0; j < StreamingListner.clientsVector.size(); j++) {
+                        if (collaborators.get(i).getId() == StreamingListner.clientsVector.get(j).getId()) {
                             collaborators.get(i).setOnlineFlag(1);
-                        }else{
+                        } else {
                             collaborators.get(i).setOnlineFlag(0);
                         }
                     }

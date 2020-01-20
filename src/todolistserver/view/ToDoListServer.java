@@ -41,9 +41,8 @@ public class ToDoListServer extends Application {
 
         //Bind to localhost adapter with a zero connection queue 
         System.out.println("ddd"+SocketConnection.getInstance().isServerRunning);
-        System.out.println("dfddfd"+SocketConnection.getInstance());
         
-        if (!SocketConnection.getInstance().isServerRunning) {
+             if (!SocketConnection.getInstance().isServerRunning) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("ERROR");
             alert.setHeaderText("The Server is Already Runing");
