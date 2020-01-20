@@ -10,6 +10,7 @@ import todolistserver.model.DatabaseConnection;
 import todolistserver.model.DatabaseQueries;
 import todolistserver.model.entities.UserEntity;
 import java.sql.SQLException;
+import todolistserver.model.entities.FriendsEntity;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.TodoEntity;
 
@@ -208,5 +209,30 @@ public class UserDBOperations {
         return response;
 
     }
+    
+     public RequestEntity<FriendsEntity> removeFriend(ArrayList<Object> value) throws SQLException {
+        int result = -1;
+        
+         FriendsEntity friendEntity = null;
+        RequestEntity<FriendsEntity> response = null;
+        ArrayList<FriendsEntity> friendEntityList = new ArrayList<>();
 
+        if (value != null) {
+            friendEntity = (FriendsEntity) value.get(0);
+            queryValues.clear();
+            queryValues.add(friendEntity.getUserID());
+            queryValues.add(friendEntity.getFriendID());
+            result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.REMOVE_FRIEND_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (result <= 0) {
+                friendEntity = null;
+            } else {
+                friendEntityList.add(friendEntity);
+            }
+
+        }
+        response = new RequestEntity("UserDBOperations", "removeFriendResponse", friendEntityList);
+        return response;
+
+    }
+    
 }
