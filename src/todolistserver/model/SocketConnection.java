@@ -17,7 +17,6 @@ public class SocketConnection extends Thread {
     final static int SOCKET_PORT = 5005;
     public static boolean isServerRunning = false;
     public StreamingListner streamListner = null;
-
     private SocketConnection() {
         openSocketConnection();
     }

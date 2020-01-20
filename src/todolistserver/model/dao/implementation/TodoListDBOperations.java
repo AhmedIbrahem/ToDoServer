@@ -14,6 +14,7 @@ import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
 import todolistserver.model.entities.TodoCollaboratorEntity;
 import todolistserver.model.entities.TodoEntity;
+import todolistserver.model.entities.UserAssignedToItem;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -225,6 +226,24 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
             }
         }
         response = new RequestEntity("TodoListDBOperations", "removeCollaboratorResponse", collaborators);
+        return response;
+    }
+     
+     public RequestEntity getAllItemsCollaborators(ArrayList<Object> todoId){
+        TodoEntity todo = null;
+        RequestEntity<UserAssignedToItem> response = null;
+        ArrayList<UserAssignedToItem> usersAssignedToItems = null;
+        if (todoId != null) {
+            todo = (TodoEntity) todoId.get(0);
+            queryValues.clear();
+            queryValues.add(todo.getId());
+            System.out.println(todo.getId());
+            usersAssignedToItems = DBStatementsExecuter.retrieveUsersAssignedToItemsData(DatabaseQueries.RETRIEVE_TODO_ITEMS_COLLABORATORS, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (usersAssignedToItems != null || !usersAssignedToItems.isEmpty()) {
+                System.out.println("size"+usersAssignedToItems.size());
+            }
+        }
+        response = new RequestEntity("TodoListDBOperations", "gotAllItemsCollaboratorsResponse", usersAssignedToItems);
         return response;
     }
 }

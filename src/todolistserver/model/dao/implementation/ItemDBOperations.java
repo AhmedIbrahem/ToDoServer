@@ -7,6 +7,7 @@ import todolistserver.model.StreamingListner;
 import todolistserver.model.entities.AssignFriendTodoEntity;
 import todolistserver.model.entities.ItemEntity;
 import todolistserver.model.entities.RequestEntity;
+import todolistserver.model.entities.UserAssignedToItem;
 import todolistserver.model.entities.UserEntity;
 
 /**
@@ -15,7 +16,7 @@ import todolistserver.model.entities.UserEntity;
  */
 public class ItemDBOperations {
 
-   ArrayList<Object> queryValues = new ArrayList<>();
+    ArrayList<Object> queryValues = new ArrayList<>();
 
     public RequestEntity addItem(ArrayList<Object> itemValue) {
         int result = -1;
@@ -34,12 +35,14 @@ public class ItemDBOperations {
             result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.INSERT_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             if (result <= 0) {
                 item = null;
-            }else{
+            } else {
                 itemEntityList.add(item);
                 queryValues.clear();
                 queryValues.add(item.getTodoID());
+                queryValues.add(item.getTodoID());
+
                 ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
-                StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
+                StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
             }
         }
         response = new RequestEntity("ItemDBOperations", "addItemResponse", itemEntityList);
@@ -67,8 +70,9 @@ public class ItemDBOperations {
                 itemEntityList.add(item);
                 queryValues.clear();
                 queryValues.add(item.getTodoID());
+                queryValues.add(item.getTodoID());
                 ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
-                StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
+                StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
             }
         }
 
@@ -76,8 +80,9 @@ public class ItemDBOperations {
         return response;
 
     }
+
     //to delete item , 1- delete item assigned user 2- delete item tasks 3- delete item itself 
-    public  RequestEntity deleteItem(ArrayList<Object> itemValue) {
+    public RequestEntity deleteItem(ArrayList<Object> itemValue) {
         int resultDeleteCollaborators = -1;
         int resultDeleteItemTasks = -1;
         ItemEntity item = null;
@@ -86,22 +91,24 @@ public class ItemDBOperations {
         if (itemValue != null) {
             item = (ItemEntity) itemValue.get(0);
             queryValues = new ArrayList<>();
+            queryValues.clear();
+            queryValues.add(item.getTodoID());
+            queryValues.add(item.getTodoID());
+            ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
+            queryValues.clear();
             queryValues.add(item.getItemID());
             resultDeleteCollaborators = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_FRIEND_ON_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
             resultDeleteItemTasks = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ALL_ITEM_COMPONENT_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
             int finalResult = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.DELETE_ITEM_QUERY, queryValues, DatabaseConnection.getInstance().getConnection());
-            if (finalResult > 0 && resultDeleteCollaborators > 0 && resultDeleteItemTasks > 0 ) {
+            if (finalResult > 0 && resultDeleteCollaborators > 0 && resultDeleteItemTasks > 0) {
                 itemEntityList.add(item);
             }
-            queryValues.clear();
-            queryValues.add(item.getTodoID());
-            ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
-            StreamingListner.syncFriendsUI(collaborators, "Item Notification+"+item.getTodoID());
+            StreamingListner.syncFriendsUI(collaborators, "Item Notification+" + item.getTodoID());
         }
         response = new RequestEntity("ItemDBOperations", "deleteItemResponse", itemEntityList);
         return response;
     }
-    
+
     public RequestEntity assignItem(ArrayList<Object> value) {
         RequestEntity<Integer> response = null;
         ArrayList<Integer> friendsList = new ArrayList<>();
@@ -127,7 +134,8 @@ public class ItemDBOperations {
         response = new RequestEntity("ItemDBOperations", "assignItemResponse", friendsList);
         return response;
     }
-       public RequestEntity getItemCollaborators(ArrayList<Object> value) {
+
+    public RequestEntity getItemCollaborators(ArrayList<Object> value) {
         ItemEntity item = null;
         RequestEntity<UserEntity> response = null;
         ArrayList<UserEntity> collaborators = new ArrayList<>();
@@ -138,12 +146,12 @@ public class ItemDBOperations {
             queryValues.add(item.getItemID());
             collaborators = FriendsDBOperations.getItemCollaborators(queryValues);
             if (collaborators != null || !collaborators.isEmpty()) {
-                System.out.println("size"+collaborators.size());
-                for(int i = 0 ;i <collaborators.size();i++){
-                    for(int j =0 ;j<StreamingListner.clientsVector.size();j++){
-                        if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(j).getId()){
+                System.out.println("size" + collaborators.size());
+                for (int i = 0; i < collaborators.size(); i++) {
+                    for (int j = 0; j < StreamingListner.clientsVector.size(); j++) {
+                        if (collaborators.get(i).getId() == StreamingListner.clientsVector.get(j).getId()) {
                             collaborators.get(i).setOnlineFlag(1);
-                        }else{
+                        } else {
                             collaborators.get(i).setOnlineFlag(0);
                         }
                     }
@@ -153,6 +161,24 @@ public class ItemDBOperations {
         response = new RequestEntity("ItemDBOperations", "getItemCollaboratorsResonse", collaborators);
         return response;
 
+    }
+        public RequestEntity exitCollaboratorFromItem(ArrayList<Object> value){
+        UserAssignedToItem user = null;
+        RequestEntity<UserAssignedToItem> response = null;
+        ArrayList<UserAssignedToItem> usersAssignedToItems = null;
+        if (value != null) {
+            user = (UserAssignedToItem) value.get(0);
+            queryValues.clear();
+            queryValues.add(user.getId());
+            queryValues.add(user.getItemId());
+            int ans = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.EXIT_COLLABORATOR_FROM_ITEM, queryValues, DatabaseConnection.getInstance().getConnection());
+            if (ans>0) {
+                usersAssignedToItems = new ArrayList<>();
+                usersAssignedToItems.add(user);
+            }
+        }
+        response = new RequestEntity("ItemDBOperations", "exitFromAnItemResponse", usersAssignedToItems);
+        return response;
     }
 
 }
