@@ -24,6 +24,10 @@ public class GsonParser {
         Type requestType = null;
         switch (request.charAt(14)) {
             case 'U':
+                if(request.contains("removeFriend")){
+                      requestType = new TypeToken<RequestEntity<FriendsEntity>>() {
+                        }.getType();
+                }
                 requestType = new TypeToken<RequestEntity<UserEntity>>() {
                 }.getType();
                 break;

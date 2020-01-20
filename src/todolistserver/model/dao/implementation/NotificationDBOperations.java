@@ -79,8 +79,8 @@ public class NotificationDBOperations {
             }
         }
         }
-        //response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", notificationList);
-        return null;
+        response = new RequestEntity("NotificationDBOperations", "addNotificationResponse", null);
+        return response;
 
     }
 
@@ -197,6 +197,11 @@ public class NotificationDBOperations {
             if (notification.getNotificationType().contains("friendInvitation")) {
                 int senderID = notification.getSenderID();
 
+                  UserEntity user1 = new UserEntity();
+                  user1.setId(senderID);
+                      UserEntity user2 = new UserEntity();
+                        user2.setId(notification.getNotificationReceivers().get(0).getReceiverID());
+                        
                 queryValues.clear();
                 queryValues.add(notification.getNotificationID());
                 int result = DBStatementsExecuter.executeUpdateStatement(DatabaseQueries.UPDATE_NOTIFICATION_ACCEPTANCE_STATUS, queryValues, DatabaseConnection.getInstance().getConnection());
@@ -226,6 +231,13 @@ public class NotificationDBOperations {
                         newReceiversList.add(reciever);
                         notification.setNotificationReceivers(newReceiversList);
                         sendNotification(notificationList);
+                        
+                      
+                    
+                         ArrayList<UserEntity> userLists= new ArrayList<>();
+                         userLists.add(user1);
+                         userLists.add(user2);        
+                        StreamingListner.syncFriendsUI(userLists, "Update Notification");
                     }
                 }
 
