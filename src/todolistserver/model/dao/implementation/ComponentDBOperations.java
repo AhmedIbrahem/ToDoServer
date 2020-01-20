@@ -44,6 +44,7 @@ public class ComponentDBOperations {
             ArrayList<TodoEntity> todo = DBStatementsExecuter.retrieveTodoData(DatabaseQueries.Retrieve_todo_by_itemid, queryValues, DatabaseConnection.getInstance().getConnection());
             queryValues.clear();
             queryValues.add(todo.get(0).getId());
+            queryValues.add(todo.get(0).getId());
             ArrayList<UserEntity> collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
             StreamingListner.syncFriendsUI(collaborators, "Task Notification+" + component.getItemId());
         }

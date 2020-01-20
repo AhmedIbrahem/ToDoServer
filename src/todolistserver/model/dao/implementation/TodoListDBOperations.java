@@ -169,7 +169,6 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
             queryValues.clear();
             queryValues.add(todo.getId());
             queryValues.add(todo.getId());
-            System.out.println(todo.getId());
             collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
             if (collaborators != null || !collaborators.isEmpty()) {
                 System.out.println("size"+collaborators.size());
@@ -177,6 +176,7 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
                     boolean isOnline = false;
                     for(int j =0 ;j<StreamingListner.clientsVector.size();j++){
                         if(collaborators.get(i).getId() == StreamingListner.clientsVector.get(j).getUserId()){
+                            collaborators.get(i).setOnlineFlag(1);
                             isOnline = true;
                         }
                     }
