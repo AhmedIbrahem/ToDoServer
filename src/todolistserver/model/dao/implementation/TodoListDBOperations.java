@@ -169,7 +169,6 @@ public RequestEntity assignTodo(ArrayList<Object> value) {
             queryValues.clear();
             queryValues.add(todo.getId());
             queryValues.add(todo.getId());
-            System.out.println(todo.getId());
             collaborators = FriendsDBOperations.getTodoCollaborators(queryValues);
             if (collaborators != null || !collaborators.isEmpty()) {
                 System.out.println("size"+collaborators.size());
